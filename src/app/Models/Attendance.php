@@ -9,7 +9,19 @@ class Attendance extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'name',
-        'password',
+        'user_id',
+        'date',
+        'start',
+        'end',
+        'note',
+        'status',
     ];
+    public function rests()
+    {
+        return $this->hasMany('App\Models\Rests');
+    }
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

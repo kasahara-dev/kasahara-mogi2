@@ -1,0 +1,260 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.header {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: black;
+    justify-content: space-between;
+}
+.header-img {
+    width: 100%;
+}
+.form-area {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form {
+    width: 100%;
+}
+.form-name {
+    font-weight: bold;
+}
+.form-content {
+    margin: 0;
+}
+.form-error {
+    color: red;
+    margin: 0;
+    height: 30px;
+}
+.form-input {
+    box-sizing: border-box;
+    width: 100%;
+    height: 30px;
+}
+.submit-btn {
+    width: 100%;
+    height: 40px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.link {
+    color: #0073cc;
+    text-decoration: none;
+}
+.link:visited {
+    color: #0073cc;
+}
+.header-logo-area {
+    display: flex;
+    width: 20%;
+}
+.header-logo {
+    width: 100%;
+    height: auto;
+    margin-left: 10px;
+    outline: none;
+}
+.header-form {
+    height: 50%;
+    width: 35%;
+}
+.header-form-logout {
+    height: 100%;
+    width: 100%;
+}
+.header-search {
+    height: 100%;
+    width: 100%;
+    border: 5px;
+    padding-left: 10px;
+}
+.header-btns {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: auto 0;
+    padding-inline-start: 0;
+    height: 100%;
+}
+.header-btn {
+    list-style: none;
+}
+.header-logout {
+    color: white;
+    background: black;
+    border: none;
+    height: 50%;
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+.header-mypage {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 15px;
+}
+.header-login {
+    color: white;
+    text-decoration: none;
+    margin-right: 10px;
+    font-size: 15px;
+}
+.header-exhibit {
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 15px;
+    cursor: pointer;
+    padding: 8% 15px;
+    border-radius: 4px;
+}
+.hamburger {
+    display: none;
+    cursor: pointer;
+}
+.wide-btn {
+    width: 100%;
+    background-color: #ff5555;
+    color: white;
+    margin: 10px 0;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+.wide-btn:disabled {
+    background-color: gray;
+}
+@media screen and (max-width: 768px) {
+    .main {
+        &.menu-is-open {
+            position: relative;
+            top: 44px;
+        }
+    }
+    .form-title {
+        margin: 0;
+    }
+    .form-area {
+        width: 100%;
+    }
+    .header {
+        height: 44px;
+        &.menu-is-open {
+            display: block;
+            height: auto;
+            width: auto;
+            position: fixed;
+            z-index: 10;
+            width: 98%;
+        }
+    }
+    .header-logo-area {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .header-logo {
+        width: 40%;
+    }
+    .header-form {
+        display: none;
+        &.menu-is-open {
+            display: block;
+            height: 100%;
+            width: 100%;
+        }
+    }
+    .header-search {
+        height: 100%;
+        width: 100%;
+        border: 1px solid black;
+        padding: 10px;
+    }
+    .header-btns {
+        display: none;
+        flex-direction: row;
+        align-items: center;
+        margin: auto;
+        height: 100%;
+        width: 100%;
+        &.menu-is-open {
+            display: block;
+        }
+    }
+    .header-btn {
+        width: 100%;
+        display: block;
+        text-align: center;
+        border: solid 1px black;
+        background: white;
+        color: black;
+        box-sizing: border-box;
+    }
+    .header-login {
+        color: black;
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+    .header-logout {
+        color: black;
+        text-decoration: none;
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 0;
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+        background: white;
+        margin: 0;
+    }
+    .header-mypage {
+        color: black;
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+    .header-exhibit {
+        color: white;
+        text-decoration: none;
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 0;
+        padding: 10px;
+        width: 100%;
+        height: 100%;
+        background: black;
+        margin: 0;
+    }
+    .hamburger {
+        width: 44px;
+        height: 44px;
+        background: url("../img/bars-solid-full.svg") no-repeat;
+        display: block;
+        &.menu-is-open {
+            background: url("../img/xmark-solid-full.svg") no-repeat;
+        }
+    }
+}

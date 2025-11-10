@@ -1,0 +1,8 @@
+.login-btn {
+    margin: 20px auto 20px;
+}
+@media screen and (max-width: 768px) {
+    .login-btn {
+        margin: 0 auto 20px;
+    }
+}

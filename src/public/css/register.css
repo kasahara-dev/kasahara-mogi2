@@ -1,0 +1,8 @@
+.register-btn {
+    margin: 15px auto 20px;
+}
+@media screen and (max-width: 768px) {
+    .register-btn {
+        margin: 0 auto 20px;
+    }
+}
