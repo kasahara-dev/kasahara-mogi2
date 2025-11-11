@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coachtechフリマ</title>
+    <title>{{ env('APP_NAME') }}</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     @yield('css')
@@ -15,8 +15,8 @@
     <div class="wrapper">
         <header class="header" id="header">
             <div class="header-logo-area">
-                <a href="/" class="header-logo" id="header-logo"><img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ"
-                        class="header-img" /></a>
+                <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ"
+                        class="header-img" />
                 <div id="hamburger" class="hamburger"></div>
             </div>
             <form action="/" method="get" class="header-form" id="header-form">

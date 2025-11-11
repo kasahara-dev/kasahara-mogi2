@@ -1,13 +1,13 @@
 ## アプリケーション名
 
-coachtech フリマ
+coachtech 勤怠管理アプリ
 
 ## 環境構築
 
 ### Docker ビルド
 
 1.  `git clone git@github.com:kasahara-dev/kasahara-mogi2.git`
-2.  `cd kasahara-mogi1`
+2.  `cd kasahara-mogi2`
 3.  `docker-compose up -d --build`
 
 > [!IMPORTANT]
@@ -17,10 +17,10 @@ coachtech フリマ
 
 1. `docker compose exec php bash`
 2. `composer install`
-4. `php artisan key:generate`
-5. `php artisan migrate`
-6. `php artisan db:seed`
-7. `php artisan storage:link`
+3. `php artisan key:generate`
+4. `php artisan migrate`
+5. `php artisan db:seed`
+6. `php artisan storage:link`
 
 > [!IMPORTANT]
 > "The stream or file could not be opened"エラーが発生した場合
@@ -43,7 +43,7 @@ coachtech フリマ
 - `DB_USERNAME=root`
 - `DB_PASSWORD=root`
 
-8. .env ファイルから.env.dusk.localを作成し、各環境変数を下記に変更
+8. .env ファイルから.env.dusk.local を作成し、各環境変数を下記に変更
 
 - `APP_ENV=testing`
 - `APP_URL=http://nginx`
@@ -66,32 +66,31 @@ coachtech フリマ
 
 ## テーブル仕様
 
-### usersテーブル
+### users テーブル
 
-| カラム名 | 型 | primary key | unique key | not null | foreign key |
-| --- | --- | --- | --- | --- | --- |
-| id | unsigned bigint | 〇 | | 〇 | |
-| name | string | | | 〇 | |
-| email | string | | 〇 | 〇 | | |
-| email_verified_at | timestamp | | | | |
-| password | string | | | 〇 | |
-| remember_token | string | | | | |
-| created_at | timestamp | | | | |
-| updated_at | timestamp | | | | |
+| カラム名          | 型              | primary key | unique key | not null | foreign key |
+| ----------------- | --------------- | ----------- | ---------- | -------- | ----------- | --- |
+| id                | unsigned bigint | 〇          |            | 〇       |             |
+| name              | string          |             |            | 〇       |             |
+| email             | string          |             | 〇         | 〇       |             |     |
+| email_verified_at | timestamp       |             |            |          |             |
+| password          | string          |             |            | 〇       |             |
+| remember_token    | string          |             |            |          |             |
+| created_at        | timestamp       |             |            |          |             |
+| updated_at        | timestamp       |             |            |          |             |
 
-### adminテーブル
+### admin テーブル
 
-| カラム名 | 型 | primary key | unique key | not null | foreign key |
-| --- | --- | --- | --- | --- | --- |
-| id | unsigned bigint | 〇 | | 〇 | |
-| name | string | | | 〇 | |
-| email | string | | 〇 | 〇 | | |
-| email_verified_at | timestamp | | | | |
-| password | string | | | 〇 | |
-| remember_token | string | | | | |
-| created_at | timestamp | | | | |
-| updated_at | timestamp | | | | |
-
+| カラム名          | 型              | primary key | unique key | not null | foreign key |
+| ----------------- | --------------- | ----------- | ---------- | -------- | ----------- | --- |
+| id                | unsigned bigint | 〇          |            | 〇       |             |
+| name              | string          |             |            | 〇       |             |
+| email             | string          |             | 〇         | 〇       |             |     |
+| email_verified_at | timestamp       |             |            |          |             |
+| password          | string          |             |            | 〇       |             |
+| remember_token    | string          |             |            |          |             |
+| created_at        | timestamp       |             |            |          |             |
+| updated_at        | timestamp       |             |            |          |             |
 
 ## ER 図
 
