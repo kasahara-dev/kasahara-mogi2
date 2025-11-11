@@ -63,7 +63,7 @@
                     </dl>
                     <button type="submit" class="submit-btn register-btn" name="send">登録する</button>
                 </form>
-                <a href="/login" class="link">ログインはこちら　</a>
+                <a href="/login" class="link">ログインはこちら</a>
             </div>
         </main>
     </div>
