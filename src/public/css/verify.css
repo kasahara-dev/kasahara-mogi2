@@ -1,0 +1,24 @@
+.form-area {
+    width: 100%;
+}
+.mail-info {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 5em;
+}
+.mail-link {
+    cursor: pointer;
+    background-color: #d9d9d9;
+    color: black;
+    border: 1px solid black;
+    margin: 3em auto;
+    padding: 0.5em 2em;
+    border-radius: 10px;
+    text-decoration: none;
+}
+.resend-link {
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: #0073cc;
+}
