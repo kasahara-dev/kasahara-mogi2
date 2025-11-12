@@ -12,6 +12,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\AdminAttendanceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +47,6 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'store']);
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/attendance/list', [AttendanceController::class, 'index']);
+        Route::get('/attendance/list', [AdminAttendanceController::class, 'show']);
     });
 });
