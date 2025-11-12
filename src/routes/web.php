@@ -41,12 +41,16 @@ Route::middleware('auth')->group(function () {
     })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'show']);
+    Route::get('/attendance', [AttendanceController::class, 'create']);
+    Route::get('/attendance/list', [AttendanceController::class, 'show']);
+    Route::get('/attendance/detail/{id}',[AttendanceController::class,'edit'] );
+    Route::get('/stamp_correction_request/list', [AttendanceListController::class, 'show']);
 });
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'store']);
     Route::middleware('auth:admin')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'show']);
+        Route::post('/logout', [AdminLoginController::class, 'destroy']);
     });
 });

@@ -9,7 +9,8 @@ use Illuminate\Routing\Pipeline;
 use App\Actions\Admin\AttemptToAuthenticate;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use App\Responses\AdminLoginResponse;
-use Laravel\Fortify\Contracts\LogoutResponse;
+use App\Responses\AdminLogoutResponse;
+// use Laravel\Fortify\Contracts\LogoutResponse;
 use App\Http\Requests\AdminLoginRequest;
 
 class AdminLoginController extends Controller
@@ -75,7 +76,7 @@ class AdminLoginController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Laravel\Fortify\Contracts\LogoutResponse
      */
-    public function destroy(Request $request): LogoutResponse
+    public function destroy(Request $request): AdminLogoutResponse
     {
         $this->guard->logout();
 
@@ -83,6 +84,6 @@ class AdminLoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return app(LogoutResponse::class);
+        return app(AdminLogoutResponse::class);
     }
 }
