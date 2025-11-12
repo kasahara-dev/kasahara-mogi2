@@ -15,32 +15,25 @@
     <div class="wrapper">
         <header class="header" id="header">
             <div class="header-logo-area">
-                <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ"
-                        class="header-img" />
+                <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
                 <div id="hamburger" class="hamburger"></div>
             </div>
-            <form action="/" method="get" class="header-form" id="header-form">
-                @csrf
-                <input type="search" name="keyword" @if(isset($keyword)) value="{{ $keyword }}" @endif
-                    placeholder="なにをお探しですか?" class="header-search">
-                <input type="hidden" @if(isset($tab)) value="{{ $tab }}" @endif name="tab" />
-            </form>
             <ul class="header-btns" id="header-btns">
-                @auth
-                    <li class="header-btn">
-                        <form class="header-form-logout" action="/logout" method="post" class="header-btn">
-                            @csrf
-                            <button type="submit" class="header-logout" name="logout">ログアウト</button>
-                        </form>
-                    </li>
-                    <li class="header-btn"><a href="/mypage" class="header-mypage">マイページ</a></li>
-                    <li class="header-btn"><button onclick="location.href='/sell'" class="header-exhibit">出品</button></li>
-                @endauth
-                @guest
-                    <li class="header-btn"><a href="/login" class="header-login">ログイン</a></li>
-                    <li class="header-btn"><a href="/mypage" class="header-mypage">マイページ</a></li>
-                    <li class="header-btn"><button onclick="location.href='/sell'" class="header-exhibit">出品</button></li>
-                @endguest
+                <li class="header-btn" style="color: white;">
+                    勤怠
+                </li>
+                <li class="header-btn" style="color: white;">
+                    勤怠一覧
+                </li>
+                <li class="header-btn" style="color: white;">
+                    申請
+                </li>
+                <li class="header-btn">
+                    <form class="header-form-logout" action="/logout" method="post" class="header-btn">
+                        @csrf
+                        <button type="submit" class="header-logout" name="logout">ログアウト</button>
+                    </form>
+                </li>
             </ul>
         </header>
         <main class="main" id="main">

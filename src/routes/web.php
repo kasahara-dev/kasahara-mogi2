@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\EmailVerificationController;
@@ -30,7 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [EmailVerificationController::class, 'show'])->name('verification.notice');
     Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
         $request->fulfill();
-        return redirect('/mypage/profile');
+        return redirect('/attendance');
     })->middleware(['auth', 'signed'])->name('verification.verify');
     Route::post('/email/verification-notification', function (Request $request) {
         Auth::user()->sendEmailVerificationNotification();
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function () {
     })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/attendance', [AttendanceController::class, 'show']);
     Route::post('/item/{item_id}', [CommentController::class, 'store']);
     Route::delete('/item/{item_id}', [CommentController::class, 'destroy']);
     Route::get('/purchase/{item_id}', [PurchaseController::class, 'create'])->name('purchase');
