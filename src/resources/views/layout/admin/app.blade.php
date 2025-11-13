@@ -19,19 +19,28 @@
                 <div id="hamburger" class="hamburger"></div>
             </div>
             <ul class="header-btns" id="header-btns">
-                <li class="header-btn" style="color: white;">
-                    勤怠
-                </li>
-                <li class="header-btn" style="color: white;">
-                    勤怠一覧
-                </li>
-                <li class="header-btn" style="color: white;">
-                    申請
-                </li>
-                <li class="header-btn">
-                    <form class="header-form-logout" action="/admin/logout" method="post" class="header-btn">
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/admin/attendance/list" method="get" class="header-btn">
                         @csrf
-                        <button type="submit" class="header-logout" name="logout">ログアウト</button>
+                        <button type="submit" class="header-btn">勤怠一覧</button>
+                    </form>
+                </li>
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/admin/staff/list" method="get" class="header-btn">
+                        @csrf
+                        <button type="submit" class="header-btn">スタッフ一覧</button>
+                    </form>
+                </li>
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/stamp_correction_request/list" method="get" class="header-btn">
+                        @csrf
+                        <button type="submit" class="header-btn">申請一覧</button>
+                    </form>
+                </li>
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/admin/logout" method="post" class="header-btn">
+                        @csrf
+                        <button type="submit" class="header-btn" name="logout">ログアウト</button>
                     </form>
                 </li>
             </ul>

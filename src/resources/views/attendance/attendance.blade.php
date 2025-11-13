@@ -5,5 +5,5 @@
 @endsection
 
 @section('content')
-    <h1>勤怠一覧画面</h1>
+    <h1>勤怠画面</h1>
 @endsection

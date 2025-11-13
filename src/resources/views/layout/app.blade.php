@@ -19,19 +19,28 @@
                 <div id="hamburger" class="hamburger"></div>
             </div>
             <ul class="header-btns" id="header-btns">
-                <li class="header-btn" style="color: white;">
-                    勤怠
-                </li>
-                <li class="header-btn" style="color: white;">
-                    勤怠一覧
-                </li>
-                <li class="header-btn" style="color: white;">
-                    申請
-                </li>
-                <li class="header-btn">
-                    <form class="header-form-logout" action="/logout" method="post" class="header-btn">
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/attendance" method="get">
                         @csrf
-                        <button type="submit" class="header-logout" name="logout">ログアウト</button>
+                        <button type="submit" class="header-btn">勤怠</button>
+                    </form>
+                </li>
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/attendance/list" method="get">
+                        @csrf
+                        <button type="submit" class="header-btn">勤怠一覧</button>
+                    </form>
+                </li>
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/stamp_correction_request/list" method="get">
+                        @csrf
+                        <button type="submit" class="header-btn">申請</button>
+                    </form>
+                </li>
+                <li class="header-btn-list">
+                    <form class="header-form-btn" action="/logout" method="post">
+                        @csrf
+                        <button type="submit" class="header-btn" name="logout">ログアウト</button>
                     </form>
                 </li>
             </ul>

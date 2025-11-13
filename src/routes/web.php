@@ -13,7 +13,6 @@ use App\Http\Controllers\AdminLoginController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminAttendanceController;
-use App\Http\Controllers\AttendanceListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,10 +41,10 @@ Route::middleware('auth')->group(function () {
     })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 });
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/attendance', [AttendanceController::class, 'show']);
+    Route::get('/attendance', [AttendanceController::class, 'create']);
     Route::get('/attendance/list', [AttendanceController::class, 'show']);
     Route::get('/attendance/detail/{id}',[AttendanceController::class,'edit'] );
-    Route::get('/stamp_correction_request/list', [AttendanceListController::class, 'show']);
+    Route::get('/stamp_correction_request/list', [AttendanceController::class, 'show']);
 });
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');

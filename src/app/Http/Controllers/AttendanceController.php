@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
 {
-    public function show(){
+    public function create(){
         return view('attendance.attendance');
     }
 }
