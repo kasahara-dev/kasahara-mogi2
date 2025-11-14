@@ -2,6 +2,10 @@
 
 coachtech 勤怠管理アプリ
 
+> [!IMPORTANT]
+> 一覧表示画面において、出勤した日のみ詳細ボタンをクリックできます。
+> 勤怠修正は、出退勤記録がある場合のみ可能です。
+
 ## 環境構築
 
 ### Docker ビルド
@@ -79,7 +83,7 @@ coachtech 勤怠管理アプリ
 | created_at        | timestamp       |             |            |          |             |
 | updated_at        | timestamp       |             |            |          |             |
 
-### admin テーブル
+### admins テーブル
 
 | カラム名          | 型              | primary key | unique key | not null | foreign key |
 | ----------------- | --------------- | ----------- | ---------- | -------- | ----------- | --- |
