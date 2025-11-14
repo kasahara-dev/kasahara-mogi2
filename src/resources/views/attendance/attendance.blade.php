@@ -5,5 +5,14 @@
 @endsection
 
 @section('content')
-    <h1>勤怠画面</h1>
+    <div class="status">
+        @if($working)
+            出勤中
+        @else
+            勤務外
+        @endif
+    </div>
+    <div class="date">
+        {{ today()->isoFormat('YYYY年M月D日(ddd)') }}
+    </div>
 @endsection

@@ -1,0 +1,10 @@
+.status {
+    margin: 5em auto 2em;
+    background: #c8c8c8;
+    color: #696969;
+    padding: 0.5em 1.5em;
+    border-radius: 1.5em;
+}
+.date {
+    font-size: x-large;
+}
