@@ -13,6 +13,17 @@ class AttendanceController extends Controller
     {
         // 勤務中判定
         $working = Auth::user()->attendances()->where('end', null)->exists();
-        return view('attendance.attendance', compact(['working']));
+        // 休憩中判定
+        $workingRecord = '';
+        $resting = false;
+        $restingRecord = '';
+        if ($working) {
+            $workingRecord = Auth::user()->attendances()->where('end', null);
+            $resting = $workingRecord->rests()->where('end', null)->exists();
+            if ($resting) {
+                $workingRecord->rests()->where('end', null);
+            }
+        }
+        return view('attendance.attendance', compact(['working', 'workingRecord', 'resting', 'restingRecord']));
     }
 }

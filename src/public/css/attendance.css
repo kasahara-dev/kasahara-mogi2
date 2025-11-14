@@ -7,4 +7,42 @@
 }
 .date {
     font-size: x-large;
+    margin: 0 auto;
+}
+.time {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0 auto;
+    height: 2em;
+}
+.attendance-btn {
+    color: white;
+    background: black;
+    font-weight: bold;
+    padding: 1em 3em;
+    border-radius: 1em;
+    font-size: large;
+    border: none;
+}
+.working-btns-area {
+    display: flex;
+    gap: 3em;
+}
+.rest-btn {
+    color: black;
+    background: white;
+    font-weight: bold;
+    padding: 1em 2.5em;
+    border-radius: 1em;
+    font-size: large;
+    border: none;
+}
+.main {
+    background: #f0eff2;
+    height: 100vh;
+}
+@media screen and (max-width: 768px) {
+    .working-btns-area {
+        gap: 1em;
+    }
 }

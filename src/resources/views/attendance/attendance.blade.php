@@ -12,7 +12,35 @@
             勤務外
         @endif
     </div>
-    <div class="date">
+    <p class="date">
         {{ today()->isoFormat('YYYY年M月D日(ddd)') }}
-    </div>
+    </p>
+    <p class="time" id="time"></p>
+    @if($working)
+        @if($resting)
+            <form action="/attendance/rest" method="post">
+                @method('PUT')
+                @csrf
+                <button type="submit" class="rest-btn">休憩戻</button>
+            </form>
+        @else
+            <div class="working-btns-area">
+                <form action="/attendance/record" method="post">
+                    @method('PUT')
+                    @csrf
+                    <button type="submit" class="attendance-btn">退勤</button>
+                </form>
+                <form action="/attendance/rest" method="post">
+                    @csrf
+                    <button type="submit" class="rest-btn">休憩入</button>
+                </form>
+            </div>
+        @endif
+    @else
+        <form action="/attendance/record" method="post">
+            @csrf
+            <button type="submit" class="attendance-btn">出勤</button>
+        </form>
+    @endif
+    <script src="{{ asset('/js/showCurrentTime.js') }}"></script>
 @endsection
