@@ -18,27 +18,18 @@
                 <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
                 <div id="hamburger" class="hamburger"></div>
             </div>
-            <ul class="header-btns" id="header-btns">
+            <ul id="header-btns" class="header-btns">
                 <li class="header-btn-list">
-                    <form class="header-form-btn" action="/attendance" method="get">
-                        @csrf
-                        <button type="submit" class="header-btn">勤怠</button>
-                    </form>
+                    <button class="header-btn" onclick="location.href='/attendance'">勤怠</button>
                 </li>
                 <li class="header-btn-list">
-                    <form class="header-form-btn" action="/attendance/list" method="get">
-                        @csrf
-                        <button type="submit" class="header-btn">勤怠一覧</button>
-                    </form>
+                    <button class="header-btn" onclick="location.href='/attendance/list'">勤怠一覧</button>
                 </li>
                 <li class="header-btn-list">
-                    <form class="header-form-btn" action="/stamp_correction_request/list" method="get">
-                        @csrf
-                        <button type="submit" class="header-btn">申請</button>
-                    </form>
+                    <button class="header-btn" onclick="location.href='/stamp_correction_request'">申請</button>
                 </li>
                 <li class="header-btn-list">
-                    <form class="header-form-btn" action="/logout" method="post">
+                    <form action="/logout" method="post">
                         @csrf
                         <button type="submit" class="header-btn" name="logout">ログアウト</button>
                     </form>
