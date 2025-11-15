@@ -6,17 +6,28 @@
 
 @section('content')
     <div class="status">
-        @if($working)
-            出勤中
-        @else
+        @if($workingStatus == 0)
             勤務外
+        @elseif($workingStatus == 1)
+            @if($resting)
+                休憩中
+            @else
+                出勤中
+            @endif
+        @else
+            退勤済
         @endif
     </div>
     <p class="date">
         {{ today()->isoFormat('YYYY年M月D日(ddd)') }}
     </p>
     <p class="time" id="time"></p>
-    @if($working)
+    @if($workingStatus == 0)
+        <form action="/attendance/record" method="post">
+            @csrf
+            <button type="submit" class="attendance-btn">出勤</button>
+        </form>
+    @elseif($workingStatus == 1)
         @if($resting)
             <form action="/attendance/rest" method="post">
                 @method('PUT')
@@ -37,10 +48,7 @@
             </div>
         @endif
     @else
-        <form action="/attendance/record" method="post">
-            @csrf
-            <button type="submit" class="attendance-btn">出勤</button>
-        </form>
+        <p class="attendance-msg">お疲れ様でした。</p>
     @endif
     <script src="{{ asset('/js/showCurrentTime.js') }}"></script>
 @endsection

@@ -41,6 +41,9 @@
     background: #f0eff2;
     height: 100vh;
 }
+.attendance-msg {
+    font-weight: bold;
+}
 @media screen and (max-width: 768px) {
     .working-btns-area {
         gap: 1em;
