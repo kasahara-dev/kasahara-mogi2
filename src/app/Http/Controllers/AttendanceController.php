@@ -51,11 +51,9 @@ class AttendanceController extends Controller
                 'start' => $tableDate,
             ]);
         }
-        // if ($tableDate->eq($today)) {
         Auth::user()->attendances()->where('end', null)->update([
             'end' => now(),
         ]);
-        // }
         return redirect('/attendance');
     }
 }
