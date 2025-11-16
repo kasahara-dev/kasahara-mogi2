@@ -42,6 +42,8 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'create']);
+    Route::post('/attendance/record', [AttendanceController::class, 'store']);
+    Route::put('/attendance/record', [AttendanceController::class, 'update']);
     Route::get('/attendance/list', [AttendanceController::class, 'show']);
     Route::get('/attendance/detail/{id}',[AttendanceController::class,'edit'] );
     Route::get('/stamp_correction_request/list', [AttendanceController::class, 'show']);

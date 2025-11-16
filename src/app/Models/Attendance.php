@@ -10,7 +10,6 @@ class Attendance extends Model
     use HasFactory;
     protected $fillable = [
         'user_id',
-        'date',
         'start',
         'end',
         'note',
@@ -18,7 +17,7 @@ class Attendance extends Model
     ];
     public function rests()
     {
-        return $this->hasMany('App\Models\Rests');
+        return $this->hasMany('App\Models\Rest');
     }
     public function user()
     {

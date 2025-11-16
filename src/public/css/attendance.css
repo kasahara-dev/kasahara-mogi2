@@ -23,6 +23,7 @@
     border-radius: 1em;
     font-size: large;
     border: none;
+    cursor: pointer;
 }
 .working-btns-area {
     display: flex;
@@ -36,10 +37,12 @@
     border-radius: 1em;
     font-size: large;
     border: none;
+    cursor: pointer;
 }
 .main {
     background: #f0eff2;
     height: 100vh;
+    height: calc(100svh - 60px);
 }
 .attendance-msg {
     font-weight: bold;
