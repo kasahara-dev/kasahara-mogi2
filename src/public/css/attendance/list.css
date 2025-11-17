@@ -1,0 +1,58 @@
+.list-area {
+    width: 600px;
+}
+.list-title {
+    border-left: solid 10px black;
+    padding: 0 0.5em;
+}
+.list-select-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 0 1em;
+    border-radius: 10px;
+}
+.list-select {
+    display: flex;
+}
+.list-select-arrow {
+    font-weight: bold;
+    color: #b2b2b2;
+}
+.list-arrow-month {
+    color: #737373;
+}
+.list-select-calendar {
+    position: relative;
+}
+.list-select-month {
+    display: flex;
+    border: none;
+}
+.list-select-month::before {
+    content: url("../../img/calendar-regular-full.svg");
+    display: block;
+    width: 3em;
+    height: 3em;
+}
+.list-select-month::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: auto;
+    height: auto;
+    background: transparent;
+    z-index: 1;
+}
+.main {
+    background: #f0eff2;
+    height: calc(100svh - 60px);
+}
+@media screen and (max-width: 768px) {
+    .main {
+        height: calc(100svh - 44px);
+    }
+}

@@ -41,7 +41,6 @@
 }
 .main {
     background: #f0eff2;
-    height: 100vh;
     height: calc(100svh - 60px);
 }
 .attendance-msg {
@@ -50,5 +49,8 @@
 @media screen and (max-width: 768px) {
     .working-btns-area {
         gap: 1em;
+    }
+    .main {
+        height: calc(100svh - 44px);
     }
 }

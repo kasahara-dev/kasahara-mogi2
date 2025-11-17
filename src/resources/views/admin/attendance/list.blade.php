@@ -1,7 +1,7 @@
 @extends('layout.admin.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/list.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/attendance/list.css') }}">
 @endsection
 
 @section('content')

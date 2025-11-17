@@ -11,6 +11,10 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
+    public function show()
+    {
+        return view('/attendance/list');
+    }
     public function create()
     {
         // 勤務中判定
