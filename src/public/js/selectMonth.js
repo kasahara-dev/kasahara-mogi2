@@ -1,13 +1,13 @@
 // window.addEventListener("DOMContentLoaded", function () {
-//     // input要素を取得
-//     let input_name = document.getElementById("list_select_month");
-
+// input要素を取得
+// let input_name = document.getElementById("monthPicker");
 //     // イベントリスナーでイベント「change」を登録
-//     input_name.addEventListener("change", function () {
-//         console.log("Change action");
-//         console.log(this.value);
-//         window.location.href = "パス名"; // 通常の遷移
-//     });
+// input_name.addEventListener("change", function () {
+//     var year = this.value.substr(0, str.indexOf("/"));
+//     var month = this.value.substr(0, str.indexOf("/") + 1);
+//     window.location.href =
+//         "/attendance/list/?year=" + year + "&month=" + month; // 通常の遷移
+// });
 
 //     // イベントリスナーでイベント「input」を登録
 //     input_name.addEventListener("input", function () {
@@ -16,15 +16,17 @@
 //     });
 // });
 $(function () {
-    $("#datepicker")
+    $("#monthPicker")
         .datepicker({
-            dateFormat: "yy-mm",
+            dateFormat: "yy/mm",
             changeMonth: true,
             changeYear: true,
             showButtonPanel: true,
             showMonthAfterYear: true, // 年月を並び替え
+            defaultDate: new Date(setYear, parseInt(setMonth) - 1),
             // minDate: new Date(),
             // maxDate: "+1y",
+            setDate: setYear + "-" + setMonth,
             monthNames: [
                 "1月",
                 "2月",
@@ -54,21 +56,29 @@ $(function () {
                 "12月",
             ],
             onClose: function (dateText, inst) {
-                var month = $(
+                setMonth = $(
                     "#ui-datepicker-div .ui-datepicker-month :selected"
                 ).val();
-                var year = $(
+                setYear = $(
                     "#ui-datepicker-div .ui-datepicker-year :selected"
                 ).val();
-                if (year && month !== null) {
+                if (setYear && setMonth !== null) {
                     $(this).val(
-                        year + "/" + ("0" + (parseInt(month) + 1)).slice(-2)
+                        setYear +
+                            "/" +
+                            ("0" + (parseInt(setMonth) + 1)).slice(-2)
                     ); // 選択された年月をテキストボックスに反映
+                    window.location.href =
+                        "/attendance/list/?year=" +
+                        setYear +
+                        "&month=" +
+                        (parseInt(setMonth) + 1); // 通常の遷移
                 }
             },
         })
         .focus(function () {
             $(".ui-datepicker-calendar").hide();
         });
+    // $("#monthPicker").datepicker("setDate", "2021/12");
 });
 // $("#datepicker").datepicker();

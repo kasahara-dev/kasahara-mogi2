@@ -15,6 +15,7 @@
 }
 .list-select {
     display: flex;
+    text-decoration: none;
 }
 .list-select-arrow {
     font-weight: bold;
@@ -24,13 +25,20 @@
     color: #737373;
 }
 .list-select-calendar {
-    position: relative;
+    display: flex;
 }
 .list-select-month {
-    display: flex;
     border: none;
+    font-size: large;
+    font-weight: bold;
+    padding-left: 1em;
+    width: 8em;
 }
-.list-select-month::before {
+.calender-img {
+    width: 2em;
+    height: 2em;
+}
+/* .list-select-month::before {
     content: url("../../img/calendar-regular-full.svg");
     display: block;
     width: 3em;
@@ -46,13 +54,13 @@
     height: auto;
     background: transparent;
     z-index: 1;
-}
+} */
 .main {
     background: #f0eff2;
-    height: calc(100svh - 60px);
+    min-height: calc(100svh - 60px);
 }
 @media screen and (max-width: 768px) {
     .main {
-        height: calc(100svh - 44px);
+        min-height: calc(100svh - 44px);
     }
 }

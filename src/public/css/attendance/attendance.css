@@ -41,7 +41,7 @@
 }
 .main {
     background: #f0eff2;
-    height: calc(100svh - 60px);
+    min-height: calc(100svh - 60px);
 }
 .attendance-msg {
     font-weight: bold;
@@ -51,6 +51,6 @@
         gap: 1em;
     }
     .main {
-        height: calc(100svh - 44px);
+        min-height: calc(100svh - 44px);
     }
 }

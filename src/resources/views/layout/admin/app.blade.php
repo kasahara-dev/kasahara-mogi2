@@ -15,7 +15,9 @@
     <div class="wrapper">
         <header class="header" id="header">
             <div class="header-logo-area">
-                <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
+                <a href="/admin/attendance/list">
+                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
+                </a>
                 <div id="hamburger" class="hamburger"></div>
             </div>
             <ul class="header-btns" id="header-btns">
@@ -32,7 +34,8 @@
                     </form>
                 </li>
                 <li class="header-btn-list">
-                    <form class="header-form-btn" action="/stamp_correction_request/list" method="get" class="header-btn">
+                    <form class="header-form-btn" action="/stamp_correction_request/list" method="get"
+                        class="header-btn">
                         @csrf
                         <button type="submit" class="header-btn">申請一覧</button>
                     </form>

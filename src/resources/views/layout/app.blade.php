@@ -15,7 +15,9 @@
     <div class="wrapper">
         <header class="header" id="header">
             <div class="header-logo-area">
-                <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
+                <a href="/attendance">
+                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
+                </a>
                 <div id="hamburger" class="hamburger"></div>
             </div>
             <ul id="header-btns" class="header-btns">

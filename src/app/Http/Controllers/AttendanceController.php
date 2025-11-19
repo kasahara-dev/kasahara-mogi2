@@ -11,9 +11,22 @@ use Carbon\Carbon;
 
 class AttendanceController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
-        return view('/attendance/list');
+        if ($request->year && $request->month) {
+            $year = $request->query('year');
+            $month = $request->query('month');
+        } else {
+            $year = Carbon::now()->year;
+            $month = Carbon::now()->month;
+        }
+        $preYear = Carbon::parse($year . '-' . $month . '-1')->subMonth()->year;
+        $preMonth = Carbon::parse($year . '-' . $month . '-1')->subMonth()->month;
+        $postYear = Carbon::parse($year . '-' . $month . '-1')->addMonth()->year;
+        $postMonth = Carbon::parse($year . '-' . $month . '-1')->addMonth()->month;
+        \Log::info('pre is ' . $preYear . $preMonth);
+        \Log::info('post is ' . $postYear . $postMonth);
+        return view('/attendance/list', compact(['year', 'month', 'preYear', 'preMonth', 'postYear', 'postMonth']));
     }
     public function create()
     {
