@@ -18,6 +18,8 @@
 $(function () {
     $("#monthPicker")
         .datepicker({
+            altField: "#monthPicker",
+            altFormat: "yy/mm",
             dateFormat: "yy/mm",
             changeMonth: true,
             changeYear: true,
@@ -25,8 +27,12 @@ $(function () {
             showMonthAfterYear: true, // 年月を並び替え
             defaultDate: new Date(setYear, parseInt(setMonth) - 1),
             // minDate: new Date(),
-            // maxDate: "+1y",
+            // maxDate: "+100y",
+            hideIfNoPrevNext: true,
             setDate: setYear + "-" + setMonth,
+            currentText: "今月",
+            closeText: "閉じる",
+            hideIfNoPrevNext: true,
             monthNames: [
                 "1月",
                 "2月",
@@ -55,6 +61,19 @@ $(function () {
                 "11月",
                 "12月",
             ],
+            onSelect: function (dateText, inst) {
+                var dates = dateText.split("/");
+                setMonth = dates[0];
+                setYear = dates[1];
+                $(this).val("2021/11");
+                // if (setYear && setMonth !== null) {
+                //     $(this).val(
+                //         setYear +
+                //             "/" +
+                //             ("0" + (parseInt(setMonth) + 1)).slice(-2)
+                //     ); // 選択された年月をテキストボックスに反映
+                // }
+            },
             onClose: function (dateText, inst) {
                 setMonth = $(
                     "#ui-datepicker-div .ui-datepicker-month :selected"
@@ -63,11 +82,11 @@ $(function () {
                     "#ui-datepicker-div .ui-datepicker-year :selected"
                 ).val();
                 if (setYear && setMonth !== null) {
-                    $(this).val(
-                        setYear +
-                            "/" +
-                            ("0" + (parseInt(setMonth) + 1)).slice(-2)
-                    ); // 選択された年月をテキストボックスに反映
+                    // $(this).val(
+                    //     setYear +
+                    //         "/" +
+                    //         ("0" + (parseInt(setMonth) + 1)).slice(-2)
+                    // ); // 選択された年月をテキストボックスに反映
                     window.location.href =
                         "/attendance/list/?year=" +
                         setYear +
@@ -78,6 +97,8 @@ $(function () {
         })
         .focus(function () {
             $(".ui-datepicker-calendar").hide();
+            $(".ui-datepicker-next").hide();
+            $(".ui-datepicker-prev").hide();
         });
     // $("#monthPicker").datepicker("setDate", "2021/12");
 });

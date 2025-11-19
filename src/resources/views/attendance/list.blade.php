@@ -3,13 +3,15 @@
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/attendance/list.css') }}">
     <!--jQuery JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
     </script>
     <!--jQuery UI JS-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"></script>
+    {{-- -
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+    --}}
     <!--jQuery UI CSS-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css">
 @endsection
 
 @section('content')
@@ -27,7 +29,7 @@
                 <input type="text" id="monthPicker" value="{{ $year . '/' . sprintf('%02d', $month) }}"
                     class="list-select-month" readonly="readonly" />
             </div>
-            <a class="list-select" href="/attendance/list?year={{ $postYear }}&month={{ $postMonth }}">
+            <a class="list-select" href="/attendance/list?year={{ $nextYear }}&month={{ $nextMonth }}">
                 <p class="list-arrow-month">翌月</p>
                 <p class="list-select-arrow">→</p>
             </a>
