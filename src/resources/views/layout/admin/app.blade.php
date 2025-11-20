@@ -14,34 +14,33 @@
 <body>
     <div class="wrapper">
         <header class="header" id="header">
-            <div class="header-logo-area">
+            <div class="app-logo">
                 <a href="/admin/attendance/list">
-                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
+                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="app-logo__img" />
                 </a>
-                <div id="hamburger" class="hamburger"></div>
+                <div id="hamburger" class="app-logo__hamburger"></div>
             </div>
             <ul class="header-btns" id="header-btns">
-                <li class="header-btn-list">
-                    <form class="header-form-btn" action="/admin/attendance/list" method="get" class="header-btn">
+                <li class="header-btns__list">
+                    <form action="/admin/attendance/list" method="get">
                         @csrf
                         <button type="submit" class="header-btn">勤怠一覧</button>
                     </form>
                 </li>
-                <li class="header-btn-list">
-                    <form class="header-form-btn" action="/admin/staff/list" method="get" class="header-btn">
+                <li class="header-btns__list">
+                    <form action="/admin/staff/list" method="get">
                         @csrf
                         <button type="submit" class="header-btn">スタッフ一覧</button>
                     </form>
                 </li>
-                <li class="header-btn-list">
-                    <form class="header-form-btn" action="/stamp_correction_request/list" method="get"
-                        class="header-btn">
+                <li class="header-btns__list">
+                    <form action="/stamp_correction_request/list" method="get">
                         @csrf
                         <button type="submit" class="header-btn">申請一覧</button>
                     </form>
                 </li>
-                <li class="header-btn-list">
-                    <form class="header-form-btn" action="/admin/logout" method="post" class="header-btn">
+                <li class="header-btns__list">
+                    <form class="header-form-btn" action="/admin/logout" method="post">
                         @csrf
                         <button type="submit" class="header-btn" name="logout">ログアウト</button>
                     </form>

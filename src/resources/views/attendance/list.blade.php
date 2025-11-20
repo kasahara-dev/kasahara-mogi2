@@ -34,6 +34,11 @@
                 <p class="list-select-arrow">→</p>
             </a>
         </div>
+        <div class="list-lines-area">
+            @foreach ($dayList as $listLine)
+                {{ $listLine['day'] }}
+            @endforeach
+        </div>
     </div>
     <script>
         var setYear = {{ $year }};

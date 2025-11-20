@@ -14,23 +14,23 @@
 <body>
     <div class="wrapper">
         <header class="header" id="header">
-            <div class="header-logo-area">
+            <div class="app-logo">
                 <a href="/attendance">
-                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="header-img" />
+                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="app-logo__img" />
                 </a>
-                <div id="hamburger" class="hamburger"></div>
+                <div id="hamburger" class="app-logo__hamburger"></div>
             </div>
             <ul id="header-btns" class="header-btns">
-                <li class="header-btn-list">
+                <li class="header-btns__list">
                     <button class="header-btn" onclick="location.href='/attendance'">勤怠</button>
                 </li>
-                <li class="header-btn-list">
+                <li class="header-btns__list">
                     <button class="header-btn" onclick="location.href='/attendance/list'">勤怠一覧</button>
                 </li>
-                <li class="header-btn-list">
+                <li class="header-btns__list">
                     <button class="header-btn" onclick="location.href='/stamp_correction_request'">申請</button>
                 </li>
-                <li class="header-btn-list">
+                <li class="header-btns__list">
                     <form action="/logout" method="post">
                         @csrf
                         <button type="submit" class="header-btn" name="logout">ログアウト</button>

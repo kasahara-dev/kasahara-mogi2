@@ -20,11 +20,35 @@ class AttendanceController extends Controller
             $year = Carbon::now()->year;
             $month = Carbon::now()->month;
         }
+        // 前月、翌月対応
         $preYear = Carbon::parse($year . '-' . $month . '-1')->subMonth()->year;
         $preMonth = Carbon::parse($year . '-' . $month . '-1')->subMonth()->month;
         $nextYear = Carbon::parse($year . '-' . $month . '-1')->addMonth()->year;
         $nextMonth = Carbon::parse($year . '-' . $month . '-1')->addMonth()->month;
-        return view('/attendance/list', compact(['year', 'month', 'preYear', 'preMonth', 'nextYear', 'nextMonth']));
+        // 一覧対応
+        $searchDay = Carbon::parse($year . '-' . $month . '-1');
+        $dayList = [];
+        // $listLineCount = 0;
+        while ($searchDay <= Carbon::parse($year . '-' . $month . '-1')->endOfMonth()) {
+            // $listLineCount++;
+            if (Auth::user()->attendances()->where('status', 0)->where('start', $searchDay)->exists()) {
+                $start = Auth::user()->attendances()->where('status', 0)->where('start', $searchDay)->start->format('HH:ii');
+            } else {
+                $start = null;
+            }
+            ;
+            $dayList += array(
+                // $listLineCount,
+                [
+                    'day' => $searchDay->isoFormat('MM月DD日(ddd)'),
+                ]
+            );
+            // \Log::info('search day is ' . $searchDay->isoFormat('MM月DD日(ddd)'));
+            $searchDay->addDay();
+        }
+        ;
+        \Log::info('day List is ' . $dayList[0]['day']);
+        return view('/attendance/list', compact(['year', 'month', 'preYear', 'preMonth', 'nextYear', 'nextMonth', 'dayList']));
     }
     public function create()
     {

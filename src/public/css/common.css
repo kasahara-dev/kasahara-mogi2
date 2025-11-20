@@ -4,7 +4,7 @@
     align-items: center;
 }
 .main {
-    width: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -17,31 +17,31 @@
     background-color: black;
     justify-content: space-between;
 }
-.header-img {
+.app-logo__img {
     width: 80%;
     margin: 10px;
 }
-.form-area {
+/* .form-area {
     width: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+} */
 .form {
     width: 100%;
 }
-.form-name {
+.form__name {
     font-weight: bold;
 }
-.form-content {
+.form__content {
     margin: 0;
 }
-.form-error {
+.form__error {
     color: red;
     margin: 0;
     height: 30px;
 }
-.form-input {
+.form__input {
     box-sizing: border-box;
     width: 100%;
     height: 30px;
@@ -62,7 +62,7 @@
 .link:visited {
     color: #0073cc;
 }
-.header-logo-area {
+.app-logo {
     display: flex;
     width: 30%;
 }
@@ -80,7 +80,7 @@
     padding-inline-start: 0;
     height: 100%;
 }
-.header-btn-list {
+.header-btns__list {
     list-style: none;
 }
 .header-btn {
@@ -92,23 +92,24 @@
     cursor: pointer;
     font-size: 15px;
 }
-.hamburger {
+.app-logo__hamburger {
     display: none;
     cursor: pointer;
 }
 @media screen and (max-width: 768px) {
     .main {
+        width: 95%;
         &.menu-is-open {
             position: relative;
             top: 44px;
         }
     }
-    .form-title {
+    .main__title {
         margin: 0;
     }
-    .form-area {
+    /* .form-area {
         width: 95%;
-    }
+    } */
     .header {
         height: 44px;
         flex-direction: column;
@@ -121,7 +122,7 @@
             width: 98%;
         }
     }
-    .header-logo-area {
+    .app-logo {
         width: 100%;
         height: 100%;
         display: flex;
@@ -131,7 +132,7 @@
     .header-logo {
         width: 40%;
     }
-    .header-img {
+    .app-logo__img {
         width: 50%;
     }
     .header-btns {
@@ -157,7 +158,7 @@
         height: 100%;
         padding: 0.5em;
     }
-    .hamburger {
+    .app-logo__hamburger {
         width: 44px;
         height: 44px;
         background: url("../img/bars-solid-full.svg") no-repeat;
