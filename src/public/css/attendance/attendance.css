@@ -43,6 +43,7 @@
     width: 100%;
     background: #f0eff2;
     min-height: calc(100svh - 60px);
+    padding-bottom: 3em;
 }
 .attendance-msg {
     font-weight: bold;

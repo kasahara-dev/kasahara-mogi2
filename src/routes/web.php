@@ -14,6 +14,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AdminAttendanceController;
 use App\Http\Controllers\RestController;
+use App\Http\Controllers\StampController;
 
 
 /*
@@ -49,7 +50,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/attendance/rest', [RestController::class, 'store']);
     Route::put('/attendance/rest', [RestController::class, 'update']);
     Route::get('/attendance/list', [AttendanceController::class, 'show']);
-    Route::get('/attendance/detail/{id}',[AttendanceController::class,'edit'] );
+    Route::get('/attendance/detail/{id}',[StampController::class,'create'] );
+    Route::post('/attendance/detail/{id}', [StampController::class, 'store']);
     Route::get('/stamp_correction_request/list', [AttendanceController::class, 'show']);
 });
 Route::prefix('admin')->group(function () {

@@ -28,26 +28,59 @@ class AttendanceController extends Controller
         // 一覧対応
         $searchDay = Carbon::parse($year . '-' . $month . '-1');
         $dayList = [];
-        // $listLineCount = 0;
         while ($searchDay <= Carbon::parse($year . '-' . $month . '-1')->endOfMonth()) {
-            // $listLineCount++;
-            if (Auth::user()->attendances()->where('status', 0)->where('start', $searchDay)->exists()) {
-                $start = Auth::user()->attendances()->where('status', 0)->where('start', $searchDay)->start->format('HH:ii');
-            } else {
-                $start = null;
+            $start = null;
+            $end = null;
+            $restHours = 0;
+            $restMinutes = 0;
+            $workHours = 0;
+            $workMinutes = 0;
+            $restTimeSeconds = 0;
+            $attendanceId = null;
+            if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->exists()) {
+                $attendanceId = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->id;
+                $start = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->start);
+                // 退勤済み判定
+                if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end) {
+                    $end = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end);
+                    // 休憩を分単位で計算
+                    $rests = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->rests->all();
+                    // \Log::info('rests is ' . $rests);
+                    foreach ($rests as $restRecord) {
+                        $startTime = Carbon::parse($restRecord->start)->seconds(0);
+                        $endTime = Carbon::parse($restRecord->end)->seconds(0);
+                        $diffInSeconds = $startTime->diffInSeconds($endTime);
+                        $hours = floor($diffInSeconds / 3600);
+                        $minutes = floor(($diffInSeconds % 3600) / 60);
+                        $restHours += $hours;
+                        $restMinutes += $minutes;
+                        $restTimeSeconds += $diffInSeconds;
+                    }
+                    // 合計勤務時間計算
+                    $startTime = $start->seconds(0);
+                    $endTime = $end->seconds(0);
+                    $diffInSeconds = $startTime->diffInSeconds($endTime);
+                    $diffInSeconds -= $restTimeSeconds;
+                    $hours = floor($diffInSeconds / 3600);
+                    $minutes = floor(($diffInSeconds % 3600) / 60);
+                    $workHours += $hours;
+                    $workMinutes += $minutes;
+                }
             }
             ;
-            $dayList += array(
-                // $listLineCount,
-                [
-                    'day' => $searchDay->isoFormat('MM月DD日(ddd)'),
-                ]
-            );
-            // \Log::info('search day is ' . $searchDay->isoFormat('MM月DD日(ddd)'));
+            $dayList[] = [
+                'day' => $searchDay->isoFormat('MM月DD日(ddd)'),
+                'start' => $start,
+                'end' => $end,
+                'restHours' => $restHours,
+                'restMinutes' => $restMinutes,
+                'workHours' => $workHours,
+                'workMinutes' => $workMinutes,
+                'attendanceId' => $attendanceId,
+            ];
             $searchDay->addDay();
         }
         ;
-        \Log::info('day List is ' . $dayList[0]['day']);
         return view('/attendance/list', compact(['year', 'month', 'preYear', 'preMonth', 'nextYear', 'nextMonth', 'dayList']));
     }
     public function create()

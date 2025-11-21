@@ -1,0 +1,29 @@
+.container {
+    width: 80%;
+}
+.title {
+    border-left: 10px solid black;
+    padding: 0 0.5em;
+}
+.main {
+    width: 100%;
+    background: #f0eff2;
+    min-height: calc(100svh - 60px);
+    padding-bottom: 3em;
+}
+.list {
+}
+.line {
+}
+.line__title {
+}
+.line__data {
+}
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+    .main {
+        min-height: calc(100svh - 44px);
+    }
+}
