@@ -91,6 +91,7 @@
     margin-right: 10px;
     cursor: pointer;
     font-size: 15px;
+    font-weight: bold;
 }
 .app-logo__hamburger {
     display: none;

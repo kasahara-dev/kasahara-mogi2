@@ -1,5 +1,5 @@
 .container {
-    width: 70%;
+    width: 80%;
 }
 .title {
     border-left: solid 10px black;
@@ -12,6 +12,7 @@
     background-color: white;
     padding: 0 1em;
     border-radius: 10px;
+    font-weight: bold;
 }
 .selector__pre-month {
     display: flex;
@@ -22,7 +23,6 @@
     text-decoration: none;
 }
 .selector__arrow {
-    font-weight: bold;
     color: #b2b2b2;
 }
 .selector__month {
@@ -47,6 +47,7 @@
     background-color: white;
     margin-top: 2em;
     border-radius: 10px;
+    font-weight: bold;
 }
 .table__header {
     border-bottom: 4px solid #f0eff2;
@@ -80,5 +81,8 @@
     }
     .container {
         width: 95%;
+    }
+    .table__data {
+        width: auto;
     }
 }

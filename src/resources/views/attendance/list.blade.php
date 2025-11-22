@@ -47,7 +47,15 @@
                     <tr>
                         <td class="table__data">{{ $listLine['day'] }}</td>
                         <td class="table__data">@if($listLine['start']){{ $listLine['start']->format('H:i') }}@endif</td>
-                        <td class="table__data">@if($listLine['end']){{ $listLine['end']->format('H:i') }}@endif</td>
+                        <td class="table__data">
+                            @if($listLine['end'])
+                                @if(\Carbon\Carbon::parse($listLine['start'])->startOfDay()->lt(\Carbon\Carbon::parse($listLine['end'])->startOfDay()))
+                                    24:00
+                                @else
+                                    {{ $listLine['end']->format('H:i') }}
+                                @endif
+                            @endif
+                        </td>
                         <td class="table__data">
                             @if($listLine['end']){{ sprintf('%02d', $listLine['restHours']) . ':' . sprintf('%02d', $listLine['restMinutes']) }}@endif
                         </td>

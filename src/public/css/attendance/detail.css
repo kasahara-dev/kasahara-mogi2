@@ -1,5 +1,5 @@
 .container {
-    width: 80%;
+    width: 60%;
 }
 .title {
     border-left: 10px solid black;
@@ -12,18 +12,51 @@
     padding-bottom: 3em;
 }
 .list {
+    background: white;
+    border-radius: 10px;
+    font-weight: bold;
 }
-.line {
+.list-line {
+    display: flex;
+    border-bottom: 3px solid #f0eff2;
+    align-items: center;
 }
-.line__title {
+.list-line__title {
+    color: #737373;
+    width: 35%;
+    display: flex;
+    padding-left: 2em;
+    height: 4em;
+    /* text-align: center; */
+    align-items: center;
 }
-.line__data {
+.list-line__data {
 }
+.list__bottom {
+    text-align: end;
+}
+.message {
+    color: #ff000080;
+    font-weight: bolder;
+}
+.submit-btn {
+    width: auto;
+    font-weight: bold;
+    padding: 0 2.5em;
+}
+
 @media screen and (max-width: 768px) {
     .container {
         width: 95%;
     }
     .main {
         min-height: calc(100svh - 44px);
+    }
+    .list-line__title {
+        width: 40%;
+        padding: 1em 0 1em 2em;
+    }
+    .list-line__data {
+        margin: 0;
     }
 }
