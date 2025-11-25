@@ -7,10 +7,8 @@ $(function () {
             changeMonth: true,
             changeYear: true,
             showButtonPanel: true,
-            showMonthAfterYear: true, // 年月を並び替え
+            showMonthAfterYear: true,
             defaultDate: new Date(setYear, parseInt(setMonth) - 1),
-            // minDate: new Date(),
-            // maxDate: "+100y",
             hideIfNoPrevNext: true,
             setDate: setYear + "-" + setMonth,
             currentText: "今月",
@@ -52,16 +50,11 @@ $(function () {
                     "#ui-datepicker-div .ui-datepicker-year :selected"
                 ).val();
                 if (setYear && setMonth !== null) {
-                    // $(this).val(
-                    //     setYear +
-                    //         "/" +
-                    //         ("0" + (parseInt(setMonth) + 1)).slice(-2)
-                    // ); // 選択された年月をテキストボックスに反映
                     window.location.href =
                         "/attendance/list/?year=" +
                         setYear +
                         "&month=" +
-                        (parseInt(setMonth) + 1); // 通常の遷移
+                        (parseInt(setMonth) + 1);
                 }
             },
         })

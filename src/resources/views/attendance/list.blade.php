@@ -2,12 +2,9 @@
 
 @section('css')
     <link rel="stylesheet" href="{{ asset('css/attendance/list.css') }}">
-    <!--jQuery JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js">
     </script>
-    <!--jQuery UI JS-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"></script>
-    <!--jQuery UI CSS-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.14.1/themes/base/jquery-ui.min.css">
 @endsection
 
@@ -63,11 +60,11 @@
                             @if($listLine['end']){{ sprintf('%02d', $listLine['workHours']) . ':' . sprintf('%02d', $listLine['workMinutes']) }}@endif
                         </td>
                         @if($listLine['end'])
-                            <td class="table__data table__data--detail">
+                            <td class="table__data">
                                 <a href="/attendance/detail/{{ $listLine['attendanceId'] }}" class="table__data--active">詳細</a>
                             </td>
                         @else
-                            <td class="table__data table__data--detail">詳細</td>
+                            <td class="table__data">詳細</td>
                         @endif
                     </tr>
                 @endforeach

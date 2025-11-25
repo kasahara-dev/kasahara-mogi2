@@ -8,6 +8,7 @@
 .date {
     font-size: x-large;
     margin: 0 auto;
+    height: 1.5em;
 }
 .time {
     font-size: 4em;

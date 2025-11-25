@@ -21,12 +21,13 @@ class AttendanceController extends Controller
             $month = Carbon::now()->month;
         }
         // 前月、翌月対応
-        $preYear = Carbon::parse($year . '-' . $month . '-1')->subMonth()->year;
-        $preMonth = Carbon::parse($year . '-' . $month . '-1')->subMonth()->month;
-        $nextYear = Carbon::parse($year . '-' . $month . '-1')->addMonth()->year;
-        $nextMonth = Carbon::parse($year . '-' . $month . '-1')->addMonth()->month;
-        // 一覧対応
-        $searchDay = Carbon::parse($year . '-' . $month . '-1');
+        $calcMonth = new Carbon();
+        $preYear = $calcMonth->year($year)->month($month)->startOfMonth()->subMonth()->year;
+        $preMonth = $calcMonth->year($year)->month($month)->startOfMonth()->subMonth()->month;
+        $nextYear = $calcMonth->year($year)->month($month)->startOfMonth()->addMonth()->year;
+        $nextMonth = $calcMonth->year($year)->month($month)->startOfMonth()->addMonth()->month;
+        $searchDay = new Carbon();
+        $searchDay->year($year)->month($month)->startOfMonth();
         $dayList = [];
         while ($searchDay <= Carbon::parse($year . '-' . $month . '-1')->endOfMonth()) {
             $start = null;

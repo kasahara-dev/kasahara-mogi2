@@ -18,9 +18,7 @@
             退勤済
         @endif
     </div>
-    <p class="date">
-        {{ today()->isoFormat('YYYY年M月D日(ddd)') }}
-    </p>
+    <p class="date" id="date"></p>
     <p class="time" id="time"></p>
     @if($workingStatus == 0)
         <form action="/attendance/record" method="post">
