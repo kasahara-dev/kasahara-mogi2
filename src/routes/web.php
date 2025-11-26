@@ -9,10 +9,10 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LoginController;
-use App\Http\Controllers\AdminLoginController;
+use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
-use App\Http\Controllers\AdminAttendanceController;
+use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\StampController;
 
@@ -45,12 +45,12 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance', [AttendanceController::class, 'create']);
-    Route::post('/attendance/record', [AttendanceController::class, 'store']);
-    Route::put('/attendance/record', [AttendanceController::class, 'update']);
+    Route::post('/attendance', [AttendanceController::class, 'store']);
+    Route::patch('/attendance/{id}', [AttendanceController::class, 'update']);
     Route::post('/attendance/rest', [RestController::class, 'store']);
-    Route::put('/attendance/rest', [RestController::class, 'update']);
+    Route::patch('/attendance/rest/{id}', [RestController::class, 'update']);
     Route::get('/attendance/list', [AttendanceController::class, 'show']);
-    Route::get('/attendance/detail/{id}',[StampController::class,'create'] );
+    Route::get('/attendance/detail/{id}', [StampController::class, 'create']);
     Route::post('/attendance/detail/{id}', [StampController::class, 'store']);
     Route::get('/stamp_correction_request/list', [AttendanceController::class, 'show']);
 });

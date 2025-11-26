@@ -32,7 +32,7 @@ class RestController extends Controller
         ]);
         return redirect('/attendance');
     }
-    public function update()
+    public function update($id)
     {
         $tableDate = Carbon::parse(Auth::user()->attendances()->where('end', null)->value('start'))->startOfDay();
         $today = Carbon::today();

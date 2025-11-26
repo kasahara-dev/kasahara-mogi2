@@ -73,7 +73,7 @@
                             {{ \Carbon\Carbon::parse($rest->start)->format('H:i') }}～{{ \Carbon\Carbon::parse($rest->end)->format('H:i') }}
                         @else
                             <div class="list-line-time">
-                                <select name="rest_start_hour_{{ $key + 1 }}" id="attendance_start_hour_{{ $key + 1 }}"
+                                <select name="rest_start_hour_{{ $key + 1 }}" id="rest_start_hour_{{ $key + 1 }}"
                                     class="list-line-selector">
                                     <option value="" selected>--</option>
                                     @for($i = 0; $i <= 23; $i++)
@@ -83,7 +83,7 @@
                                     @endfor
                                 </select>
                                 :
-                                <select name="attendance_start_minute_{{ $key + 1 }}" id="attendance_start_minute_{{ $key + 1 }}"
+                                <select name="rest_start_minute_{{ $key + 1 }}" id="rest_start_minute_{{ $key + 1 }}"
                                     class="list-line-selector">
                                     <option value="" selected>--</option>
                                     @for($i = 0; $i <= 59; $i++)
@@ -95,7 +95,7 @@
                             </div>
                             <p class="list-line-wave">～</p>
                             <div class="list-line-time">
-                                <select name="attendance_end_hour_{{ $key + 1 }}" id="attendance_end_hour_{{ $key + 1 }}"
+                                <select name="rest_end_hour_{{ $key + 1 }}" id="rest_end_hour_{{ $key + 1 }}"
                                     class="list-line-selector">
                                     <option value="" selected>--</option>
                                     @for($i = 0; $i <= 24; $i++)
@@ -105,7 +105,7 @@
                                     @endfor
                                 </select>
                                 :
-                                <select name="attendance_end_minute_{{ $key + 1 }}" id="attendance_end_minute_{{ $key + 1 }}"
+                                <select name="rest_end_minute_{{ $key + 1 }}" id="rest_end_minute_{{ $key + 1 }}"
                                     class="list-line-selector">
                                     <option value="" selected>--</option>
                                     @for($i = 0; $i <= 59; $i++)
@@ -123,12 +123,61 @@
                 <div class="list-line">
                     <dt class="list-line-title">休憩@if($restsCount > 0){{ $restsCount + 1 }}@endif</dt>
                     <dd class="list-line-data">
+                        <div class="list-line-time">
+                            <select name="rest_start_hour_{{ $restsCount + 1 }}" id="rest_start_hour_{{ $restsCount + 1 }}"
+                                class="list-line-selector">
+                                <option value="" selected>--</option>
+                                @for($i = 0; $i <= 23; $i++)
+                                    <option value="{{ $i }}">
+                                        {{ sprintf('%02d', $i) }}
+                                    </option>
+                                @endfor
+                            </select>
+                            :
+                            <select name="rest_start_minute_{{ $restsCount + 1 }}" id="rest_start_minute_{{ $restsCount + 1 }}"
+                                class="list-line-selector">
+                                <option value="" selected>--</option>
+                                @for($i = 0; $i <= 59; $i++)
+                                    <option value="{{ $i }}">
+                                        {{ sprintf('%02d', $i) }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
+                        <p class="list-line-wave">～</p>
+                        <div class="list-line-time">
+                            <select name="rest_end_hour_{{ $restsCount + 1 }}" id="rest_end_hour_{{ $restsCount + 1 }}"
+                                class="list-line-selector">
+                                <option value="" selected>--</option>
+                                @for($i = 0; $i <= 24; $i++)
+                                    <option value="{{ $i }}">
+                                        {{ sprintf('%02d', $i) }}
+                                    </option>
+                                @endfor
+                            </select>
+                            :
+                            <select name="rest_end_minute_{{ $restsCount + 1 }}" id="rest_end_minute_{{ $restsCount + 1 }}"
+                                class="list-line-selector">
+                                <option value="" selected>--</option>
+                                @for($i = 0; $i <= 59; $i++)
+                                    <option value="{{ $i }}">
+                                        {{ sprintf('%02d', $i) }}
+                                    </option>
+                                @endfor
+                            </select>
+                        </div>
                     </dd>
                 </div>
             @endif
             <div class="list-line">
                 <dt class="list-line-title">備考</dt>
-                <dd class="list-line-data">{{ $note }}</dd>
+                <dd class="list-line-data">
+                    @if ($pending)
+                        {{ $note }}
+                    @else
+                        <textarea class="list-line-textarea" name="note">{{ $note }}</textarea>
+                    @endif
+                </dd>
             </div>
         </dl>
         <div class="list-bottom">
@@ -139,12 +188,10 @@
             @endif
         </div>
     </div>
-    <script>
-        @if($pending)
-            var restsCount = $restsCount;
-        @else
-            var restsCount = $restsCount + 1;
-        @endif
-    </script>
-    <script src="{{ asset('/js/lockTime.js') }}"></script>
+    @if(!$pending)
+        <script>
+            const restsCount = $restsCount + 1;
+        </script>
+        <script src="{{ asset('/js/lockTime.js') }}"></script>
+    @endif
 @endsection

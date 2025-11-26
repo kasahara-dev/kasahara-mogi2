@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 
-class AdminAttendanceController extends Controller
+class AttendanceController extends Controller
 {
     public function show()
     {

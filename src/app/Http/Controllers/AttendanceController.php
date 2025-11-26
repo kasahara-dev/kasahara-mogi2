@@ -46,7 +46,6 @@ class AttendanceController extends Controller
                     $end = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end);
                     // 休憩を分単位で計算
                     $rests = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->rests->all();
-                    // \Log::info('rests is ' . $rests);
                     foreach ($rests as $restRecord) {
                         $startTime = Carbon::parse($restRecord->start)->seconds(0);
                         $endTime = Carbon::parse($restRecord->end)->seconds(0);
@@ -110,7 +109,7 @@ class AttendanceController extends Controller
         ]);
         return redirect('/attendance');
     }
-    public function update()
+    public function update($id)
     {
         $tableDate = Carbon::parse(Auth::user()->attendances()->where('end', null)->value('start'))->startOfDay();
         $today = Carbon::today();

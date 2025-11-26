@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\StatefulGuard;
@@ -13,7 +13,7 @@ use App\Responses\AdminLogoutResponse;
 // use Laravel\Fortify\Contracts\LogoutResponse;
 use App\Http\Requests\AdminLoginRequest;
 
-class AdminLoginController extends Controller
+class LoginController extends Controller
 {
     /**
      * The guard implementation.
