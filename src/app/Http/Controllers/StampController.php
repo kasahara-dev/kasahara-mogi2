@@ -16,20 +16,21 @@ class StampController extends Controller
         // 申請中有無判定
         if (Auth::user()->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->exists()) {
             // 申請中がある場合は申請中の情報を渡す
+            $attendance = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first();
             $pending = true;
-            $start = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first()->start;
-            $end = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first()->end;
-            $rests = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first()->rests()->orderBy('start')->get();
-            $restsCount = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first()->rests()->count();
-            $note = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first()->note;
         } else {
+            $attendance = Attendance::find($id);
             $pending = false;
-            $start = Attendance::find($id)->start;
-            $end = Attendance::find($id)->end;
-            $rests = Attendance::find($id)->rests()->orderBy('start')->get();
-            $restsCount = Attendance::find($id)->rests()->count();
-            $note = Attendance::find($id)->note;
         }
-        return view('attendance/detail', compact(['name', 'start', 'end', 'rests', 'restsCount', 'pending', 'note']));
+        $attendanceId = $attendance->id;
+        $start = $attendance->start;
+        $end = $attendance->end;
+        $rests = $attendance->rests()->orderBy('start')->get();
+        $restsCount = $attendance->rests()->count();
+        $note = $attendance->note;
+        return view('attendance/detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'pending', 'note']));
+    }
+    public function store($id){
+        // 
     }
 }

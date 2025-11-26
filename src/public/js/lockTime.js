@@ -1,3 +1,4 @@
+// 24時台は24:00のみ
 var selectHour = document.getElementById("attendance_end_hour");
 var targetMinute = document.getElementById("attendance_end_minute");
 if (selectHour.value == "24") {
@@ -31,6 +32,67 @@ for (let i = 1; i <= restsCount; i++) {
                 document.getElementById(
                     "rest_end_minute_" + i
                 ).disabled = false;
+            }
+        });
+    // --選択で他も--へ変化させる
+    document
+        .getElementById("rest_start_hour_" + i)
+        .addEventListener("click", (e) => {
+            if (e.target.value == "") {
+                document.getElementById(
+                    "rest_start_minute_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_end_hour_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_end_minute_" + i
+                ).options[0].selected = true;
+            }
+        });
+    document
+        .getElementById("rest_start_minute_" + i)
+        .addEventListener("click", (e) => {
+            if (e.target.value == "") {
+                document.getElementById(
+                    "rest_start_hour_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_end_hour_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_end_minute_" + i
+                ).options[0].selected = true;
+            }
+        });
+    document
+        .getElementById("rest_end_hour_" + i)
+        .addEventListener("click", (e) => {
+            if (e.target.value == "") {
+                document.getElementById(
+                    "rest_end_minute_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_start_hour_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_start_minute_" + i
+                ).options[0].selected = true;
+            }
+        });
+    document
+        .getElementById("rest_end_minute_" + i)
+        .addEventListener("click", (e) => {
+            if (e.target.value == "") {
+                document.getElementById(
+                    "rest_end_hour_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_start_hour_" + i
+                ).options[0].selected = true;
+                document.getElementById(
+                    "rest_start_minute_" + i
+                ).options[0].selected = true;
             }
         });
 }
