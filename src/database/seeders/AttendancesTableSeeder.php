@@ -53,7 +53,7 @@ class AttendancesTableSeeder extends Seeder
         DB::table('attendances')->insert($param);
         // 3日前承認済み
         $start->subDay()->hour(9)->minute(0);
-        $end->startOfDay();
+        $end->subDay()->hour(19)->minute(30);
         $faker = Factory::create('ja_JP');
         $param = [
             'user_id' => '1',
@@ -72,7 +72,6 @@ class AttendancesTableSeeder extends Seeder
         ];
         DB::table('attendances')->insert($param);
         // 50日前までランダムで通常作成
-        $end->subDay();
         for ($i = 0; $i < 50; $i++) {
             $start->subDay();
             $end->subDay();

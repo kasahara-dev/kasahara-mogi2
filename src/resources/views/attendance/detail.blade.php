@@ -190,7 +190,7 @@
     </div>
     @if(!$pending)
         <script>
-            const restsCount = $restsCount + 1;
+            const restsCount = {{ $restsCount + 1 }};
         </script>
         <script src="{{ asset('/js/lockTime.js') }}"></script>
     @endif
