@@ -6,6 +6,7 @@ if (selectHour.value == "24") {
 } else {
     targetMinute.disabled = false;
 }
+
 selectHour.addEventListener("change", (e) => {
     if (e.target.value == "24") {
         targetMinute.options[0].selected = true;

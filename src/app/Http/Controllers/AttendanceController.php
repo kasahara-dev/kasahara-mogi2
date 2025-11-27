@@ -34,33 +34,29 @@ class AttendanceController extends Controller
             $end = null;
             $restHours = 0;
             $restMinutes = 0;
+            $restAllMinutes = 0;
             $workHours = 0;
             $workMinutes = 0;
-            $restTimeSeconds = 0;
+            $workAllMinutes = 0;
             $attendanceId = null;
+            // 勤務記録有無判定
             if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->exists()) {
                 $attendanceId = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->id;
                 $start = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->start);
                 // 退勤済み判定
                 if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end) {
                     $end = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end);
-                    // 休憩を分単位で計算
+                    // 休憩を分単位で合計
                     $rests = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->rests->all();
                     foreach ($rests as $restRecord) {
-                        $startTime = Carbon::parse($restRecord->start)->second(0);
-                        $endTime = Carbon::parse($restRecord->end)->second(0);
-                        $diffInSeconds = $startTime->diffInSeconds($endTime);
-                        $restTimeSeconds += $diffInSeconds;
+                        $restAllMinutes += $restRecord->minutes();
                     }
                     // 合計勤務時間計算
-                    $startTime = $start->second(0);
-                    $endTime = $end->second(0);
-                    $diffInSeconds = $startTime->diffInSeconds($endTime);
-                    $diffInSeconds -= $restTimeSeconds;
-                    $workHours = floor($diffInSeconds / 3600);
-                    $workMinutes = floor($diffInSeconds % 3600) / 60;
-                    $restHours = floor($restTimeSeconds / 3600);
-                    $restMinutes = floor($restTimeSeconds % 3600) / 60;
+                    $workAllMinutes = Attendance::find($attendanceId)->minutes() - $restAllMinutes;
+                    $workHours = $workAllMinutes / 60;
+                    $workMinutes = $workAllMinutes % 60;
+                    $restHours = $restAllMinutes / 60;
+                    $restMinutes = $restAllMinutes % 60;
                 }
             }
             ;

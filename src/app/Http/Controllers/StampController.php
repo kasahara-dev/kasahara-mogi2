@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use App\Http\Requests\AttendanceRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 
@@ -19,6 +20,7 @@ class StampController extends Controller
             $attendance = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first();
             $pending = true;
         } else {
+            // 申請中がない場合はそのままの情報を渡す
             $attendance = Attendance::find($id);
             $pending = false;
         }
@@ -30,7 +32,8 @@ class StampController extends Controller
         $note = $attendance->note;
         return view('attendance/detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'pending', 'note']));
     }
-    public function store($id){
-        // 
+    public function store(AttendanceRequest $request, $id)
+    {
+        return redirect('/attendance/detail/' . $id);
     }
 }

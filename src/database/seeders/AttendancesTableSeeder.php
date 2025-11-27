@@ -42,12 +42,11 @@ class AttendancesTableSeeder extends Seeder
             'status' => '0'
         ];
         DB::table('attendances')->insert($param);
-        $faker = Factory::create('ja_JP');
         $param = [
             'user_id' => '1',
             'start' => $start->subMinutes(30),
             'end' => $end->addMinutes(30),
-            'note' => $faker->realText(),
+            'note' => '出勤時間を30分早く、退勤時間を30分遅く変更しました。',
             'status' => '1'
         ];
         DB::table('attendances')->insert($param);
