@@ -24,7 +24,7 @@ class AttendanceRequest extends FormRequest
     {
         return [
             'attendance_start_num' => ['lte:attendance_end_num'],
-            'rest_start_num.*' => ['nullable', 'lte:attendance_end_num,rest_end_num'],
+            'rest_start_num.*' => ['nullable', 'lte:attendance_end_num,rest_end_num.*','gte:attendance_start_num'],
             'rest_end_num.*' => ['nullable', 'lte:attendance_end_num'],
             'rest_start_hour.*' => [
                 'nullable',
@@ -51,6 +51,7 @@ class AttendanceRequest extends FormRequest
         return [
             'attendance_start_num.lte' => '出勤時間が不適切な値です',
             'rest_start_num.*.lte' => '休憩時間が不適切な値です',
+            'rest_start_num.*.gte' => '休憩時間が不適切な値です',
             'rest_end_num.*.lte' => '休憩時間もしくは退勤時間が不適切な値です',
             'rest_start_hour.*.required_with' => '休憩時間が不適切な値です',
             'rest_start_minute.*.required_with' => '休憩時間が不適切な値です',
