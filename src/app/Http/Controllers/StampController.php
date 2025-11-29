@@ -51,25 +51,31 @@ class StampController extends Controller
             $end->hour($request->attendance_end_hour)->minute($request->attendance_end_minute);
         }
         // attendancesテーブルに申請中として登録
-        // $attendance = Attendance::create([
-        //     'user_id' => $oldAttendance->user_id,
-        //     'start' => $start,
-        //     'end' => $end,
-        //     'status' => 1,
-        //     'note' => $request->note,
-        // ]);
-        // 休憩テーブルにレコード追加
+        $attendance = Attendance::create([
+            'user_id' => $oldAttendance->user_id,
+            'start' => $start,
+            'end' => $end,
+            'status' => 1,
+            'note' => $request->note,
+        ]);
+        // restsテーブルに登録
         $restStart = new Carbon();
         $restEnd = new Carbon();
-        $restStartHours = $request->rest_start_hour;
-        $restStartMinutes = $request->rest_start_minute;
-        $restEndHours = $request->rest_end_hour;
-        $restEndMinutes = $request->rest_end_minute;
-        $start->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->attendance_start_hour)->minute($request->attendance_start_minute);
-        $end->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
-        // 24時で処理した後日付戻し注意
-        foreach ($restStartHours as $key => $restStartHour) {
+        // 24時処理
+        foreach ($request->rest_start_hour as $key => $restStartHour) {
             if ($restStartHour <> '') {
+                $restStart->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->rest_start_hour[$key])->minute($request->rest_start_minute[$key]);
+                $restEnd->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
+                if ($request->rest_end_hour[$key] == '24') {
+                    $restEnd->addDay();
+                } else {
+                    $restEnd->hour($request->rest_end_hour[$key])->minute($request->rest_end_minute[$key]);
+                }
+                Rest::create([
+                    'attendance_id' => $attendance->id,
+                    'start' => $restStart,
+                    'end' => $restEnd,
+                ]);
             }
         }
         return redirect('/attendance/list/?year=' . $start->year . '&month=' . $start->month);
