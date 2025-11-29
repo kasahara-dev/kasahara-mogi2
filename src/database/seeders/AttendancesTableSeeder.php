@@ -46,7 +46,7 @@ class AttendancesTableSeeder extends Seeder
             'user_id' => '1',
             'start' => $start->subMinutes(30),
             'end' => $end->addMinutes(30),
-            'note' => '出勤時間を30分早く、退勤時間を30分遅く変更しました。',
+            'note' => '出勤時間を30分早く、退勤時間を30分遅く変更しました。休憩時間を5分長く変更しました。',
             'status' => '1'
         ];
         DB::table('attendances')->insert($param);

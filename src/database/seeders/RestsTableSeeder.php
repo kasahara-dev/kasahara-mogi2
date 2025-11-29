@@ -17,15 +17,21 @@ class RestsTableSeeder extends Seeder
      */
     public function run()
     {
-        // テストユーザー1は固定
+        // テストユーザー1の三日間は固定
         for ($i = 1; $i <= 5; $i++) {
-            $start = Carbon::parse(Attendance::find($i)->start)->hour(12)->min(0);
-            $end = Carbon::parse(Attendance::find($i)->start)->hour(13)->min(0);
+            if ($i == 3) {
+                $start = Carbon::parse(Attendance::find($i)->start)->hour(12)->minute(0);
+                $end = Carbon::parse(Attendance::find($i)->start)->hour(13)->minute(5);
+            } else {
+                $start = Carbon::parse(Attendance::find($i)->start)->hour(12)->minute(0);
+                $end = Carbon::parse(Attendance::find($i)->start)->hour(13)->minute(0);
+            }
             $param = [
                 'attendance_id' => $i,
                 'start' => $start,
                 'end' => $end,
             ];
+
             DB::table('rests')->insert($param);
         }
         // 通常＆承認後

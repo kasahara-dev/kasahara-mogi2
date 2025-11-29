@@ -38,8 +38,8 @@ for (let i = 1; i <= restsCount; i++) {
     // --選択で他も--へ変化させる
     document
         .getElementById("rest_start_hour_" + i)
-        .addEventListener("click", (e) => {
-            if (e.target.value == "") {
+        .addEventListener("change", (e) => {
+            if (e.target.value == "-1") {
                 document.getElementById(
                     "rest_start_minute_" + i
                 ).options[0].selected = true;
@@ -53,8 +53,8 @@ for (let i = 1; i <= restsCount; i++) {
         });
     document
         .getElementById("rest_start_minute_" + i)
-        .addEventListener("click", (e) => {
-            if (e.target.value == "") {
+        .addEventListener("change", (e) => {
+            if (e.target.value == "-1") {
                 document.getElementById(
                     "rest_start_hour_" + i
                 ).options[0].selected = true;
@@ -68,8 +68,8 @@ for (let i = 1; i <= restsCount; i++) {
         });
     document
         .getElementById("rest_end_hour_" + i)
-        .addEventListener("click", (e) => {
-            if (e.target.value == "") {
+        .addEventListener("change", (e) => {
+            if (e.target.value == "-1") {
                 document.getElementById(
                     "rest_end_minute_" + i
                 ).options[0].selected = true;
@@ -83,8 +83,8 @@ for (let i = 1; i <= restsCount; i++) {
         });
     document
         .getElementById("rest_end_minute_" + i)
-        .addEventListener("click", (e) => {
-            if (e.target.value == "") {
+        .addEventListener("change", (e) => {
+            if (e.target.value == "-1") {
                 document.getElementById(
                     "rest_end_hour_" + i
                 ).options[0].selected = true;

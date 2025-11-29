@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\AttendanceRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
+use App\Models\Rest;
+
 
 class StampController extends Controller
 {
@@ -34,6 +36,42 @@ class StampController extends Controller
     }
     public function store(AttendanceRequest $request, $id)
     {
-        return redirect('/attendance/detail/' . $id);
+        // 修正元情報
+        $oldAttendance = Attendance::find($id);
+        $oldDate = Carbon::parse($oldAttendance->start);
+        // 日付作成
+        $start = new Carbon();
+        $end = new Carbon();
+        $start->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->attendance_start_hour)->minute($request->attendance_start_minute);
+        $end->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
+        // 24時終了の場合は翌日0時を終了日時とする
+        if ($request->attendance_end_hour == '24') {
+            $end->addDay();
+        } else {
+            $end->hour($request->attendance_end_hour)->minute($request->attendance_end_minute);
+        }
+        // attendancesテーブルに申請中として登録
+        // $attendance = Attendance::create([
+        //     'user_id' => $oldAttendance->user_id,
+        //     'start' => $start,
+        //     'end' => $end,
+        //     'status' => 1,
+        //     'note' => $request->note,
+        // ]);
+        // 休憩テーブルにレコード追加
+        $restStart = new Carbon();
+        $restEnd = new Carbon();
+        $restStartHours = $request->rest_start_hour;
+        $restStartMinutes = $request->rest_start_minute;
+        $restEndHours = $request->rest_end_hour;
+        $restEndMinutes = $request->rest_end_minute;
+        $start->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->attendance_start_hour)->minute($request->attendance_start_minute);
+        $end->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
+        // 24時で処理した後日付戻し注意
+        foreach ($restStartHours as $key => $restStartHour) {
+            if ($restStartHour <> '') {
+            }
+        }
+        return redirect('/attendance/list/?year=' . $start->year . '&month=' . $start->month);
     }
 }
