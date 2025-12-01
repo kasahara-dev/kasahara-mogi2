@@ -2,6 +2,7 @@
 var selectHour = document.getElementById("attendance_end_hour");
 var targetMinute = document.getElementById("attendance_end_minute");
 if (selectHour.value == "24") {
+    targetMinute.options[0].selected = true;
     targetMinute.disabled = true;
 } else {
     targetMinute.disabled = false;
@@ -17,6 +18,9 @@ selectHour.addEventListener("change", (e) => {
 });
 for (let i = 1; i <= restsCount; i++) {
     if (document.getElementById("rest_end_hour_" + i).value == "24") {
+        document.getElementById(
+            "rest_end_minute_" + i
+        ).options[1].selected = true;
         document.getElementById("rest_end_minute_" + i).disabled = true;
     } else {
         document.getElementById("rest_end_minute_" + i).disabled = false;

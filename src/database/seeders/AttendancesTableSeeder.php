@@ -96,21 +96,26 @@ class AttendancesTableSeeder extends Seeder
                 $end->subDay();
                 $randNum = rand(0, 100);
                 if ($randNum > 50) {
+                    $randStatus = (rand(0, 2));
+                    if ($randStatus == 2) {
+                        $setNote = $faker->realText();
+                    } else {
+                        $setNote = null;
+                    }
                     $param = [
                         'user_id' => $userId,
                         'start' => $setStart = $start->hour(rand(0, 11))->minute(rand(0, 59)),
                         'end' => $setEnd = $end->hour(rand(12, 23))->minute(rand(0, 59)),
-                        'note' => $setNote = $faker->optional()->realText(),
+                        'note' => $setNote,
                         'status' => '0'
                     ];
                     DB::table('attendances')->insert($param);
-                    $randStatus = (rand(0, 2));
                     if ($randStatus == 1) {
                         $param = [
                             'user_id' => $userId,
                             'start' => $start->hour(rand(0, 11))->minute(rand(0, 59)),
                             'end' => $end->hour(rand(12, 23))->minute(rand(0, 59)),
-                            'note' => $faker->optional()->realText(),
+                            'note' => $faker->realText(),
                             'status' => '1'
                         ];
                         DB::table('attendances')->insert($param);

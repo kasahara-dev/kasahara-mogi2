@@ -28,7 +28,7 @@
                     <button class="header-btn" onclick="location.href='/attendance/list'">勤怠一覧</button>
                 </li>
                 <li class="header-btns__list">
-                    <button class="header-btn" onclick="location.href='/stamp_correction_request'">申請</button>
+                    <button class="header-btn" onclick="location.href='/stamp_correction_request/list'">申請</button>
                 </li>
                 <li class="header-btns__list">
                     <form action="/logout" method="post">

@@ -24,8 +24,15 @@ class AttendanceRequest extends FormRequest
     {
         return [
             'attendance_start_num' => ['lte:attendance_end_num'],
-            'rest_start_num.*' => ['nullable', 'lte:attendance_end_num,rest_end_num.*','gte:attendance_start_num'],
-            'rest_end_num.*' => ['nullable', 'lte:attendance_end_num'],
+            'rest_start_num.*' => [
+                'nullable',
+                'lte:attendance_end_num,rest_end_num.*',
+                'gte:attendance_start_num'
+            ],
+            'rest_end_num.*' => [
+                'nullable',
+                'lte:attendance_end_num'
+            ],
             'rest_start_hour.*' => [
                 'nullable',
                 'required_with:rest_start_minute.*,rest_end_hour.*,rest_end_minute.*',
@@ -73,14 +80,32 @@ class AttendanceRequest extends FormRequest
         $restEndHour = [];
         $restEndMinute = [];
         $restBatting = [];
+        foreach ($this->rest_start_hour as $key => $rest) {
+            \Log::info('rest start hour is ' . $key . ' to ' . $rest);
+        }
+        foreach ($this->rest_start_minute as $key => $rest) {
+            \Log::info('rest start minute is ' . $key . ' to ' . $rest);
+        }
+        foreach ($this->rest_end_hour as $key => $rest) {
+            \Log::info('rest end hour is ' . $key . ' to ' . $rest);
+        }
+        foreach ($this->rest_end_minute as $key => $rest) {
+            \Log::info('rest end minute is ' . $key . ' to ' . $rest);
+        }
+
         // 時刻比較用に数値化
         foreach ($this->rest_start_hour as $key => $rest) {
-            if ($this->rest_start_hour[$key] < 0 or $this->rest_start_minute[$key] < 0 or $this->rest_end_hour[$key] < 0 or $this->rest_end_minute[$key] < 0) {
+            if (!array_key_exists($key, $this->rest_end_minute)) {
+                $editEndMinute = '0';
+            } else {
+                $editEndMinute = $this->rest_end_minute;
+            }
+            if (intval($this->rest_start_hour[$key]) < 0 or intval($this->rest_start_minute[$key]) < 0 or intval($this->rest_end_hour[$key]) < 0 or intval($editEndMinute) < 0) {
                 $restStartNum[$key] = null;
                 $restEndNum[$key] = null;
             } else {
                 $restStartNum[$key] = intval($this->rest_start_hour[$key]) * 100 + intval($this->rest_start_minute[$key]);
-                $restEndNum[$key] = intval($this->rest_end_hour[$key]) * 100 + intval($this->rest_end_minute[$key]);
+                $restEndNum[$key] = intval($this->rest_end_hour[$key]) * 100 + intval($editEndMinute);
             }
         }
         // value=-1を''に変換

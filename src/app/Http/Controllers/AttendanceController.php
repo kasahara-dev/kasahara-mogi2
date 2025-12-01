@@ -38,10 +38,16 @@ class AttendanceController extends Controller
             $workHours = 0;
             $workMinutes = 0;
             $workAllMinutes = 0;
-            $attendanceId = null;
+            $sendAttendanceId = null;
             // 勤務記録有無判定
             if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->exists()) {
-                $attendanceId = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->id;
+                // 詳細について、申請中がある場合は申請中情報へ遷移
+                if (Auth::user()->attendances()->where('status', 1)->whereDate('start', $searchDay)->exists()) {
+                    $sendAttendanceId = Auth::user()->attendances()->where('status', 1)->whereDate('start', $searchDay)->first()->id;
+                } else {
+                    // 申請中がない場合は一覧に表示されている情報へ遷移
+                    $sendAttendanceId = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->id;
+                }
                 $start = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->start);
                 // 退勤済み判定
                 if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end) {
@@ -52,7 +58,7 @@ class AttendanceController extends Controller
                         $restAllMinutes += $restRecord->minutes();
                     }
                     // 合計勤務時間計算
-                    $workAllMinutes = Attendance::find($attendanceId)->minutes() - $restAllMinutes;
+                    $workAllMinutes = Attendance::find($sendAttendanceId)->minutes() - $restAllMinutes;
                     $workHours = $workAllMinutes / 60;
                     $workMinutes = $workAllMinutes % 60;
                     $restHours = $restAllMinutes / 60;
@@ -68,7 +74,7 @@ class AttendanceController extends Controller
                 'restMinutes' => $restMinutes,
                 'workHours' => $workHours,
                 'workMinutes' => $workMinutes,
-                'attendanceId' => $attendanceId,
+                'sendAttendanceId' => $sendAttendanceId,
             ];
             $searchDay->addDay();
         }

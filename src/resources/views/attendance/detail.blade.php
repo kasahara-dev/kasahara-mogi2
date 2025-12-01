@@ -28,7 +28,11 @@
                     <dt class="list-line-title">出勤・退勤</dt>
                     <dd class="list-line-data">
                         @if($pending)
-                            {{ \Carbon\Carbon::parse($start)->format('H:i') }}～{{ \Carbon\Carbon::parse($end)->format('H:i') }}
+                            @if(\Carbon\Carbon::parse($start)->startOfDay()->eq(\Carbon\Carbon::parse($end)->startOfDay()))
+                                {{ \Carbon\Carbon::parse($start)->format('H:i') }}～{{ \Carbon\Carbon::parse($end)->format('H:i') }}
+                            @else
+                                {{ \Carbon\Carbon::parse($start)->format('H:i') }}～24:00
+                            @endif
                         @else
                             <div class="list-line-selectors-area">
                                 <div class="list-line-time">
@@ -115,7 +119,11 @@
                         <dt class="list-line-title">休憩@if($key != 0){{ $key + 1 }}@endif</dt>
                         <dd class="list-line-data">
                             @if($pending)
-                                {{ \Carbon\Carbon::parse($rest->start)->format('H:i') }}～{{ \Carbon\Carbon::parse($rest->end)->format('H:i') }}
+                                @if (\Carbon\Carbon::parse($rest->start)->startOfDay()->eq(\Carbon\Carbon::parse($rest->end)->startOfDay()))
+                                    {{ \Carbon\Carbon::parse($rest->start)->format('H:i') }}～{{ \Carbon\Carbon::parse($rest->end)->format('H:i') }}
+                                @else
+                                    {{ \Carbon\Carbon::parse($rest->start)->format('H:i') }}～24:00
+                                @endif
                             @else
                                 <div class="list-line-selectors-area">
                                     <div class="list-line-time">

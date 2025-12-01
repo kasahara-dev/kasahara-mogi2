@@ -61,7 +61,7 @@
                         </td>
                         @if($listLine['end'])
                             <td class="table__data">
-                                <a href="/attendance/detail/{{ $listLine['attendanceId'] }}" class="table__data--active">詳細</a>
+                                <a href="/attendance/detail/{{ $listLine['sendAttendanceId'] }}" class="table__data--active">詳細</a>
                             </td>
                         @else
                             <td class="table__data">詳細</td>

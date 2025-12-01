@@ -52,7 +52,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance/list', [AttendanceController::class, 'show']);
     Route::get('/attendance/detail/{id}', [StampController::class, 'create']);
     Route::post('/attendance/detail/{id}', [StampController::class, 'store']);
-    Route::get('/stamp_correction_request/list', [AttendanceController::class, 'show']);
+    Route::get('/stamp_correction_request/list', [StampController::class, 'show']);
 });
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');

@@ -1,6 +1,5 @@
 .container {
     width: 60%;
-    margin-top: 2em;
 }
 .title {
     border-left: 10px solid black;
@@ -91,7 +90,6 @@
 @media screen and (max-width: 768px) {
     .container {
         width: 95%;
-        margin-top: 0;
     }
     .main {
         min-height: calc(100svh - 44px);

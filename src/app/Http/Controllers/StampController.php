@@ -15,15 +15,11 @@ class StampController extends Controller
     public function create($id)
     {
         $name = Auth::user()->name;
-        $attendanceDay = Carbon::parse(Attendance::find($id)->start);
+        $attendance = Attendance::find($id);
         // 申請中有無判定
-        if (Auth::user()->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->exists()) {
-            // 申請中がある場合は申請中の情報を渡す
-            $attendance = Attendance::find($id)->user->attendances()->where('status', 1)->whereDate('start', $attendanceDay)->first();
+        if ($attendance->status == '1') {
             $pending = true;
         } else {
-            // 申請中がない場合はそのままの情報を渡す
-            $attendance = Attendance::find($id);
             $pending = false;
         }
         $attendanceId = $attendance->id;
@@ -78,6 +74,21 @@ class StampController extends Controller
                 ]);
             }
         }
-        return redirect('/attendance/list/?year=' . $start->year . '&month=' . $start->month);
+        return redirect('/stamp_correction_request/list');
+    }
+    public function show(Request $request)
+    {
+        $pending = true;
+        if (isset($request->tab)) {
+            if ($request->tab == 'approved') {
+                $pending = false;
+            }
+        }
+        if ($pending) {
+            $attendances = Auth::user()->attendances()->where('status', '1')->get();
+        } else {
+            $attendances = Auth::user()->attendances()->where('status', '2')->get();
+        }
+        return view('/stamp/list', compact('pending', 'attendances'));
     }
 }
