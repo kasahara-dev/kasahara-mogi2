@@ -78,12 +78,32 @@ class AttendancesTableSeeder extends Seeder
             if ($randNum > 50) {
                 $param = [
                     'user_id' => '1',
-                    'start' => $start->hour(rand(0, 11))->minute(rand(0, 59)),
-                    'end' => $end->hour(rand(12, 23))->minute(rand(0, 59)),
-                    'note' => $faker->optional()->realText(),
+                    'start' => $setStart = $start->hour(rand(0, 11))->minute(rand(0, 59)),
+                    'end' => $setEnd = $end->hour(rand(12, 23))->minute(rand(0, 59)),
+                    'note' => $setNote = $faker->optional()->realText(),
                     'status' => '0'
                 ];
                 DB::table('attendances')->insert($param);
+                $randStatus = rand(0, 2);
+                if ($randStatus == 1) {
+                    $param = [
+                        'user_id' => '1',
+                        'start' => $start->hour(rand(0, 11))->minute(rand(0, 59)),
+                        'end' => $end->hour(rand(12, 23))->minute(rand(0, 59)),
+                        'note' => $faker->realText(),
+                        'status' => '1'
+                    ];
+                    DB::table('attendances')->insert($param);
+                } elseif ($randStatus == 2 && !is_null($setNote)) {
+                    $param = [
+                        'user_id' => '1',
+                        'start' => $setStart,
+                        'end' => $setEnd,
+                        'note' => $setNote,
+                        'status' => '2'
+                    ];
+                    DB::table('attendances')->insert($param);
+                }
             }
         }
         // テストユーザー1以外はランダム作成
