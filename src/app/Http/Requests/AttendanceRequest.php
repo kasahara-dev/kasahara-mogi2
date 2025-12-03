@@ -80,25 +80,12 @@ class AttendanceRequest extends FormRequest
         $restEndHour = [];
         $restEndMinute = [];
         $restBatting = [];
-        foreach ($this->rest_start_hour as $key => $rest) {
-            \Log::info('rest start hour is ' . $key . ' to ' . $rest);
-        }
-        foreach ($this->rest_start_minute as $key => $rest) {
-            \Log::info('rest start minute is ' . $key . ' to ' . $rest);
-        }
-        foreach ($this->rest_end_hour as $key => $rest) {
-            \Log::info('rest end hour is ' . $key . ' to ' . $rest);
-        }
-        foreach ($this->rest_end_minute as $key => $rest) {
-            \Log::info('rest end minute is ' . $key . ' to ' . $rest);
-        }
-
         // 時刻比較用に数値化
         foreach ($this->rest_start_hour as $key => $rest) {
             if (!array_key_exists($key, $this->rest_end_minute)) {
                 $editEndMinute = '0';
             } else {
-                $editEndMinute = $this->rest_end_minute;
+                $editEndMinute = $this->rest_end_minute[$key];
             }
             if (intval($this->rest_start_hour[$key]) < 0 or intval($this->rest_start_minute[$key]) < 0 or intval($this->rest_end_hour[$key]) < 0 or intval($editEndMinute) < 0) {
                 $restStartNum[$key] = null;

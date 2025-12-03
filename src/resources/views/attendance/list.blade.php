@@ -60,9 +60,16 @@
                             @if($listLine['end']){{ sprintf('%02d', $listLine['workHours']) . ':' . sprintf('%02d', $listLine['workMinutes']) }}@endif
                         </td>
                         @if($listLine['end'])
-                            <td class="table__data">
-                                <a href="/attendance/detail/{{ $listLine['sendAttendanceId'] }}" class="table__data--active">詳細</a>
-                            </td>
+                            @if($listLine['pending'])
+                                <td class="table__data">
+                                    <a href="/requested_attendance/detail/{{ $listLine['sendAttendanceId'] }}/?pending=true" class="table__data--active">詳細</a>
+                                </td>
+                            @else
+                                <td class="table__data">
+                                    <a href="/attendance/detail/{{ $listLine['sendAttendanceId'] }}" class="table__data--active">詳細</a>
+                                </td>
+
+                            @endif
                         @else
                             <td class="table__data">詳細</td>
                         @endif

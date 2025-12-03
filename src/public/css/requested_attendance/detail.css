@@ -31,7 +31,7 @@
     align-items: center;
 }
 .list-line-data {
-    margin: 1em 1em 0;
+    margin: 1em;
     width: 100%;
 }
 .list-bottom {
@@ -76,15 +76,6 @@
 }
 .list-line-selectors-area {
     display: flex;
-}
-.list-line-errors-area {
-    height: 1em;
-}
-.error-msg {
-    margin: 0;
-    color: red;
-    font-size: small;
-    font-weight: normal;
 }
 @media screen and (max-width: 768px) {
     .container {

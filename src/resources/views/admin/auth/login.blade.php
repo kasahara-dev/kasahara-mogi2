@@ -32,7 +32,7 @@
                             value="{{ old('password') }}" /></dd>
                     <dd class="form__error">@error('password'){{ $message }}@enderror</dd>
                 </dl>
-                <button type="submit" class="submit-btn login-btn" name="send">ログインする</button>
+                <button type="submit" class="submit-btn login-btn" name="send">管理者ログインする</button>
             </form>
         </main>
     </div>

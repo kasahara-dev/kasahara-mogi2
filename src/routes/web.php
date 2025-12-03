@@ -14,7 +14,9 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\RestController;
-use App\Http\Controllers\StampController;
+use App\Http\Controllers\RequestedAttendanceController;
+use App\Http\Controllers\RequestController;
+
 
 
 /*
@@ -50,9 +52,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/attendance/rest', [RestController::class, 'store']);
     Route::patch('/attendance/rest/{id}', [RestController::class, 'update']);
     Route::get('/attendance/list', [AttendanceController::class, 'show']);
-    Route::get('/attendance/detail/{id}', [StampController::class, 'create']);
-    Route::post('/attendance/detail/{id}', [StampController::class, 'store']);
-    Route::get('/stamp_correction_request/list', [StampController::class, 'show']);
+    Route::get('/attendance/detail/{id}', [RequestedAttendanceController::class, 'create']);
+    Route::post('/attendance/detail/{id}', [RequestedAttendanceController::class, 'store']);
+    Route::get('/requested_attendance/detail/{id}', [RequestedAttendanceController::class, 'show']);
+    Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
 });
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');

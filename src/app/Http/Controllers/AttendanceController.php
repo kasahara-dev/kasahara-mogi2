@@ -39,26 +39,29 @@ class AttendanceController extends Controller
             $workMinutes = 0;
             $workAllMinutes = 0;
             $sendAttendanceId = null;
+            $pending = false;
             // 勤務記録有無判定
-            if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->exists()) {
+            if (Auth::user()->attendances()->whereDate('start', $searchDay)->exists()) {
+                $attendance = Auth::user()->attendances()->whereDate('start', $searchDay)->first();
                 // 詳細について、申請中がある場合は申請中情報へ遷移
-                if (Auth::user()->attendances()->where('status', 1)->whereDate('start', $searchDay)->exists()) {
-                    $sendAttendanceId = Auth::user()->attendances()->where('status', 1)->whereDate('start', $searchDay)->first()->id;
+                if ($attendance->requests()->where('status', 1)->exists()) {
+                    $pending = true;
+                    $sendAttendanceId = $attendance->requests()->where('status', 1)->first()->requestedAttendance()->first()->id;
                 } else {
                     // 申請中がない場合は一覧に表示されている情報へ遷移
-                    $sendAttendanceId = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->id;
+                    $sendAttendanceId = $attendance->id;
                 }
-                $start = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->start);
+                $start = Carbon::parse($attendance->start);
                 // 退勤済み判定
-                if (Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end) {
-                    $end = Carbon::parse(Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->end);
+                if ($attendance->end) {
+                    $end = Carbon::parse($attendance->end);
                     // 休憩を分単位で合計
-                    $rests = Auth::user()->attendances()->where('status', 0)->whereDate('start', $searchDay)->first()->rests->all();
+                    $rests = $attendance->rests->all();
                     foreach ($rests as $restRecord) {
                         $restAllMinutes += $restRecord->minutes();
                     }
                     // 合計勤務時間計算
-                    $workAllMinutes = Attendance::find($sendAttendanceId)->minutes() - $restAllMinutes;
+                    $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = $workAllMinutes / 60;
                     $workMinutes = $workAllMinutes % 60;
                     $restHours = $restAllMinutes / 60;
@@ -74,6 +77,7 @@ class AttendanceController extends Controller
                 'restMinutes' => $restMinutes,
                 'workHours' => $workHours,
                 'workMinutes' => $workMinutes,
+                'pending' => $pending,
                 'sendAttendanceId' => $sendAttendanceId,
             ];
             $searchDay->addDay();

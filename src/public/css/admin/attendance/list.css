@@ -1,0 +1,64 @@
+.container {
+    width: 80%;
+}
+.title {
+    border-left: solid 10px black;
+    padding: 0 0.5em;
+    font-size: x-large;
+}
+.selector {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    padding: 0 1em;
+    border-radius: 10px;
+    font-weight: bold;
+}
+.selector__pre-day {
+    display: flex;
+    text-decoration: none;
+}
+.selector__next-day {
+    display: flex;
+    text-decoration: none;
+}
+.selector__arrow {
+    color: #b2b2b2;
+    font-weight: bolder;
+}
+.selector__day {
+    color: #737373;
+}
+.calendar {
+    display: flex;
+}
+.calendar__input {
+    border: none;
+    font-size: large;
+    font-weight: bold;
+    width: 6em;
+    text-align: center;
+}
+.calendar__img {
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+}
+.main {
+    width: 100%;
+    background: #f0eff2;
+    min-height: calc(100svh - 60px);
+    padding-bottom: 3em;
+}
+@media screen and (max-width: 768px) {
+    .main {
+        min-height: calc(100svh - 44px);
+    }
+    .container {
+        width: 95%;
+    }
+    .table__data {
+        width: auto;
+    }
+}

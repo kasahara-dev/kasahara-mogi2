@@ -2,33 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Requests\AttendanceRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
+use App\Http\Requests\AttendanceRequest;
 use App\Models\Rest;
+use App\Models\Request as RequestModel;
+use App\Models\RequestedAttendance;
+use App\Models\RequestedRest;
+use Carbon\Carbon;
 
-
-class StampController extends Controller
+class RequestedAttendanceController extends Controller
 {
-    public function create($id)
+    public function show($id)
     {
         $name = Auth::user()->name;
-        $attendance = Attendance::find($id);
-        // 申請中有無判定
-        if ($attendance->status == '1') {
+        $requestedAttendance = RequestedAttendance::find($id);
+        // 申請中判定
+        if ($requestedAttendance->request->status == 1) {
             $pending = true;
         } else {
             $pending = false;
         }
+        $requestedAttendanceId = $requestedAttendance->id;
+        $start = $requestedAttendance->start;
+        $end = $requestedAttendance->end;
+        $rests = $requestedAttendance->rests()->orderBy('start')->get();
+        $restsCount = $requestedAttendance->rests()->count();
+        $note = $requestedAttendance->note;
+        return view('requested_attendance/detail', compact(['requestedAttendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'pending', 'note']));
+    }
+    public function create(Request $request, $id)
+    {
+        $name = Auth::user()->name;
+        $attendance = Attendance::find($id);
         $attendanceId = $attendance->id;
         $start = $attendance->start;
         $end = $attendance->end;
         $rests = $attendance->rests()->orderBy('start')->get();
         $restsCount = $attendance->rests()->count();
         $note = $attendance->note;
-        return view('attendance/detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'pending', 'note']));
+        return view('attendance/detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'note']));
     }
     public function store(AttendanceRequest $request, $id)
     {
@@ -46,15 +60,22 @@ class StampController extends Controller
         } else {
             $end->hour($request->attendance_end_hour)->minute($request->attendance_end_minute);
         }
-        // attendancesテーブルに申請中として登録
-        $attendance = Attendance::create([
-            'user_id' => $oldAttendance->user_id,
+        // 申請
+        $forRequest = RequestModel::create([
+            'attendance_id' => $request->id,
+            'status' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $requestedAttendance = requestedAttendance::create([
+            'request_id' => $forRequest->id,
             'start' => $start,
             'end' => $end,
-            'status' => 1,
             'note' => $request->note,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
-        // restsテーブルに登録
+        // requestedRestsテーブルに登録
         $restStart = new Carbon();
         $restEnd = new Carbon();
         // 24時処理
@@ -67,28 +88,13 @@ class StampController extends Controller
                 } else {
                     $restEnd->hour($request->rest_end_hour[$key])->minute($request->rest_end_minute[$key]);
                 }
-                Rest::create([
-                    'attendance_id' => $attendance->id,
+                RequestedRest::create([
+                    'requested_attendance_id' => $requestedAttendance->id,
                     'start' => $restStart,
                     'end' => $restEnd,
                 ]);
             }
         }
         return redirect('/stamp_correction_request/list');
-    }
-    public function show(Request $request)
-    {
-        $pending = true;
-        if (isset($request->tab)) {
-            if ($request->tab == 'approved') {
-                $pending = false;
-            }
-        }
-        if ($pending) {
-            $attendances = Auth::user()->attendances()->where('status', '1')->get();
-        } else {
-            $attendances = Auth::user()->attendances()->where('status', '2')->get();
-        }
-        return view('/stamp/list', compact('pending', 'attendances'));
     }
 }

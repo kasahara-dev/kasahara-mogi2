@@ -19,7 +19,6 @@ class CreateAttendancesTable extends Migration
             $table->dateTime('start')->nullable();
             $table->dateTime('end')->nullable();
             $table->string('note', 255)->nullable();
-            $table->tinyInteger('status')->default(0)->nullable()->comment('0:通常、1:承認待ち、2:承認済み');
             $table->timestamps();
         });
     }

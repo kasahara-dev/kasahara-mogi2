@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRestsTable extends Migration
+class CreateRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateRestsTable extends Migration
      */
     public function up()
     {
-        Schema::create('rests', function (Blueprint $table) {
+        Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('attendance_id')->constrained('attendances');
-            $table->dateTime('start');
-            $table->dateTime('end')->nullable();
+            $table->tinyInteger('status')->comment('1:承認待ち、2:承認済み');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateRestsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rests');
+        Schema::dropIfExists('requests');
     }
 }

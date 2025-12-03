@@ -21,15 +21,24 @@
                 <div id="hamburger" class="app-logo__hamburger"></div>
             </div>
             <ul id="header-btns" class="header-btns">
-                <li class="header-btns__list">
-                    <button class="header-btn" onclick="location.href='/attendance'">勤怠</button>
-                </li>
-                <li class="header-btns__list">
-                    <button class="header-btn" onclick="location.href='/attendance/list'">勤怠一覧</button>
-                </li>
-                <li class="header-btns__list">
-                    <button class="header-btn" onclick="location.href='/stamp_correction_request/list'">申請</button>
-                </li>
+                @if(Auth::user()->attendances()->whereDate('start', \Carbon\Carbon::parse(now()))->where('end', '<>', null)->exists())
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/attendance/list'">今月の出勤一覧</button>
+                    </li>
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/stamp_correction_request/list'">申請一覧</button>
+                    </li>
+                @else
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/attendance'">勤怠</button>
+                    </li>
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/attendance/list'">勤怠一覧</button>
+                    </li>
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/stamp_correction_request/list'">申請</button>
+                    </li>
+                @endif
                 <li class="header-btns__list">
                     <form action="/logout" method="post">
                         @csrf

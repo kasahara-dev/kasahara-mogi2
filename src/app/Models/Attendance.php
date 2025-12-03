@@ -14,11 +14,14 @@ class Attendance extends Model
         'start',
         'end',
         'note',
-        'status',
     ];
     public function rests()
     {
         return $this->hasMany('App\Models\Rest');
+    }
+    public function requests()
+    {
+        return $this->hasMany('App\Models\Request');
     }
     public function user()
     {
