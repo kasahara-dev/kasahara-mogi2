@@ -15,14 +15,13 @@
 .tabs {
     display: flex;
     border-bottom: 1px solid;
-    align-items: baseline;
+    align-items: flex-end;
     justify-content: space-between;
 }
 .tabs__status {
     gap: 3em;
     display: flex;
-}
-.tabs__page {
+    margin-bottom: 10px;
 }
 .tabs__tab {
     color: black;
@@ -161,6 +160,9 @@
         width: auto;
     }
     .tabs {
+        gap: 1em;
+    }
+    .tabs__status {
         gap: 1em;
     }
 }

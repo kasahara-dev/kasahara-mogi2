@@ -61,7 +61,7 @@ Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'store']);
     Route::middleware('auth:admin')->group(function () {
-        Route::get('/attendance/list', [AdminAttendanceController::class, 'show']);
+        Route::get('/attendance/list', [AdminAttendanceController::class, 'index']);
         Route::post('/logout', [AdminLoginController::class, 'destroy']);
     });
 });

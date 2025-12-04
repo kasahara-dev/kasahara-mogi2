@@ -62,10 +62,10 @@ class AttendanceController extends Controller
                     }
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
-                    $workHours = $workAllMinutes / 60;
-                    $workMinutes = $workAllMinutes % 60;
-                    $restHours = $restAllMinutes / 60;
-                    $restMinutes = $restAllMinutes % 60;
+                    $workHours = floor($workAllMinutes / 60);
+                    $workMinutes = floor($workAllMinutes % 60);
+                    $restHours = floor($restAllMinutes / 60);
+                    $restMinutes = floor($restAllMinutes % 60);
                 }
             }
             ;

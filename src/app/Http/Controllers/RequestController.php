@@ -23,10 +23,10 @@ class RequestController extends Controller
         $searchRequests = RequestModel::whereIn('attendance_id', $attendanceIds)->get();
         if ($pending) {
             $requestIds = $searchRequests->where('status', 1)->pluck('id');
-            $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->paginate(10);
+            $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
         } else {
             $requestIds = $searchRequests->where('status', 2)->pluck('id');
-            $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->paginate(10);
+            $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
         }
         return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
     }

@@ -12,7 +12,8 @@
     <div class="container">
         <h1 class="title">{{ $year }}年{{ $month }}月{{ $day }}日の勤怠</h1>
         <div class="selector">
-            <a class="selector__pre-day" href="/admin/attendance/list?year={{ $preYear }}&month={{ $preMonth }}&day={{ $preDay }}">
+            <a class="selector__pre-day"
+                href="/admin/attendance/list?year={{ $preYear }}&month={{ $preMonth }}&day={{ $preDay }}">
                 <p class="selector__arrow">←</p>
                 <p class="selector__day">前日</p>
             </a>
@@ -30,6 +31,50 @@
                 <p class="selector__arrow">→</p>
             </a>
         </div>
+        <table class="table">
+            <thead class="table-header">
+                <tr>
+                    <th class="table-header__name--wide">名前</th>
+                    <th class="table-header__name">出勤</th>
+                    <th class="table-header__name">退勤</th>
+                    <th class="table-header__name">休憩</th>
+                    <th class="table-header__name">合計</th>
+                    <th class="table-header__name">詳細</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($usersList as $userList)
+                    <tr class="table-line">
+                        <td class="table-line__data">{{ $userList['name'] }}</td>
+                        <td class="table-line__data">
+                            @if(!is_null($userList['start']))
+                                {{ \Carbon\Carbon::parse($userList['start'])->format('H:i') }}
+                            @endif
+                        </td>
+                        @if(!is_null($userList['end']))
+                            @if(\Carbon\Carbon::parse($userList['start'])->startOfDay()->lt(\Carbon\Carbon::parse($userList['end'])->startOfDay()))
+                                <td class="table-line__data">24:00</td>
+                            @else
+                                <td class="table-line__data">{{ \Carbon\Carbon::parse($userList['end'])->format('H:i') }}</td>
+                            @endif
+                            <td class="table-line__data">
+                                {{ sprintf('%02d', $userList['restHours']) }}:{{ sprintf('%02d', $userList['restMinutes']) }}</td>
+                            <td class="table-line__data">
+                                {{ sprintf('%02d', $userList['workHours']) }}:{{ sprintf('%02d', $userList['workMinutes']) }}</td>
+                            @if($pending)
+                                <td class="table-line__data"><a href="" class="table-line__data--link">詳細</a></td>
+                            @else
+                                <td class="table-line__data"><a href="" class="table-line__data--link">詳細</a></td>
+                            @endif
+                        @else
+                            <td class="table-line__data"></td>
+                            <td class="table-line__data"></td>
+                            <td class="table-line__data"></td>
+                            <td class="table-line__data">詳細</td>
+                        @endif
+                @endforeach
+            </tbody>
+        </table>
     </div>
     <script>
         var setYear = {{ $year }};
