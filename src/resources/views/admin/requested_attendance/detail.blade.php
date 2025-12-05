@@ -1,7 +1,7 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 
 @section('css')
-    <link rel="stylesheet" href="{{ asset('css/requested_attendance/detail.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/admin/requested_attendance/detail.css') }}">
 @endsection
 
 @section('content')
@@ -59,11 +59,7 @@
             </div>
         </dl>
         <div class="list-bottom">
-            @if ($pending)
-                <p class="list-bottom__message">＊承認待ちのため修正はできません。</p>
-            @else
-                <p class="list-bottom__message">＊承認済みのため修正はできません。</p>
-            @endif
+            <p class="list-bottom__message">＊承認待ちのため修正はできません。</p>
         </div>
     </div>
 @endsection

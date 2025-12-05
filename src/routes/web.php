@@ -15,6 +15,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\RequestedAttendanceController;
+use App\Http\Controllers\Admin\RequestedAttendanceController as AdminRequestedAttendanceController;
 use App\Http\Controllers\RequestController;
 
 
@@ -62,6 +63,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminLoginController::class, 'store']);
     Route::middleware('auth:admin')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index']);
+        Route::get('/attendance/{id}', [AdminAttendanceController::class, 'edit']);
+        Route::get('/requested_attendance/{id}', [AdminRequestedAttendanceController::class, 'show']);
         Route::post('/logout', [AdminLoginController::class, 'destroy']);
     });
 });

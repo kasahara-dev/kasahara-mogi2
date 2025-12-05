@@ -12,11 +12,21 @@
     <div class="container">
         <h1 class="title">{{ $year }}年{{ $month }}月{{ $day }}日の勤怠</h1>
         <div class="selector">
-            <a class="selector__pre-day"
-                href="/admin/attendance/list?year={{ $preYear }}&month={{ $preMonth }}&day={{ $preDay }}">
-                <p class="selector__arrow">←</p>
-                <p class="selector__day">前日</p>
-            </a>
+            @if (is_null($page))
+                <a class="selector__pre-day"
+                    href="/admin/attendance/list?year={{ $preYear }}&month={{ $preMonth }}&day={{ $preDay }}">
+                    <p class="selector__arrow">←</p>
+                    <p class="selector__day">前日</p>
+                </a>
+
+            @else
+                <a class="selector__pre-day"
+                    href="/admin/attendance/list?year={{ $preYear }}&month={{ $preMonth }}&day={{ $preDay }}&page={{ $page }}">
+                    <p class="selector__arrow">←</p>
+                    <p class="selector__day">前日</p>
+                </a>
+
+            @endif
             <div class="calendar">
                 <label for="datePicker">
                     <img src="{{ asset('/img/calendar-regular-full.svg') }}" class="calendar__img" alt="カレンダー画像">
@@ -25,12 +35,21 @@
                     value="{{ $year . '/' . sprintf('%02d', $month) . '/' . sprintf('%02d', $day) }}"
                     class="calendar__input" readonly="readonly" />
             </div>
-            <a class="selector__next-day"
-                href="/admin/attendance/list?year={{ $nextYear }}&month={{ $nextMonth }}&day={{ $nextDay }}">
-                <p class="selector__day">翌日</p>
-                <p class="selector__arrow">→</p>
-            </a>
+            @if(is_null($page))
+                <a class="selector__next-day"
+                    href="/admin/attendance/list?year={{ $nextYear }}&month={{ $nextMonth }}&day={{ $nextDay }}">
+                    <p class="selector__day">翌日</p>
+                    <p class="selector__arrow">→</p>
+                </a>
+            @else
+                <a class="selector__next-day"
+                    href="/admin/attendance/list?year={{ $nextYear }}&month={{ $nextMonth }}&day={{ $nextDay }}&page={{ $page }}">
+                    <p class="selector__day">翌日</p>
+                    <p class="selector__arrow">→</p>
+                </a>
+            @endif
         </div>
+        <div>{{ $usersList->links() }}</div>
         <table class="table">
             <thead class="table-header">
                 <tr>
@@ -58,13 +77,17 @@
                                 <td class="table-line__data">{{ \Carbon\Carbon::parse($userList['end'])->format('H:i') }}</td>
                             @endif
                             <td class="table-line__data">
-                                {{ sprintf('%02d', $userList['restHours']) }}:{{ sprintf('%02d', $userList['restMinutes']) }}</td>
+                                {{ sprintf('%02d', $userList['restHours']) }}:{{ sprintf('%02d', $userList['restMinutes']) }}
+                            </td>
                             <td class="table-line__data">
-                                {{ sprintf('%02d', $userList['workHours']) }}:{{ sprintf('%02d', $userList['workMinutes']) }}</td>
-                            @if($pending)
-                                <td class="table-line__data"><a href="" class="table-line__data--link">詳細</a></td>
+                                {{ sprintf('%02d', $userList['workHours']) }}:{{ sprintf('%02d', $userList['workMinutes']) }}
+                            </td>
+                            @if($userList['pending'])
+                                <td class="table-line__data"><a href="/admin/requested_attendance/{{ $userList['sendAttendanceId'] }}"
+                                        class="table-line__data--link">詳細</a></td>
                             @else
-                                <td class="table-line__data"><a href="" class="table-line__data--link">詳細</a></td>
+                                <td class="table-line__data"><a href="/admin/attendance/{{ $userList['sendAttendanceId'] }}"
+                                        class="table-line__data--link">詳細</a></td>
                             @endif
                         @else
                             <td class="table-line__data"></td>

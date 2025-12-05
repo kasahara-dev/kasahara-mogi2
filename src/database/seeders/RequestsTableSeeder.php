@@ -17,9 +17,9 @@ class RequestsTableSeeder extends Seeder
     {
         $attendances = Attendance::get();
         foreach ($attendances as $attendance) {
-            $randNum = rand(0, 1);
+            $randNum = rand(0, 100);
             for ($i = 0; $i < rand(0, 4); $i++) {
-                if ($i == 0 && $randNum == 1) {
+                if ($i == 0 && $randNum < 50) {
                     $param = [
                         'attendance_id' => $attendance->id,
                         'status' => 1,
