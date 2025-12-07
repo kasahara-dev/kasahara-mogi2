@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
+use App\Http\Requests\AttendanceRequest;
+use App\Models\Rest;
 use Illuminate\Pagination\LengthAwarePaginator;
 Paginator::useBootstrap();
 class AttendanceController extends Controller
@@ -111,6 +113,54 @@ class AttendanceController extends Controller
         $rests = $attendance->rests()->orderBy('start')->get();
         $restsCount = $attendance->rests()->count();
         $note = $attendance->note;
+        session(['from' => url()->previous()]);
         return view('admin.attendance.detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'note']));
+    }
+    public function update(AttendanceRequest $request, $id)
+    {
+        // 修正元情報
+        $oldAttendance = Attendance::find($id);
+        $oldDate = Carbon::parse($oldAttendance->start);
+        // 日付作成
+        $start = new Carbon();
+        $end = new Carbon();
+        $start->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->attendance_start_hour)->minute($request->attendance_start_minute);
+        $end->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
+        // 24時終了の場合は翌日0時を終了日時とする
+        if ($request->attendance_end_hour == '24') {
+            $end->addDay();
+        } else {
+            $end->hour($request->attendance_end_hour)->minute($request->attendance_end_minute);
+        }
+        // attendanceテーブル更新
+        $attendance = Attendance::find($id)->update([
+            'start' => $start,
+            'end' => $end,
+            'note' => $request->note,
+        ]);
+        // restsテーブル削除
+        Rest::where('attendance_id', $id)->delete();
+        // restsテーブル登録
+        $restStart = new Carbon();
+        $restEnd = new Carbon();
+        // 24時処理
+        foreach ($request->rest_start_hour as $key => $restStartHour) {
+            if ($restStartHour <> '') {
+                $restStart->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->rest_start_hour[$key])->minute($request->rest_start_minute[$key]);
+                $restEnd->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
+                if ($request->rest_end_hour[$key] == '24') {
+                    $restEnd->addDay();
+                } else {
+                    $restEnd->hour($request->rest_end_hour[$key])->minute($request->rest_end_minute[$key]);
+                }
+                Rest::create([
+                    'attendance_id' => $id,
+                    'start' => $restStart,
+                    'end' => $restEnd,
+                ]);
+            }
+        }
+        \Log::info('session from is ' . session('from'));
+        return redirect(session('from', 'admin/attendance/list'));
     }
 }
