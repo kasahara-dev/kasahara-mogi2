@@ -13,22 +13,27 @@ class RequestController extends Controller
 {
     public function show(Request $request)
     {
-        $pending = true;
-        if (isset($request->tab)) {
-            if ($request->tab == 'approved') {
-                $pending = false;
+        if (Auth::guard('admin')->check()) {
+            return redirect('/admin/staff/list');
+        } elseif (Auth::check()) {
+            $pending = true;
+            if (isset($request->tab)) {
+                if ($request->tab == 'approved') {
+                    $pending = false;
+                }
             }
-        }
-        $attendanceIds = Auth::user()->attendances()->pluck('id');
-        $searchRequests = RequestModel::whereIn('attendance_id', $attendanceIds)->get();
-        if ($pending) {
-            $requestIds = $searchRequests->where('status', 1)->pluck('id');
-            $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
+            $attendanceIds = Auth::user()->attendances()->pluck('id');
+            $searchRequests = RequestModel::whereIn('attendance_id', $attendanceIds)->get();
+            if ($pending) {
+                $requestIds = $searchRequests->where('status', 1)->pluck('id');
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
+            } else {
+                $requestIds = $searchRequests->where('status', 2)->pluck('id');
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+            }
+            return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
         } else {
-            $requestIds = $searchRequests->where('status', 2)->pluck('id');
-            $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+            return redirect('/login');
         }
-        return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
     }
-
 }

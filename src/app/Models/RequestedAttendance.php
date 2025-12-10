@@ -9,6 +9,7 @@ class RequestedAttendance extends Model
     use HasFactory;
     protected $fillable = [
         'request_id',
+        'date',
         'start',
         'end',
         'note',

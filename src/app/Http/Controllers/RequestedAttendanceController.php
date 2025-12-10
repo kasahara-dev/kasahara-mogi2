@@ -73,6 +73,7 @@ class RequestedAttendanceController extends Controller
             ]);
             $requestedAttendance = requestedAttendance::create([
                 'request_id' => $forRequest->id,
+                'date' => $start,
                 'start' => $start,
                 'end' => $end,
                 'note' => $request->note,

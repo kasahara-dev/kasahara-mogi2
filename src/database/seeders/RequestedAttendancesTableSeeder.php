@@ -24,7 +24,8 @@ class RequestedAttendancesTableSeeder extends Seeder
             $end = Carbon::parse($request->attendance->start)->startOfDay();
             $param = [
                 'request_id' => $request->id,
-                'start' => $start->hour(rand(0, 11))->minute(rand(0, 59)),
+                'date' => $start->hour(rand(0, 11))->minute(rand(0, 59)),
+                'start' => $start,
                 'end' => $end->hour(rand(12, 23))->minute(rand(0, 59)),
                 'note' => $faker->realText(),
                 'created_at' => now(),

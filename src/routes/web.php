@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/attendance/detail/{id}', [RequestedAttendanceController::class, 'create']);
     Route::post('/attendance/detail/{id}', [RequestedAttendanceController::class, 'store']);
     Route::get('/requested_attendance/detail/{id}', [RequestedAttendanceController::class, 'show']);
-    Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
+    // Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
 });
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');
@@ -73,6 +73,7 @@ Route::prefix('admin')->group(function () {
         Route::post('/logout', [AdminLoginController::class, 'destroy']);
     });
 });
+Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
 Route::middleware('auth:admin')->group(function () {
     // Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'show']);
 });

@@ -107,6 +107,7 @@ class AttendanceController extends Controller
     {
         Attendance::create([
             'user_id' => auth()->id(),
+            'date' => now(),
             'start' => now(),
         ]);
         return redirect('/attendance');
@@ -123,6 +124,7 @@ class AttendanceController extends Controller
                 ]);
                 Attendance::create([
                     'user_id' => auth()->id(),
+                    'date' => $tableDate,
                     'start' => $tableDate,
                 ]);
             }

@@ -34,7 +34,8 @@ class AttendancesTableSeeder extends Seeder
                 if ($randNum > 50) {
                     $param = [
                         'user_id' => $userId,
-                        'start' => $setStart = $start->hour(rand(0, 11))->minute(rand(0, 59)),
+                        'date' => $setStart = $start->hour(rand(0, 11))->minute(rand(0, 59)),
+                        'start' => $setStart,
                         'end' => $setEnd = $end->hour(rand(12, 23))->minute(rand(0, 59)),
                         'note' => $faker->optional()->realText(),
                         'created_at' => now(),
