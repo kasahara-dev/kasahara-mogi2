@@ -13,8 +13,10 @@ use App\Http\Controllers\Admin\LoginController as AdminLoginController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
+use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\RestController;
 use App\Http\Controllers\RequestedAttendanceController;
+use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 use App\Http\Controllers\Admin\RequestedAttendanceController as AdminRequestedAttendanceController;
 use App\Http\Controllers\RequestController;
 
@@ -61,11 +63,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminLoginController::class, 'create'])->name('admin.login');
     Route::post('/login', [AdminLoginController::class, 'store']);
-    Route::middleware('auth:admin')->group(function () {
+    Route::middleware('auth:admin')->name('admin.')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index']);
+        Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'show']);
         Route::get('/attendance/{id}', [AdminAttendanceController::class, 'edit']);
         Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update']);
-        Route::get('/requested_attendance/{id}', [AdminRequestedAttendanceController::class, 'show']);
+        Route::get('/requested_attendance/{id}', action: [AdminRequestedAttendanceController::class, 'show']);
+        Route::get('/staff/list', [AdminStaffController::class, 'index']);
         Route::post('/logout', [AdminLoginController::class, 'destroy']);
     });
 });
+Route::middleware('auth:admin')->group(function () {
+    // Route::get('/stamp_correction_request/list', [AdminRequestController::class, 'show']);
+});
+

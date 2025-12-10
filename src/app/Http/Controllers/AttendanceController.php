@@ -113,21 +113,23 @@ class AttendanceController extends Controller
     }
     public function update($id)
     {
-        $tableDate = Carbon::parse(Auth::user()->attendances()->where('end', null)->value('start'))->startOfDay();
-        $today = Carbon::today();
-        while ($tableDate < $today) {
-            $tableDate->addDay();
+        DB::transaction(function () use ($id) {
+            $tableDate = Carbon::parse(Auth::user()->attendances()->where('end', null)->value('start'))->startOfDay();
+            $today = Carbon::today();
+            while ($tableDate < $today) {
+                $tableDate->addDay();
+                Auth::user()->attendances()->where('end', null)->update([
+                    'end' => $tableDate,
+                ]);
+                Attendance::create([
+                    'user_id' => auth()->id(),
+                    'start' => $tableDate,
+                ]);
+            }
             Auth::user()->attendances()->where('end', null)->update([
-                'end' => $tableDate,
+                'end' => now(),
             ]);
-            Attendance::create([
-                'user_id' => auth()->id(),
-                'start' => $tableDate,
-            ]);
-        }
-        Auth::user()->attendances()->where('end', null)->update([
-            'end' => now(),
-        ]);
+        });
         return redirect('/attendance');
     }
 }
