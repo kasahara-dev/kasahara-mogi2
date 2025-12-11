@@ -72,16 +72,16 @@ coachtech 勤怠管理アプリ
 
 ### users テーブル
 
-| カラム名          | 型              | primary key | unique key | not null | foreign key |
-| ----------------- | --------------- | ----------- | ---------- | -------- | ----------- | --- |
-| id                | unsigned bigint | 〇          |            | 〇       |             |
-| name              | string          |             |            | 〇       |             |
-| email             | string          |             | 〇         | 〇       |             |     |
-| email_verified_at | timestamp       |             |            |          |             |
-| password          | string          |             |            | 〇       |             |
-| remember_token    | string          |             |            |          |             |
-| created_at        | timestamp       |             |            |          |             |
-| updated_at        | timestamp       |             |            |          |             |
+| カラム名 | 型 | primary key | unique key | not null | foreign key |
+| --- | --- | --- | --- | --- | --- | --- |
+| id | unsigned bigint | 〇 | | 〇 | |
+| name | string | | | 〇 | |
+| email | string | | 〇 | 〇 | | |
+| email_verified_at | timestamp | | | | |
+| password | string | | | 〇 | |
+| remember_token | string | | | | |
+| created_at | timestamp | | | | |
+| updated_at | timestamp | | | | |
 
 ### admins テーブル
 
