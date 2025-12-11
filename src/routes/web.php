@@ -65,8 +65,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminLoginController::class, 'store']);
     Route::middleware('auth:admin')->name('admin.')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index']);
-        Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'show']);
         Route::get('/attendance/staff/{id}/export', [AdminAttendanceController::class, 'export']);
+        Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'show']);
         Route::get('/attendance/{id}', [AdminAttendanceController::class, 'edit']);
         Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update']);
         Route::get('/requested_attendance/{id}', action: [AdminRequestedAttendanceController::class, 'show']);

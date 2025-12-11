@@ -80,7 +80,9 @@
                 @endforeach
             </tbody>
         </table>
-        <form action="/admin/attendance/staff/{{ $id }}/export/?year={{ $year }}&month={{ $month }}">
+        <form action="/admin/attendance/staff/{{ $id }}/export">
+            <input type="hidden" name="year" value="{{ $year }}">
+            <input type="hidden" name="month" value="{{ $month }}">
             <div class="table__bottom">
                 <button type="submit" class="btn__submit">CSV出力</button>
             </div>
