@@ -13,8 +13,23 @@ class RequestController extends Controller
 {
     public function show(Request $request)
     {
+        // 管理者ログインの場合
         if (Auth::guard('admin')->check()) {
-            return redirect('/admin/staff/list');
+            $pending = true;
+            if (isset($request->tab)) {
+                if ($request->tab == 'approved') {
+                    $pending = false;
+                }
+            }
+            if ($pending) {
+                $requestIds = RequestModel::where('status', 1)->pluck('id');
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
+            } else {
+                $requestIds = RequestModel::where('status', 2)->pluck('id');
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+            }
+            return view('admin.stamp.list', compact('pending', 'requestedAttendances'));
+            // 一般ユーザーでログインの場合
         } elseif (Auth::check()) {
             $pending = true;
             if (isset($request->tab)) {
@@ -32,6 +47,7 @@ class RequestController extends Controller
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
             }
             return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
+            // 未ログインの場合
         } else {
             return redirect('/login');
         }

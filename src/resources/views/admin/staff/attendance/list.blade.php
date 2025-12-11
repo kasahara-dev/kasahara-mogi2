@@ -80,6 +80,11 @@
                 @endforeach
             </tbody>
         </table>
+        <form action="/admin/attendance/staff/{{ $id }}/export/?year={{ $year }}&month={{ $month }}">
+            <div class="table__bottom">
+                <button type="submit" class="btn__submit">CSV出力</button>
+            </div>
+        </form>
     </div>
     <script>
         var setYear = {{ $year }};

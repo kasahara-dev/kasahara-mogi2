@@ -75,6 +75,18 @@
     min-height: calc(100svh - 60px);
     padding-bottom: 3em;
 }
+.table__bottom {
+    text-align: end;
+    padding: 1em 0;
+}
+.btn__submit {
+    color: white;
+    background: black;
+    padding: 0.5em 2em;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
 @media screen and (max-width: 768px) {
     .main {
         min-height: calc(100svh - 44px);

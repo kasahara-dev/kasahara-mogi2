@@ -12,6 +12,8 @@ use App\Models\Attendance;
 use App\Http\Requests\AttendanceRequest;
 use App\Models\Rest;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Response;
+
 Paginator::useBootstrap();
 class AttendanceController extends Controller
 {
@@ -195,6 +197,7 @@ class AttendanceController extends Controller
             $workAllMinutes = 0;
             $sendAttendanceId = null;
             $pending = false;
+            $note = null;
             // 勤務記録有無判定
             if (User::find($id)->attendances()->whereDate('start', $searchDay)->exists()) {
                 $attendance = User::find($id)->attendances()->whereDate('start', $searchDay)->first();
@@ -221,6 +224,8 @@ class AttendanceController extends Controller
                     $workMinutes = floor($workAllMinutes % 60);
                     $restHours = floor($restAllMinutes / 60);
                     $restMinutes = floor($restAllMinutes % 60);
+                    // csv用に備考も取得
+                    $note = $attendance->note;
                 }
             }
             ;
@@ -234,11 +239,108 @@ class AttendanceController extends Controller
                 'workMinutes' => $workMinutes,
                 'pending' => $pending,
                 'sendAttendanceId' => $sendAttendanceId,
+                'note' => $note,
             ];
             $searchDay->addDay();
         }
         ;
         return view('admin.staff.attendance.list', compact(['id', 'name', 'year', 'month', 'preYear', 'preMonth', 'nextYear', 'nextMonth', 'dayList']));
     }
+    public function export(Request $request, $id)
+    {
+        $name = User::find($id)->name;
+        if ($request->year && $request->month) {
+            $year = $request->year;
+            $month = $request->month;
+        } else {
+            $year = Carbon::now()->year;
+            $month = Carbon::now()->month;
+        }
+        $searchDay = new Carbon();
+        $searchDay->year($year)->month($month)->startOfMonth();
+        $dayList = [];
+        while ($searchDay <= Carbon::parse($year . '-' . $month . '-1')->endOfMonth()) {
+            $start = null;
+            $end = null;
+            $restHours = 0;
+            $restMinutes = 0;
+            $restAllMinutes = 0;
+            $restTimes = 0;
+            $workTimes = 0;
+            $workHours = 0;
+            $workMinutes = 0;
+            $workAllMinutes = 0;
+            $sendAttendanceId = null;
+            $pending = false;
+            $note = null;
+            // 勤務記録有無判定
+            if (User::find($id)->attendances()->whereDate('start', $searchDay)->exists()) {
+                $attendance = User::find($id)->attendances()->whereDate('start', $searchDay)->first();
+                $start = Carbon::parse($attendance->start)->format('H:i');
+                // 退勤済み判定
+                if ($attendance->end) {
+                    // 24時判定
+                    if (Carbon::parse($attendance->end)->startOfDay()->gt(Carbon::parse($attendance->start)->startOfDay())) {
+                        $end = '24:00';
+                    } else {
+                        $end = Carbon::parse($attendance->end)->format('H:i');
+                    }
+                    // 休憩を分単位で合計
+                    $rests = $attendance->rests->all();
+                    foreach ($rests as $restRecord) {
+                        $restAllMinutes += $restRecord->minutes();
+                    }
+                    // 合計勤務時間計算
+                    $workAllMinutes = $attendance->minutes() - $restAllMinutes;
+                    $workHours = floor($workAllMinutes / 60);
+                    $workMinutes = floor($workAllMinutes % 60);
+                    $restHours = floor($restAllMinutes / 60);
+                    $restMinutes = floor($restAllMinutes % 60);
+                    $restTimes = $restHours . ':' . $restMinutes;
+                    $workTimes = $workHours . ':' . $workMinutes;
+                    // 備考
+                    $note = $attendance->note;
+                }
+            }
+            ;
+            $dayList[] = [
+                'day' => $searchDay->isoFormat('YYYY/MM/DD(ddd)'),
+                'start' => $start,
+                'end' => $end,
+                'restTimes' => $restTimes,
+                'workTimes' => $workTimes,
+                'note' => $note,
+            ];
+            $searchDay->addDay();
+        }
+        ;
 
+        $head = ['日付', '出勤', '退勤', '休憩', '合計', '備考'];
+        $temps = [];
+        array_push($temps, $head);
+        foreach ($dayList as $dayLine) {
+            $temp = [
+                $dayLine['day'],
+                $dayLine['start'],
+                $dayLine['end'],
+                $dayLine['restTimes'],
+                $dayLine['workTimes'],
+                $dayLine['note'],
+            ];
+            array_push($temps, $temp);
+        }
+        $stream = fopen('php://temp', 'r+b');
+        foreach ($temps as $temp) {
+            fputcsv($stream, $temp);
+        }
+        rewind($stream);
+        $csv = str_replace(PHP_EOL, "\r\n", stream_get_contents($stream));
+        $csv = mb_convert_encoding($csv, 'SJIS-win', 'UTF-8');
+        $filename = $name . '_' . $year . '年' . $month . '月勤怠.csv';
+        $headers = array(
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=' . $filename,
+        );
+        return Response::make($csv, 200, $headers);
+    }
 }
