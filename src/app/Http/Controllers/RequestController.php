@@ -23,10 +23,18 @@ class RequestController extends Controller
             }
             if ($pending) {
                 $requestIds = RequestModel::where('status', 1)->pluck('id');
-                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
+                    ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
+                    ->orderBy('requests.updated_at', 'asc')
+                    ->orderBy('requests.id', 'asc')
+                    ->paginate(10);
             } else {
                 $requestIds = RequestModel::where('status', 2)->pluck('id');
-                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
+                    ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
+                    ->orderBy('requests.updated_at', 'desc')
+                    ->orderBy('requests.id', 'desc')
+                    ->paginate(10);
             }
             return view('admin.stamp.list', compact('pending', 'requestedAttendances'));
             // 一般ユーザーでログインの場合
@@ -41,10 +49,18 @@ class RequestController extends Controller
             $searchRequests = RequestModel::whereIn('attendance_id', $attendanceIds)->get();
             if ($pending) {
                 $requestIds = $searchRequests->where('status', 1)->pluck('id');
-                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
+                    ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
+                    ->orderBy('requests.updated_at', 'asc')
+                    ->orderBy('requests.id', 'asc')
+                    ->paginate(10);
             } else {
                 $requestIds = $searchRequests->where('status', 2)->pluck('id');
-                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
+                $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
+                    ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
+                    ->orderBy('requests.updated_at', 'desc')
+                    ->orderBy('requests.id', 'desc')
+                    ->paginate(10);
             }
             return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
             // 未ログインの場合

@@ -6,27 +6,58 @@ use App\Models\RequestedAttendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Request as RequestModel;
+use App\Models\Rest;
+use App\Models\RequestedRest;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
+
 
 Paginator::useBootstrap();
 class RequestController extends Controller
 {
-    // public function show(Request $request)
-    // {
-    //     $pending = true;
-    //     if (isset($request->tab)) {
-    //         if ($request->tab == 'approved') {
-    //             $pending = false;
-    //         }
-    //     }
-    //     if ($pending) {
-    //         $requestIds = RequestModel::where('status', 1)->pluck('id');
-    //         $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'asc')->orderBy('id', 'asc')->paginate(10);
-    //     } else {
-    //         $requestIds = RequestModel::where('status', 2)->pluck('id');
-    //         $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->paginate(10);
-    //     }
-    //     return view('admin.stamp.list', compact('pending', 'requestedAttendances'));
-    // }
-
+    public function edit($id)
+    {
+        $requestModel = RequestModel::find($id);
+        $name = $requestModel->attendance->user->name;
+        $requestedAttendance = $requestModel->requestedAttendance;
+        // 申請中判定
+        if ($requestModel->status == 1) {
+            $pending = true;
+        } else {
+            $pending = false;
+        }
+        $id = $requestModel->id;
+        $start = $requestedAttendance->start;
+        $end = $requestedAttendance->end;
+        $rests = $requestedAttendance->rests()->orderBy('start')->get();
+        $restsCount = $requestedAttendance->rests()->count();
+        $note = $requestedAttendance->note;
+        return view('admin.stamp.detail', compact(['id', 'name', 'start', 'end', 'rests', 'restsCount', 'pending', 'note']));
+    }
+    public function update($id)
+    {
+        DB::transaction(function () use ($id) {
+            $requestModel = RequestModel::find($id);
+            // requestsテーブルのステータス変更
+            $requestModel->update(['status' => 2]);
+            // attendancesテーブル更新
+            $attendance = $requestModel->attendance()->update([
+                'start' => $requestModel->requestedAttendance->start,
+                'end' => $requestModel->requestedAttendance->end,
+                'note' => $requestModel->requestedAttendance->note,
+            ]);
+            $attendanceId = $requestModel->attendance->id;
+            // restsテーブル更新
+            Rest::where('attendance_id', $requestModel->attendance->id)->delete();
+            $newRests = RequestedRest::where('requested_attendance_id', $id)->get();
+            foreach ($newRests as $newRest) {
+                Rest::create([
+                    'attendance_id' => $attendanceId,
+                    'start' => $newRest->start,
+                    'end' => $newRest->end,
+                ]);
+            }
+        });
+        return redirect('/stamp_correction_request/approve/' . $id);
+    }
 }
