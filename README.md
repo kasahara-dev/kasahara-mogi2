@@ -72,7 +72,7 @@ coachtech 勤怠管理アプリ
 
 ### users テーブル
 
-| カラム名 | 型 | primary key | unique key | not null | foreign key |
+| column | type | primary key | unique key | not null | foreign key |
 | --- | --- | --- | --- | --- | --- | --- |
 | id | unsigned bigint | 〇 | | 〇 | |
 | name | string | | | 〇 | |
