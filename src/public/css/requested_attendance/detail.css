@@ -41,15 +41,7 @@
     color: #ff000080;
     font-weight: bolder;
 }
-.list-bottom__btn {
-    width: auto;
-    border-radius: 5px;
-    font-weight: bold;
-    padding: 0.5em 2.5em;
-    cursor: pointer;
-    color: white;
-    background: black;
-}
+
 .list-line-time {
     border: 1px solid #e1e1e1;
     border-radius: 4px;

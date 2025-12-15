@@ -10,7 +10,6 @@ use App\Actions\Admin\AttemptToAuthenticate;
 use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
 use App\Responses\AdminLoginResponse;
 use App\Responses\AdminLogoutResponse;
-// use Laravel\Fortify\Contracts\LogoutResponse;
 use App\Http\Requests\AdminLoginRequest;
 
 class LoginController extends Controller

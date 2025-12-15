@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use App\Http\Requests\AttendanceRequest;
-use App\Models\Rest;
 use App\Models\Request as RequestModel;
 use App\Models\RequestedAttendance;
 use App\Models\RequestedRest;
@@ -44,7 +43,6 @@ class RequestedAttendanceController extends Controller
         $rests = $attendance->rests()->orderBy('start')->get();
         $restsCount = $attendance->rests()->count();
         $note = $attendance->note;
-        // session(['from' => url()->previous()]);
         return view('attendance/detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'note']));
     }
     public function store(AttendanceRequest $request, $id)

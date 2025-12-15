@@ -3,8 +3,9 @@
 coachtech 勤怠管理アプリ
 
 > [!IMPORTANT]
-> 一覧表示画面において、出勤実績のある日に限り詳細ボタンが表示される仕様となっております。。
-> 勤怠修正は、出退勤記録がある日に限り可能でな仕様です。
+> クライアントと協議の結果、下記の仕様となっております。
+> 一覧表示画面について、出勤実績のある日に限り詳細ボタンが押下できる仕様となっております。
+> 勤怠修正機能について、出退勤記録がある日に限り修正可能な仕様となっております。
 
 ## 環境構築
 
@@ -72,6 +73,8 @@ coachtech 勤怠管理アプリ
 
 ### users テーブル
 
+<details>
+
 | column            | type            | primary key | unique key | not null | foreign key |
 | ----------------- | --------------- | ----------- | ---------- | -------- | ----------- |
 | id                | unsigned bigint | 〇          |            | 〇       |             |
@@ -83,18 +86,21 @@ coachtech 勤怠管理アプリ
 | created_at        | timestamp       |             |            |          |             |
 | updated_at        | timestamp       |             |            |          |             |
 
+</details>
+
 ### admins テーブル
+
+<details>
 
 | カラム名          | 型              | primary key | unique key | not null | foreign key |
 | ----------------- | --------------- | ----------- | ---------- | -------- | ----------- |
 | id                | unsigned bigint | 〇          |            | 〇       |             |
-| name              | string          |             |            | 〇       |             |
 | email             | string          |             | 〇         | 〇       |             |
-| email_verified_at | timestamp       |             |            |          |             |
 | password          | string          |             |            | 〇       |             |
-| remember_token    | string          |             |            |          |             |
 | created_at        | timestamp       |             |            |          |             |
 | updated_at        | timestamp       |             |            |          |             |
+
+</details>
 
 ## ER 図
 
@@ -102,12 +108,13 @@ coachtech 勤怠管理アプリ
 
 ## URL
 
-トップページ：http://localhost/
+- スタッフログインページ：http://localhost/login
+- 管理者ログインページ:http://localhost/admin/login
 
 ## テストユーザー
 
-- テストユーザー 1(住所登録済みユーザー)メールアドレス：`test1@example.com` パスワード：`password`
-- テストユーザー 2(住所未登録ユーザー)メールアドレス：`test2@example.com` パスワード：`password`
+- テストユーザー 1(スタッフ)メールアドレス：`test1@example.com` パスワード：`password`
+- 管理者メールアドレス：`admin@example.com` パスワード：`password`
 
 > [!IMPORTANT]
-> テストデータでは、すでに複数ユーザーで出品、購入、お気に入り、コメント登録がされています
+> テストデータでは、すでに複数ユーザーで出退勤、休憩、修正、申請、承認がされています

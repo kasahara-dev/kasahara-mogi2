@@ -12,4 +12,4 @@ function showCurrentTime() {
     document.getElementById("date").textContent = formatDate;
     document.getElementById("time").textContent = time;
 }
-setInterval(showCurrentTime, 100);
+setInterval(showCurrentTime, 1000);

@@ -3,12 +3,16 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 
-class ExampleTest extends TestCase
+
+class Case04GetDateTime extends TestCase
 {
+    use DatabaseMigrations;
     /**
-     * A basic test example.
+     * A basic feature test example.
      *
      * @return void
      */

@@ -38,7 +38,7 @@ class RequestController extends Controller
             }
             return view('admin.stamp.list', compact('pending', 'requestedAttendances'));
             // 一般ユーザーでログインの場合
-        } elseif (Auth::check()) {
+        } else {
             $pending = true;
             if (isset($request->tab)) {
                 if ($request->tab == 'approved') {
@@ -63,9 +63,6 @@ class RequestController extends Controller
                     ->paginate(10);
             }
             return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
-            // 未ログインの場合
-        } else {
-            return redirect('/login');
         }
     }
 }

@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\RequestedAttendance;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Request as RequestModel;
 use App\Models\Rest;
 use App\Models\RequestedRest;

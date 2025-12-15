@@ -77,5 +77,9 @@ Route::middleware('auth:admin')->name('admin.')->group(function () {
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'edit']);
     Route::put('/stamp_correction_request/approve/{attendance_correct_request_id}', [AdminRequestController::class, 'update']);
 });
-
-Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
+Route::middleware(['auth:admin,web', 'verified'])->group(
+    function () {
+        Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
+    }
+);
+// Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
