@@ -196,7 +196,6 @@ class AttendanceController extends Controller
             $workAllMinutes = 0;
             $sendAttendanceId = null;
             $pending = false;
-            $note = null;
             // 勤務記録有無判定
             if (User::find($id)->attendances()->whereDate('start', $searchDay)->exists()) {
                 $attendance = User::find($id)->attendances()->whereDate('start', $searchDay)->first();
@@ -223,8 +222,6 @@ class AttendanceController extends Controller
                     $workMinutes = floor($workAllMinutes % 60);
                     $restHours = floor($restAllMinutes / 60);
                     $restMinutes = floor($restAllMinutes % 60);
-                    // csv用に備考も取得
-                    $note = $attendance->note;
                 }
             }
             ;
@@ -238,7 +235,6 @@ class AttendanceController extends Controller
                 'workMinutes' => $workMinutes,
                 'pending' => $pending,
                 'sendAttendanceId' => $sendAttendanceId,
-                'note' => $note,
             ];
             $searchDay->addDay();
         }
@@ -264,14 +260,13 @@ class AttendanceController extends Controller
             $restHours = 0;
             $restMinutes = 0;
             $restAllMinutes = 0;
-            $restTimes = 0;
-            $workTimes = 0;
+            $restTimes = '00:00';
+            $workTimes = '00:00';
             $workHours = 0;
             $workMinutes = 0;
             $workAllMinutes = 0;
             $sendAttendanceId = null;
             $pending = false;
-            $note = null;
             // 勤務記録有無判定
             if (User::find($id)->attendances()->whereDate('start', $searchDay)->exists()) {
                 $attendance = User::find($id)->attendances()->whereDate('start', $searchDay)->first();
@@ -291,14 +286,13 @@ class AttendanceController extends Controller
                     }
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
-                    $workHours = floor($workAllMinutes / 60);
-                    $workMinutes = floor($workAllMinutes % 60);
-                    $restHours = floor($restAllMinutes / 60);
-                    $restMinutes = floor($restAllMinutes % 60);
+                    $workHours = sprintf('%02d', floor($workAllMinutes / 60));
+                    ;
+                    $workMinutes = sprintf('%02d', floor($workAllMinutes % 60));
+                    $restHours = sprintf('%02d', floor($restAllMinutes / 60));
+                    $restMinutes = sprintf('%02d', floor($restAllMinutes % 60));
                     $restTimes = $restHours . ':' . $restMinutes;
                     $workTimes = $workHours . ':' . $workMinutes;
-                    // 備考
-                    $note = $attendance->note;
                 }
             }
             ;
@@ -308,13 +302,12 @@ class AttendanceController extends Controller
                 'end' => $end,
                 'restTimes' => $restTimes,
                 'workTimes' => $workTimes,
-                'note' => $note,
             ];
             $searchDay->addDay();
         }
         ;
 
-        $head = ['日付', '出勤', '退勤', '休憩', '合計', '備考'];
+        $head = ['日付', '出勤', '退勤', '休憩', '合計'];
         $temps = [];
         array_push($temps, $head);
         foreach ($dayList as $dayLine) {
@@ -324,7 +317,6 @@ class AttendanceController extends Controller
                 $dayLine['end'],
                 $dayLine['restTimes'],
                 $dayLine['workTimes'],
-                $dayLine['note'],
             ];
             array_push($temps, $temp);
         }
