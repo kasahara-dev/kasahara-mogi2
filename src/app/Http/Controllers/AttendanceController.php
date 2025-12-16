@@ -87,19 +87,9 @@ class AttendanceController extends Controller
     public function create()
     {
         // 勤務中判定
-        // $workingStatus=0:出勤前、1:出勤中、2:退勤後
-        if (Auth::user()->attendances()->where('end', null)->exists()) {
-            $workingStatus = 1;
-        } elseif (Auth::user()->attendances()->whereDate('end', today())->exists()) {
-            $workingStatus = 2;
-        } else {
-            $workingStatus = 0;
-        }
+        $workingStatus = Auth::user()->workingStatus();
         // 休憩中判定
-        $resting = false;
-        if ($workingStatus == 1) {
-            $resting = Auth::user()->attendances()->where('end', null)->first()->rests()->where('end', null)->exists();
-        }
+        $resting = Auth::user()->resting();
         return view('attendance.attendance', compact(['workingStatus', 'resting']));
     }
     public function store()

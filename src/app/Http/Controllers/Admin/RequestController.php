@@ -7,6 +7,7 @@ use App\Models\Rest;
 use App\Models\RequestedRest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 Paginator::useBootstrap();
@@ -36,7 +37,10 @@ class RequestController extends Controller
         DB::transaction(function () use ($id) {
             $requestModel = RequestModel::find($id);
             // requestsテーブルのステータス変更
-            $requestModel->update(['status' => 2]);
+            $requestModel->update([
+                'status' => 2,
+                'approver' => Auth::id(),
+            ]);
             // attendancesテーブル更新
             $attendance = $requestModel->attendance()->update([
                 'start' => $requestModel->requestedAttendance->start,

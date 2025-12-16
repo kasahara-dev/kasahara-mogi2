@@ -30,6 +30,5 @@ class Rest extends Model
         }
         return $minutes;
     }
-
 }
 
