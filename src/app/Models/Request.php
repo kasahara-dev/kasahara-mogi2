@@ -11,6 +11,7 @@ class Request extends Model
     protected $fillable = [
         'attendance_id',
         'status',
+        'approver',
     ];
     public function attendance()
     {
@@ -20,4 +21,9 @@ class Request extends Model
     {
         return $this->hasOne('App\Models\RequestedAttendance');
     }
+    public function approver()
+    {
+        return $this->belongsTo('App\Models\Admins');
+    }
+
 }

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use App\Models\Attendance;
-
+use App\Models\Admin;
 class RequestsTableSeeder extends Seeder
 {
     /**
@@ -15,6 +15,7 @@ class RequestsTableSeeder extends Seeder
      */
     public function run()
     {
+        $adminId = Admin::first()->id;
         $attendances = Attendance::get();
         foreach ($attendances as $attendance) {
             $randNum = rand(0, 100);
@@ -31,6 +32,7 @@ class RequestsTableSeeder extends Seeder
                     $param = [
                         'attendance_id' => $attendance->id,
                         'status' => 2,
+                        'approver' => $adminId,
                         'created_at' => now(),
                         'updated_at' => now(),
                     ];

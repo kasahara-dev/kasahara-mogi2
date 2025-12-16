@@ -16,6 +16,7 @@ class Admin extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
+        'name',
         'email',
         'password',
     ];
@@ -28,4 +29,8 @@ class Admin extends Authenticatable
     protected $hidden = [
         'password',
     ];
+    public function requests()
+    {
+        return $this->hasMany('App\Models\Requests');
+    }
 }

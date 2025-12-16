@@ -17,6 +17,7 @@ class CreateRequestsTable extends Migration
             $table->id();
             $table->foreignId('attendance_id')->constrained('attendances');
             $table->tinyInteger('status')->comment('1:承認待ち、2:承認済み');
+            $table->foreignId('approver')->nullable()->constrained('admins');
             $table->timestamps();
         });
     }
