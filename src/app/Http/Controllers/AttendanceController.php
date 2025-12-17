@@ -53,12 +53,9 @@ class AttendanceController extends Controller
                 $start = Carbon::parse($attendance->start);
                 // 退勤済み判定
                 if ($attendance->end) {
+                    // 休憩時間取得
+                    $restAllMinutes = $attendance->restAllMinutes();
                     $end = Carbon::parse($attendance->end);
-                    // 休憩を分単位で合計
-                    $rests = $attendance->rests->all();
-                    foreach ($rests as $restRecord) {
-                        $restAllMinutes += $restRecord->minutes();
-                    }
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = floor($workAllMinutes / 60);

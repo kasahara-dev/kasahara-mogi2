@@ -50,7 +50,7 @@ class AttendanceController extends Controller
             $workHours = 0;
             $workMinutes = 0;
             $pending = false;
-            $calcRestMinutes = 0;
+            $restAllMinutes = 0;
             $calcWorkMinutes = 0;
             $sendAttendanceId = null;
             // 出勤判定
@@ -60,13 +60,10 @@ class AttendanceController extends Controller
                 if (!is_null($user->attendances()->whereDate('start', $searchDay)->first()->end)) {
                     $end = $user->attendances()->whereDate('start', $searchDay)->first()->end;
                     // 時間計算
-                    $rests = $user->attendances()->whereDate('start', $searchDay)->first()->rests->all();
-                    foreach ($rests as $rest) {
-                        $calcRestMinutes += $rest->minutes();
-                    }
-                    $calcWorkMinutes = $user->attendances()->whereDate('start', $searchDay)->first()->minutes() - $calcRestMinutes;
-                    $restHours = floor($calcRestMinutes / 60);
-                    $restMinutes = floor($calcRestMinutes % 60);
+                    $restAllMinutes = $rests = $user->attendances()->whereDate('start', $searchDay)->first()->restAllMinutes();
+                    $calcWorkMinutes = $user->attendances()->whereDate('start', $searchDay)->first()->minutes() - $restAllMinutes;
+                    $restHours = floor($restAllMinutes / 60);
+                    $restMinutes = floor($restAllMinutes % 60);
                     $workHours = floor($calcWorkMinutes / 60);
                     $workMinutes = floor($calcWorkMinutes % 60);
                 }
@@ -212,10 +209,7 @@ class AttendanceController extends Controller
                 if ($attendance->end) {
                     $end = Carbon::parse($attendance->end);
                     // 休憩を分単位で合計
-                    $rests = $attendance->rests->all();
-                    foreach ($rests as $restRecord) {
-                        $restAllMinutes += $restRecord->minutes();
-                    }
+                    $restAllMinutes = $attendance->restAllMinutes();
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = floor($workAllMinutes / 60);
@@ -280,10 +274,7 @@ class AttendanceController extends Controller
                         $end = Carbon::parse($attendance->end)->format('H:i');
                     }
                     // 休憩を分単位で合計
-                    $rests = $attendance->rests->all();
-                    foreach ($rests as $restRecord) {
-                        $restAllMinutes += $restRecord->minutes();
-                    }
+                    $restAllMinutes = $attendance->restAllMinutes();
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = sprintf('%02d', floor($workAllMinutes / 60));

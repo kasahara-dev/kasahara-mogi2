@@ -40,4 +40,15 @@ class Attendance extends Model
         }
         return $minutes;
     }
+    public function restAllMinutes()
+    {
+        $restAllMinutes = 0;
+        if (!is_null($this->end)) {
+            $rests = $this->rests->all();
+            foreach ($rests as $restRecord) {
+                $restAllMinutes += $restRecord->minutes();
+            }
+        }
+        return $restAllMinutes;
+    }
 }
