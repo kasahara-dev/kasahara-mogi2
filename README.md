@@ -108,7 +108,7 @@ coachtech 勤怠管理アプリ
 ## URL
 
 - スタッフログインページ：http://localhost/login
-- 管理者ログインページ:http://localhost/admin/login
+- 管理者ログインページ：http://localhost/admin/login
 
 ## テストユーザー
 

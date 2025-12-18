@@ -10,7 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
 use Faker\Factory;
 use Carbon\Carbon;
-
+use App\Models\Attendance;
 class Case06GoToWorkTest extends TestCase
 {
     use DatabaseMigrations;
@@ -39,10 +39,32 @@ class Case06GoToWorkTest extends TestCase
             ->get('/attendance')
             ->assertSee('出勤中');
         $this->assertDatabaseHas('attendances', [
+            'user_id' => $this->user->id,
             'date' => $this->date,
             'start' => $this->dateTime,
             'end' => null,
             'note' => null,
         ]);
+    }
+    public function test_出勤は一日一回のみできる()
+    {
+        Attendance::create([
+            'user_id' => $this->user->id,
+            'date' => $this->date,
+            'start' => $this->dateTime,
+            'end' => $this->dateTime,
+        ]);
+        $this->actingAs($this->user)
+            ->get('/attendance')
+            ->assertDontSee('class="attendance-btn">出勤</button>', false);
+    }
+    public function test_出勤時刻が勤怠一覧画面で確認できる()
+    {
+        $this->actingAs($this->user)
+            ->post('/attendance');
+        $this->actingAs($this->user)
+            ->get('/attendance/list')
+            ->assertSee('<td class="table__data">' . $this->dateTime->isoFormat('MM月DD日(ddd)') . '</td>
+                        <td class="table__data">' . $this->dateTime->format('H:i') . '</td>', false);
     }
 }
