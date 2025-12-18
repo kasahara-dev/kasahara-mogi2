@@ -3,9 +3,10 @@
 coachtech 勤怠管理アプリ
 
 > [!IMPORTANT]
-> クライアントと協議の結果、下記の仕様となっております。  
-> 1. 一覧表示画面について、退勤記録のある日に限り、詳細ボタンが押下できる仕様となっております。  
-> 2. 勤怠修正機能について、退勤記録がある日に限り、修正できる仕様となっております。  
+> クライアントと協議の結果、下記の仕様となっております。
+>
+> 1. 一覧表示画面について、退勤記録のある日に限り、詳細ボタンが押下できる仕様となっております。
+> 2. 勤怠修正機能について、退勤記録のある日に限り、修正できる仕様となっております。
 
 ## 環境構築
 
@@ -75,7 +76,7 @@ coachtech 勤怠管理アプリ
 
 <details>
 
-| column            | type            | primary key | unique key | not null | foreign key |
+| カラム名          | 型              | primary key | unique key | not null | foreign key |
 | ----------------- | --------------- | ----------- | ---------- | -------- | ----------- |
 | id                | unsigned bigint | 〇          |            | 〇       |             |
 | name              | string          |             |            | 〇       |             |
@@ -92,13 +93,13 @@ coachtech 勤怠管理アプリ
 
 <details>
 
-| カラム名          | 型              | primary key | unique key | not null | foreign key |
-| ----------------- | --------------- | ----------- | ---------- | -------- | ----------- |
-| id                | unsigned bigint | 〇          |            | 〇       |             |
-| email             | string          |             | 〇         | 〇       |             |
-| password          | string          |             |            | 〇       |             |
-| created_at        | timestamp       |             |            |          |             |
-| updated_at        | timestamp       |             |            |          |             |
+| カラム名   | 型              | primary key | unique key | not null | foreign key |
+| ---------- | --------------- | ----------- | ---------- | -------- | ----------- |
+| id         | unsigned bigint | 〇          |            | 〇       |             |
+| email      | string          |             | 〇         | 〇       |             |
+| password   | string          |             |            | 〇       |             |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
 
 </details>
 

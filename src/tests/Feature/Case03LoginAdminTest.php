@@ -13,11 +13,6 @@ use Faker\Factory;
 class Case03LoginAdminTest extends TestCase
 {
     use DatabaseMigrations;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
@@ -31,39 +26,39 @@ class Case03LoginAdminTest extends TestCase
     }
     public function test_メールアドレスが未入力の場合、バリデーションメッセージが表示される()
     {
-        $response = $this->post('/admin/login', [
+        $this->post('/admin/login', [
             'email' => '',
             'password' => $this->admin->password,
-        ]);
-        $response->assertSessionHasErrors([
-            'email' => 'メールアドレスを入力してください',
-        ]);
+        ])
+            ->assertSessionHasErrors([
+                'email' => 'メールアドレスを入力してください',
+            ]);
         $this->get('/admin/login')->assertSeeInOrder([
             'email' => 'メールアドレスを入力してください',
         ]);
     }
     public function test_パスワードが未入力の場合、バリデーションメッセージが表示される()
     {
-        $response = $this->post('/admin/login', [
+        $this->post('/admin/login', [
             'email' => $this->admin->email,
             'password' => '',
-        ]);
-        $response->assertSessionHasErrors([
-            'password' => 'パスワードを入力してください',
-        ]);
+        ])
+            ->assertSessionHasErrors([
+                'password' => 'パスワードを入力してください',
+            ]);
         $this->get('/admin/login')->assertSeeInOrder([
             'password' => 'パスワードを入力してください',
         ]);
     }
     public function test_登録内容と一致しない場合、バリデーションメッセージが表示される()
     {
-        $response = $this->post('/admin/login', [
+        $this->post('/admin/login', [
             'email' => $this->admin->email,
             'password' => $this->diffPassword,
-        ]);
-        $response->assertSessionHasErrors([
-            'email' => 'ログイン情報が登録されていません',
-        ]);
+        ])
+            ->assertSessionHasErrors([
+                'email' => 'ログイン情報が登録されていません',
+            ]);
         $this->get('/admin/login')->assertSeeInOrder([
             'email' => 'ログイン情報が登録されていません',
         ]);

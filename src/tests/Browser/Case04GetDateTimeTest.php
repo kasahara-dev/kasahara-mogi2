@@ -10,11 +10,6 @@ use Carbon\Carbon;
 class Case04GetDateTimeTest extends DuskTestCase
 {
     use DatabaseMigrations;
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
     protected function setUp(): void
     {
         parent::setUp();
