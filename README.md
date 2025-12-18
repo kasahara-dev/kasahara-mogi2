@@ -72,9 +72,8 @@ coachtech 勤怠管理アプリ
 
 ## テーブル仕様
 
-### users テーブル
-
 <details>
+<summary>users テーブル</summary>
 
 | カラム名          | 型              | primary key | unique key | not null | foreign key |
 | ----------------- | --------------- | ----------- | ---------- | -------- | ----------- |
@@ -89,9 +88,8 @@ coachtech 勤怠管理アプリ
 
 </details>
 
-### admins テーブル
-
 <details>
+<summary>admins テーブル</summary>
 
 | カラム名   | 型              | primary key | unique key | not null | foreign key |
 | ---------- | --------------- | ----------- | ---------- | -------- | ----------- |
