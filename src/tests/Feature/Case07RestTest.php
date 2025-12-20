@@ -106,16 +106,21 @@ class Case07RestTest extends TestCase
         $dispHours = sprintf('%02d', floor($diffInMinutes / 60));
         $dispMinutes = sprintf('%02d', floor($diffInMinutes % 60));
         $this->actingAs($this->user)
-            ->get('/attendance/list')
-            ->assertDontSee($dispHours . ':' . $dispMinutes);
-        $this->actingAs($this->user)
             ->post('/attendance/rest');
         if ($afterDateTime->copy()->startOfDay()->gt($this->dateTime->copy()->startOfDay())) {
-            $afterDateTime->startOfDay();
+            $afterDateTime->hour(0)->minute(0)->second(0);
         }
         $restId = Rest::where('attendance_id', $this->attendance->id)->first()->id;
         Carbon::setTestNow($afterDateTime);
         $this->actingAs($this->user)
             ->patch('/attendance/rest/' . $restId);
+        $this->actingAs($this->user)
+            ->get('/attendance/list')
+            ->assertSee('<td class="table__data">' . $this->dateTime->isoFormat('MM月DD日(ddd)') . '</td>
+                        <td class="table__data">' . $this->dateTime->format('H:i') . '</td>
+                        <td class="table__data">
+                                                    </td>
+                        <td class="table__data">
+                            ' . $dispHours . ':' . $dispMinutes . '                        </td>', false);
     }
 }

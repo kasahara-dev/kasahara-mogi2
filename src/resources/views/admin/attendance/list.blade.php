@@ -76,9 +76,17 @@
                             @else
                                 <td class="table-line__data">{{ \Carbon\Carbon::parse($userList['end'])->format('H:i') }}</td>
                             @endif
+                        @else
+                            <td class="table-line__data"></td>
+                        @endif
+                        @if($userList['hasRests'])
                             <td class="table-line__data">
                                 {{ sprintf('%02d', $userList['restHours']) }}:{{ sprintf('%02d', $userList['restMinutes']) }}
                             </td>
+                        @else
+                            <td class="table-line__data"></td>
+                        @endif
+                        @if(!is_null($userList['end']))
                             <td class="table-line__data">
                                 {{ sprintf('%02d', $userList['workHours']) }}:{{ sprintf('%02d', $userList['workMinutes']) }}
                             </td>
@@ -90,8 +98,6 @@
                                         class="table-line__data--link">詳細</a></td>
                             @endif
                         @else
-                            <td class="table-line__data"></td>
-                            <td class="table-line__data"></td>
                             <td class="table-line__data"></td>
                             <td class="table-line__data">詳細</td>
                         @endif

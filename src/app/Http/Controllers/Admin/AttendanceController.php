@@ -53,17 +53,19 @@ class AttendanceController extends Controller
             $restAllMinutes = 0;
             $calcWorkMinutes = 0;
             $sendAttendanceId = null;
+            $hasRests = false;
             // 出勤判定
             if ($user->attendances()->whereDate('start', $searchDay)->exists()) {
                 $start = $user->attendances()->whereDate('start', $searchDay)->first()->start;
+                $restAllMinutes = $rests = $user->attendances()->whereDate('start', $searchDay)->first()->restAllMinutes();
+                $restHours = floor($restAllMinutes / 60);
+                $restMinutes = floor($restAllMinutes % 60);
+                $hasRests = $user->attendances()->whereDate('start', $searchDay)->first()->hasRests();
                 // 退勤判定
                 if (!is_null($user->attendances()->whereDate('start', $searchDay)->first()->end)) {
                     $end = $user->attendances()->whereDate('start', $searchDay)->first()->end;
                     // 時間計算
-                    $restAllMinutes = $rests = $user->attendances()->whereDate('start', $searchDay)->first()->restAllMinutes();
                     $calcWorkMinutes = $user->attendances()->whereDate('start', $searchDay)->first()->minutes() - $restAllMinutes;
-                    $restHours = floor($restAllMinutes / 60);
-                    $restMinutes = floor($restAllMinutes % 60);
                     $workHours = floor($calcWorkMinutes / 60);
                     $workMinutes = floor($calcWorkMinutes % 60);
                 }
@@ -86,6 +88,7 @@ class AttendanceController extends Controller
                 'workMinutes' => $workMinutes,
                 'pending' => $pending,
                 'sendAttendanceId' => $sendAttendanceId,
+                'hasRests' => $hasRests,
             ];
         }
         // ページネーションのための設定
@@ -193,6 +196,7 @@ class AttendanceController extends Controller
             $workAllMinutes = 0;
             $sendAttendanceId = null;
             $pending = false;
+            $hasRests = false;
             // 勤務記録有無判定
             if (User::find($id)->attendances()->whereDate('start', $searchDay)->exists()) {
                 $attendance = User::find($id)->attendances()->whereDate('start', $searchDay)->first();
@@ -205,17 +209,18 @@ class AttendanceController extends Controller
                     $sendAttendanceId = $attendance->id;
                 }
                 $start = Carbon::parse($attendance->start);
+                // 休憩を分単位で合計
+                $restAllMinutes = $attendance->restAllMinutes();
+                $restHours = floor($restAllMinutes / 60);
+                $restMinutes = floor($restAllMinutes % 60);
+                $hasRests = $attendance->hasRests();
                 // 退勤済み判定
                 if ($attendance->end) {
                     $end = Carbon::parse($attendance->end);
-                    // 休憩を分単位で合計
-                    $restAllMinutes = $attendance->restAllMinutes();
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = floor($workAllMinutes / 60);
                     $workMinutes = floor($workAllMinutes % 60);
-                    $restHours = floor($restAllMinutes / 60);
-                    $restMinutes = floor($restAllMinutes % 60);
                 }
             }
             ;
@@ -229,6 +234,7 @@ class AttendanceController extends Controller
                 'workMinutes' => $workMinutes,
                 'pending' => $pending,
                 'sendAttendanceId' => $sendAttendanceId,
+                'hasRests' => $hasRests,
             ];
             $searchDay->addDay();
         }
@@ -261,10 +267,19 @@ class AttendanceController extends Controller
             $workAllMinutes = 0;
             $sendAttendanceId = null;
             $pending = false;
+            $hasRests = false;
             // 勤務記録有無判定
             if (User::find($id)->attendances()->whereDate('start', $searchDay)->exists()) {
                 $attendance = User::find($id)->attendances()->whereDate('start', $searchDay)->first();
                 $start = Carbon::parse($attendance->start)->format('H:i');
+                // 休憩を分単位で合計
+                $restAllMinutes = $attendance->restAllMinutes();
+                $hasRests = $attendance->hasRests();
+                if ($hasRests) {
+                    $restHours = sprintf('%02d', floor($restAllMinutes / 60));
+                    $restMinutes = sprintf('%02d', floor($restAllMinutes % 60));
+                    $restTimes = $restHours . ':' . $restMinutes;
+                }
                 // 退勤済み判定
                 if ($attendance->end) {
                     // 24時判定
@@ -273,16 +288,10 @@ class AttendanceController extends Controller
                     } else {
                         $end = Carbon::parse($attendance->end)->format('H:i');
                     }
-                    // 休憩を分単位で合計
-                    $restAllMinutes = $attendance->restAllMinutes();
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = sprintf('%02d', floor($workAllMinutes / 60));
-                    ;
                     $workMinutes = sprintf('%02d', floor($workAllMinutes % 60));
-                    $restHours = sprintf('%02d', floor($restAllMinutes / 60));
-                    $restMinutes = sprintf('%02d', floor($restAllMinutes % 60));
-                    $restTimes = $restHours . ':' . $restMinutes;
                     $workTimes = $workHours . ':' . $workMinutes;
                 }
             }

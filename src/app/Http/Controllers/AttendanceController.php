@@ -39,6 +39,7 @@ class AttendanceController extends Controller
             $workAllMinutes = 0;
             $sendAttendanceId = null;
             $pending = false;
+            $hasRests = false;
             // 勤務記録有無判定
             if (Auth::user()->attendances()->whereDate('start', $searchDay)->exists()) {
                 $attendance = Auth::user()->attendances()->whereDate('start', $searchDay)->first();
@@ -51,17 +52,18 @@ class AttendanceController extends Controller
                     $sendAttendanceId = $attendance->id;
                 }
                 $start = Carbon::parse($attendance->start);
+                $hasRests = $attendance->hasRests();
+                // 休憩時間取得
+                $restAllMinutes = $attendance->restAllMinutes();
+                $restHours = floor($restAllMinutes / 60);
+                $restMinutes = floor($restAllMinutes % 60);
                 // 退勤済み判定
                 if ($attendance->end) {
-                    // 休憩時間取得
-                    $restAllMinutes = $attendance->restAllMinutes();
                     $end = Carbon::parse($attendance->end);
                     // 合計勤務時間計算
                     $workAllMinutes = $attendance->minutes() - $restAllMinutes;
                     $workHours = floor($workAllMinutes / 60);
                     $workMinutes = floor($workAllMinutes % 60);
-                    $restHours = floor($restAllMinutes / 60);
-                    $restMinutes = floor($restAllMinutes % 60);
                 }
             }
             ;
@@ -75,6 +77,7 @@ class AttendanceController extends Controller
                 'workMinutes' => $workMinutes,
                 'pending' => $pending,
                 'sendAttendanceId' => $sendAttendanceId,
+                'hasRests' => $hasRests,
             ];
             $searchDay->addDay();
         }
@@ -91,11 +94,13 @@ class AttendanceController extends Controller
     }
     public function store()
     {
-        Attendance::create([
-            'user_id' => auth()->id(),
-            'date' => now(),
-            'start' => now(),
-        ]);
+        DB::transaction(function () {
+            Attendance::create([
+                'user_id' => auth()->id(),
+                'date' => now(),
+                'start' => now(),
+            ]);
+        });
         return redirect('/attendance');
     }
     public function update($id)

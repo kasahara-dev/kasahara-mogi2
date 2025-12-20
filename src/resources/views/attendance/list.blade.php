@@ -54,7 +54,7 @@
                             @endif
                         </td>
                         <td class="table__data">
-                            @if($listLine['end']){{ sprintf('%02d', $listLine['restHours']) . ':' . sprintf('%02d', $listLine['restMinutes']) }}@endif
+                            @if($listLine['hasRests']){{ sprintf('%02d', $listLine['restHours']) . ':' . sprintf('%02d', $listLine['restMinutes']) }}@endif
                         </td>
                         <td class="table__data">
                             @if($listLine['end']){{ sprintf('%02d', $listLine['workHours']) . ':' . sprintf('%02d', $listLine['workMinutes']) }}@endif
@@ -62,7 +62,8 @@
                         @if($listLine['end'])
                             @if($listLine['pending'])
                                 <td class="table__data">
-                                    <a href="/requested_attendance/detail/{{ $listLine['sendAttendanceId'] }}/?pending=true" class="table__data--active">詳細</a>
+                                    <a href="/requested_attendance/detail/{{ $listLine['sendAttendanceId'] }}/?pending=true"
+                                        class="table__data--active">詳細</a>
                                 </td>
                             @else
                                 <td class="table__data">
