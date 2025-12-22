@@ -92,7 +92,7 @@ class Case09GeneralUserAttendanceListTest extends TestCase
         $attendanceId = Attendance::inRandomOrder()->first()->id;
         $this->actingAs($this->user)
             ->get('/attendance/detail/' . $attendanceId)
-            ->assertOk()
-            ->assertViewIs('attendance.detail');
+            ->assertViewIs('attendance.detail')
+            ->assertViewHas('attendanceId', $attendanceId);
     }
 }
