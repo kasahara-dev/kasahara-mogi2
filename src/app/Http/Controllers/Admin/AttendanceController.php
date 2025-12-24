@@ -115,7 +115,10 @@ class AttendanceController extends Controller
         $rests = $attendance->rests()->orderBy('start')->get();
         $restsCount = $attendance->rests()->count();
         $note = $attendance->note;
-        session(['from' => url()->previous()]);
+        // リダイレクト時以外は遷移元画面(=遷移先画面となる)を取得
+        if (url()->previous() <> url()->current()) {
+            session(['from' => url()->previous()]);
+        }
         return view('admin.attendance.detail', compact(['attendanceId', 'name', 'start', 'end', 'rests', 'restsCount', 'note']));
     }
     public function update(AttendanceRequest $request, $id)
@@ -260,8 +263,8 @@ class AttendanceController extends Controller
             $restHours = 0;
             $restMinutes = 0;
             $restAllMinutes = 0;
-            $restTimes = '00:00';
-            $workTimes = '00:00';
+            $restTimes = '';
+            $workTimes = '';
             $workHours = 0;
             $workMinutes = 0;
             $workAllMinutes = 0;

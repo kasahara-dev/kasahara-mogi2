@@ -64,7 +64,7 @@ class RequestedAttendanceController extends Controller
             }
             // 申請
             $forRequest = RequestModel::create([
-                'attendance_id' => $request->id,
+                'attendance_id' => $id,
                 'status' => 1,
                 'created_at' => now(),
                 'updated_at' => now(),

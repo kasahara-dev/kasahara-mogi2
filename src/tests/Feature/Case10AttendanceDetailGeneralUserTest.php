@@ -12,6 +12,7 @@ use App\Models\Attendance;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Database\Seeders\AttendancesTableSeeder;
+use Database\Seeders\RestsTableSeeder;
 
 class Case10AttendanceDetailGeneralUserTest extends TestCase
 {
@@ -59,7 +60,6 @@ class Case10AttendanceDetailGeneralUserTest extends TestCase
         $end = Carbon::parse($this->attendance->end);
         $endHour = $end->hour;
         $endMinute = $end->minute;
-
         $this->actingAs($this->user)
             ->get('/attendance/detail/' . $this->attendance->id)
             ->assertSeeInOrder([
@@ -75,9 +75,46 @@ class Case10AttendanceDetailGeneralUserTest extends TestCase
                                                                                     selected
                                                                                 >',
                 '<select name="attendance_end_minute" id="attendance_end_minute" class="list-line-selector">',
-                '<option value="'   .$endMinute .'"
+                '<option value="' . $endMinute . '"
                                                                                     selected
                                                                                 >'
             ], false);
+    }
+    public function test_「休憩」にて記されている時間がログインユーザーの打刻と一致している()
+    {
+        $this->seed(RestsTableSeeder::class);
+        while (count($this->attendance->rests) <= 0) {
+            $this->attendance = Attendance::inRandomOrder()->first();
+        }
+        $rests = $this->attendance->rests->sortBy('start');
+        $i = 0;
+        foreach ($rests as $rest) {
+            $i++;
+            $start = Carbon::parse($rest->start);
+            $startHour = $start->hour;
+            $startMinute = $start->minute;
+            $end = Carbon::parse($rest->end);
+            $endHour = $end->hour;
+            $endMinute = $end->minute;
+            $exceptTexts[] = 'id="rest_start_hour_' . $i . '"';
+            $exceptTexts[] = '<option value="' . $startHour . '"
+                                                                                    selected
+                                                                                >';
+            $exceptTexts[] = 'id="rest_start_minute_' . $i . '"';
+            $exceptTexts[] = '<option value="' . $startMinute . '"
+                                                                                    selected
+                                                                                >';
+            $exceptTexts[] = 'id="rest_end_hour_' . $i . '"';
+            $exceptTexts[] = '<option value="' . $endHour . '"
+                                                                                    selected
+                                                                                >';
+            $exceptTexts[] = 'id="rest_end_minute_' . $i . '"';
+            $exceptTexts[] = '<option value="' . $endMinute . '"
+                                                                                    selected
+                                                                                >';
+        }
+        $this->actingAs($this->user)
+            ->get('/attendance/detail/' . $this->attendance->id)
+            ->assertSeeInOrder($exceptTexts, false);
     }
 }

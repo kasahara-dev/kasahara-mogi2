@@ -26,7 +26,8 @@ class AttendanceRequest extends FormRequest
             'attendance_start_num' => ['lte:attendance_end_num'],
             'rest_start_num.*' => [
                 'nullable',
-                'lte:attendance_end_num,rest_end_num.*',
+                'lte:rest_end_num.*',
+                'lte:attendance_end_num',
                 'gte:attendance_start_num'
             ],
             'rest_end_num.*' => [

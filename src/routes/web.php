@@ -82,4 +82,3 @@ Route::middleware(['auth:admin,web', 'verified'])->group(
         Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
     }
 );
-// Route::get('/stamp_correction_request/list', [RequestController::class, 'show']);
