@@ -22,17 +22,9 @@ class Case10AttendanceDetailGeneralUserTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $faker = Factory::create('ja_JP');
-        $this->dateTime = Carbon::parse($faker->dateTime());
-        $this->date = $this->dateTime->toDateString();
-        Carbon::setTestNow($this->dateTime);
         $this->seed(AttendancesTableSeeder::class);
         $this->attendance = Attendance::inRandomOrder()->first();
     }
-    protected function tearDown(): void
-    {
-        Carbon::setTestNow();
-    }
-
     public function test_勤怠詳細画面の「名前」がログインユーザーの氏名になっている()
     {
         $this->actingAs($this->user)

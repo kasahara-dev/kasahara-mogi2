@@ -25,14 +25,14 @@ class RequestController extends Controller
                 $requestIds = RequestModel::where('status', 1)->pluck('id');
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
-                    ->orderBy('requests.updated_at', 'asc')
+                    ->orderBy('requests.created_at', 'asc')
                     ->orderBy('requests.id', 'asc')
                     ->paginate(10);
             } else {
                 $requestIds = RequestModel::where('status', 2)->pluck('id');
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
-                    ->orderBy('requests.updated_at', 'desc')
+                    ->orderBy('requests.created_at', 'desc')
                     ->orderBy('requests.id', 'desc')
                     ->paginate(10);
             }
@@ -51,14 +51,14 @@ class RequestController extends Controller
                 $requestIds = $searchRequests->where('status', 1)->pluck('id');
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
-                    ->orderBy('requests.updated_at', 'asc')
+                    ->orderBy('requests.created_at', 'asc')
                     ->orderBy('requests.id', 'asc')
                     ->paginate(10);
             } else {
                 $requestIds = $searchRequests->where('status', 2)->pluck('id');
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
-                    ->orderBy('requests.updated_at', 'desc')
+                    ->orderBy('requests.created_at', 'desc')
                     ->orderBy('requests.id', 'desc')
                     ->paginate(10);
             }

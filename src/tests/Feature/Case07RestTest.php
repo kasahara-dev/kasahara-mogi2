@@ -72,6 +72,7 @@ class Case07RestTest extends TestCase
         $this->actingAs($this->user)
             ->get('/attendance')
             ->assertDontSee('出勤中')
+            ->assertSee('class="rest-btn">休憩戻</button>', false)
             ->assertDontSee('class="rest-btn">休憩入</button>', false);
         $restId = Rest::where('attendance_id', $this->attendance->id)->first()->id;
         $this->actingAs($this->user)
@@ -79,6 +80,7 @@ class Case07RestTest extends TestCase
         $this->actingAs($this->user)
             ->get('/attendance')
             ->assertSee('出勤中')
+            ->assertDontSee('class="rest-btn">休憩戻</button>', false)
             ->assertSee('class="rest-btn">休憩入</button>', false);
         $this->assertDatabaseHas('rests', [
             'attendance_id' => $this->attendance->id,

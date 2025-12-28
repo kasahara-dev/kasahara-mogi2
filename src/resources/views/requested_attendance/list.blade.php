@@ -48,7 +48,7 @@
                     <td class="table__data">{{ $requestedAttendance->request->attendance->user->name }}</td>
                     <td class="table__data">{{ \Carbon\Carbon::parse($requestedAttendance->start)->format('Y/m/d')}}</td>
                     <td class="table__data">{{ $requestedAttendance->note }}</td>
-                    <td class="table__data">{{ \Carbon\Carbon::parse($requestedAttendance->created_at)->format('Y/m/d')}}</td>
+                    <td class="table__data">{{ \Carbon\Carbon::parse($requestedAttendance->request->created_at)->format('Y/m/d')}}</td>
                     <td class="table__data"><a class="table__data--link"
                             href="/requested_attendance/detail/{{ $requestedAttendance->id }}">詳細</a>
                     </td>

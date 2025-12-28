@@ -40,6 +40,7 @@ class RequestController extends Controller
             $requestModel->update([
                 'status' => 2,
                 'approver' => Auth::id(),
+                'updated_at' => now(),
             ]);
             // attendancesテーブル更新
             $attendance = $requestModel->attendance()->update([
