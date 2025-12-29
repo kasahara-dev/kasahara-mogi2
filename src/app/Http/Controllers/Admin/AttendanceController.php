@@ -41,6 +41,8 @@ class AttendanceController extends Controller
         $searchDay = new Carbon();
         $searchDay->year($year)->month($month)->day($day);
         $usersData = [];
+        $pending = false;
+        $sendAttendanceId = null;
         foreach ($users as $user) {
             $name = $user->name;
             $start = null;

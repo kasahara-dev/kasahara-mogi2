@@ -83,6 +83,11 @@
                             <td class="table-line__data">
                                 {{ sprintf('%02d', $userList['restHours']) }}:{{ sprintf('%02d', $userList['restMinutes']) }}
                             </td>
+                        @elseif(!is_null($userList['end']))
+                            <td class="table-line__data">
+                                00:00
+                            </td>
+
                         @else
                             <td class="table-line__data"></td>
                         @endif

@@ -56,7 +56,9 @@
                             @endif
                         </td>
                         <td class="table__data">
-                            @if($listLine['hasRests']){{ sprintf('%02d', $listLine['restHours']) . ':' . sprintf('%02d', $listLine['restMinutes']) }}@endif
+                            @if($listLine['hasRests']){{ sprintf('%02d', $listLine['restHours']) . ':' . sprintf('%02d', $listLine['restMinutes']) }}@elseif($listLine['end'])
+                            00:00
+                            @endif
                         </td>
                         <td class="table__data">
                             @if($listLine['end']){{ sprintf('%02d', $listLine['workHours']) . ':' . sprintf('%02d', $listLine['workMinutes']) }}@endif
