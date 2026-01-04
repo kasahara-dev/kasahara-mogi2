@@ -27,7 +27,7 @@ class RequestedAttendancesTableSeeder extends Seeder
                 'date' => $start->hour(rand(0, 11))->minute(rand(0, 59)),
                 'start' => $start,
                 'end' => $end->hour(rand(12, 23))->minute(rand(0, 59)),
-                'note' => $faker->realText(),
+                'note' => $faker->sentence(),
                 'created_at' => now(),
                 'updated_at' => now(),
             ];

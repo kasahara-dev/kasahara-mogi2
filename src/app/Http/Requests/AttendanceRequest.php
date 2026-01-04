@@ -57,7 +57,7 @@ class AttendanceRequest extends FormRequest
     public function messages()
     {
         return [
-            'attendance_start_num.lte' => '出勤時間が不適切な値です',
+            'attendance_start_num.lte' => '出勤時間もしくは退勤時間が不適切な値です',
             'rest_start_num.*.lte' => '休憩時間が不適切な値です',
             'rest_start_num.*.gte' => '休憩時間が不適切な値です',
             'rest_end_num.*.lte' => '休憩時間もしくは退勤時間が不適切な値です',

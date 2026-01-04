@@ -22,10 +22,9 @@ class Case08LeaveWorkTest extends TestCase
         $this->date = $this->dateTime->toDateString();
         Carbon::setTestNow($this->dateTime);
         $this->afterDateTime = $this->dateTime->copy()->addMinutes(rand(0, 200));
-        if ($this->afterDateTime->copy()->startOfDay()->gt($this->dateTime->copy()->startOfDay())) {
+        while ($this->afterDateTime->copy()->startOfDay()->gt($this->dateTime->copy()->startOfDay())) {
             $this->afterDateTime->hour(0)->minute(0)->second(0);
         }
-
     }
     protected function tearDown(): void
     {

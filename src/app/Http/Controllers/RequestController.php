@@ -13,6 +13,7 @@ class RequestController extends Controller
 {
     public function show(Request $request)
     {
+        $paginate = 10;
         // 管理者ログインの場合
         if (Auth::guard('admin')->check()) {
             $pending = true;
@@ -27,14 +28,14 @@ class RequestController extends Controller
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
                     ->orderBy('requests.created_at', 'asc')
                     ->orderBy('requests.id', 'asc')
-                    ->paginate(10);
+                    ->paginate($paginate);
             } else {
                 $requestIds = RequestModel::where('status', 2)->pluck('id');
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
                     ->orderBy('requests.created_at', 'desc')
                     ->orderBy('requests.id', 'desc')
-                    ->paginate(10);
+                    ->paginate($paginate);
             }
             return view('admin.stamp.list', compact('pending', 'requestedAttendances'));
             // 一般ユーザーでログインの場合
@@ -53,14 +54,14 @@ class RequestController extends Controller
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
                     ->orderBy('requests.created_at', 'asc')
                     ->orderBy('requests.id', 'asc')
-                    ->paginate(10);
+                    ->paginate($paginate);
             } else {
                 $requestIds = $searchRequests->where('status', 2)->pluck('id');
                 $requestedAttendances = RequestedAttendance::whereIn('request_id', $requestIds)
                     ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
                     ->orderBy('requests.created_at', 'desc')
                     ->orderBy('requests.id', 'desc')
-                    ->paginate(10);
+                    ->paginate($paginate);
             }
             return view('/requested_attendance/list', compact('pending', 'requestedAttendances'));
         }

@@ -96,7 +96,14 @@ class Case12AttendanceListAdminTest extends TestCase
     {
         $yesterday = $this->dateTime->copy()->subDay();
         $this->actingAs($this->admin, 'admin')
-                ->get('/admin/attendance/list?year='.$yesterday->year.'&month='.$yesterday->month.'&day='.$yesterday->day)
+            ->get('/admin/attendance/list?year=' . $yesterday->year . '&month=' . $yesterday->month . '&day=' . $yesterday->day)
             ->assertSee($yesterday->format('Y年n月j日の勤怠'));
+    }
+    public function test_「翌日」を押下した時に次の日の勤怠情報が表示される()
+    {
+        $tomorrow = $this->dateTime->copy()->addDay();
+        $this->actingAs($this->admin, 'admin')
+            ->get('/admin/attendance/list?year=' . $tomorrow->year . '&month=' . $tomorrow->month . '&day=' . $tomorrow->day)
+            ->assertSee($tomorrow->format('Y年n月j日の勤怠'));
     }
 }

@@ -25,7 +25,7 @@ class RequestsTableSeeder extends Seeder
             $daysToToday = $attendanceStart->diffInDays($today);
             $daysArray = [$attendanceStart->copy()->addDays(rand(0, $daysToToday)), $attendanceStart->copy()->addDays(rand(0, $daysToToday))];
             sort($daysArray);
-            for ($i = 0; $i < rand(0, 4); $i++) {
+            for ($i = 0; $i < rand(0, 3); $i++) {
                 if ($i == 0 && $randNum < 50) {
                     $param = [
                         'attendance_id' => $attendance->id,

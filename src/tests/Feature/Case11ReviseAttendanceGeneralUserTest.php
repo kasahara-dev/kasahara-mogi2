@@ -46,7 +46,7 @@ class Case11ReviseAttendanceGeneralUserTest extends TestCase
             $beforeDateTime = $dateTime2;
             $afterDateTime = $dateTime1;
         }
-        $exceptRest = [1 => '-1'];
+        $expectRest = [1 => '-1'];
         $this->actingAs($this->user)
             ->from('/attendance/detail/' . $this->attendance->id)
             ->post('/attendance/detail/' . $this->attendance->id, [
@@ -54,16 +54,16 @@ class Case11ReviseAttendanceGeneralUserTest extends TestCase
                 'attendance_start_minute' => $afterDateTime->minute,
                 'attendance_end_hour' => $beforeDateTime->hour,
                 'attendance_end_minute' => $beforeDateTime->minute,
-                'rest_start_hour' => $exceptRest,
-                'rest_start_minute' => $exceptRest,
-                'rest_end_hour' => $exceptRest,
-                'rest_end_minute' => $exceptRest,
+                'rest_start_hour' => $expectRest,
+                'rest_start_minute' => $expectRest,
+                'rest_end_hour' => $expectRest,
+                'rest_end_minute' => $expectRest,
                 'note' => $this->faker->realText(),
             ])
-            ->assertSessionHasErrors(['attendance_start_num' => '出勤時間が不適切な値です']);
+            ->assertSessionHasErrors(['attendance_start_num' => '出勤時間もしくは退勤時間が不適切な値です']);
         $this->actingAs($this->user)
             ->get('/attendance/detail/' . $this->attendance->id)
-            ->assertSee('出勤時間が不適切な値です');
+            ->assertSee('出勤時間もしくは退勤時間が不適切な値です');
 
     }
     public function test_休憩開始時間が退勤時間より後になっている場合、エラーメッセージが表示される()
@@ -139,7 +139,7 @@ class Case11ReviseAttendanceGeneralUserTest extends TestCase
             $beforeDateTime = $dateTime2;
             $afterDateTime = $dateTime1;
         }
-        $exceptRest = [1 => '-1'];
+        $expectRest = [1 => '-1'];
         $this->actingAs($this->user)
             ->from('/attendance/detail/' . $this->attendance->id)
             ->post('/attendance/detail/' . $this->attendance->id, [
@@ -147,10 +147,10 @@ class Case11ReviseAttendanceGeneralUserTest extends TestCase
                 'attendance_start_minute' => $beforeDateTime->minute,
                 'attendance_end_hour' => $afterDateTime->hour,
                 'attendance_end_minute' => $afterDateTime->minute,
-                'rest_start_hour' => $exceptRest,
-                'rest_start_minute' => $exceptRest,
-                'rest_end_hour' => $exceptRest,
-                'rest_end_minute' => $exceptRest,
+                'rest_start_hour' => $expectRest,
+                'rest_start_minute' => $expectRest,
+                'rest_end_hour' => $expectRest,
+                'rest_end_minute' => $expectRest,
                 'note' => '',
             ])
             ->assertSessionHasErrors(['note' => '備考を記入してください']);

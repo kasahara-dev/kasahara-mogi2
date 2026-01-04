@@ -104,6 +104,9 @@ class Case07RestTest extends TestCase
     public function test_休憩時刻が勤怠一覧画面で確認できる()
     {
         $afterDateTime = $this->dateTime->copy()->addMinutes(rand(0, 200));
+        while($afterDateTime->copy()->startOfDay()->gt($this->date)){
+            $afterDateTime = $this->dateTime->copy()->addMinutes(rand(0, 200));
+        }
         $diffInMinutes = $afterDateTime->copy()->second(0)->diffInMinutes($this->dateTime->copy()->second(0));
         $dispHours = sprintf('%02d', floor($diffInMinutes / 60));
         $dispMinutes = sprintf('%02d', floor($diffInMinutes % 60));
