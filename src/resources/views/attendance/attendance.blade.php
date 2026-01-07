@@ -23,7 +23,7 @@
     @if($workingStatus == 0)
         <form action="/attendance" method="post">
             @csrf
-            <button type="submit" class="attendance-btn">出勤</button>
+            <button type="submit" class="attendance-btn" dusk="go-to-work">出勤</button>
         </form>
     @elseif($workingStatus == 1)
         @if($resting)
@@ -32,18 +32,18 @@
                 method="post">
                 @method('PATCH')
                 @csrf
-                <button type="submit" class="rest-btn">休憩戻</button>
+                <button type="submit" dusk="rest-end-btn" class="rest-btn">休憩戻</button>
             </form>
         @else
             <div class="working-btns-area">
                 <form action="/attendance/{{ Auth::user()->attendances()->where('end', null)->first()->id }}" method="post">
                     @method('PATCH')
                     @csrf
-                    <button type="submit" class="attendance-btn">退勤</button>
+                    <button type="submit" dusk="work-end-btn" class="attendance-btn">退勤</button>
                 </form>
                 <form action="/attendance/rest" method="post">
                     @csrf
-                    <button type="submit" class="rest-btn">休憩入</button>
+                    <button type="submit" dusk="rest-in-btn" class="rest-btn">休憩入</button>
                 </form>
             </div>
         @endif

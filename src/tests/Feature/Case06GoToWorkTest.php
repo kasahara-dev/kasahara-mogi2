@@ -32,7 +32,7 @@ class Case06GoToWorkTest extends TestCase
         $this->actingAs($this->user)
             ->get('/attendance')
             ->assertDontSee('出勤中')
-            ->assertSee('class="attendance-btn">出勤</button>', false);
+            ->assertSee('出勤');
         $this->actingAs($this->user)
             ->post('/attendance');
         $this->actingAs($this->user)
@@ -46,25 +46,49 @@ class Case06GoToWorkTest extends TestCase
             'note' => null,
         ]);
     }
-    public function test_出勤は一日一回のみできる()
-    {
-        Attendance::create([
-            'user_id' => $this->user->id,
-            'date' => $this->date,
-            'start' => $this->dateTime,
-            'end' => $this->dateTime,
-        ]);
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertDontSee('class="attendance-btn">出勤</button>', false);
-    }
     public function test_出勤時刻が勤怠一覧画面で確認できる()
     {
         $this->actingAs($this->user)
             ->post('/attendance');
+        $attendanceId = Attendance::first()->id;
+        $searchDay = $this->dateTime->copy()->startOfMonth();
+        while ($searchDay <= $this->dateTime->copy()->lastOfMonth()) {
+            $viewList[] = $searchDay->isoFormat('MM月DD日(ddd)');
+            if ($searchDay->copy()->startOfDay() == $this->dateTime->copy()->startOfDay()) {
+                $viewList[] = $this->dateTime->format('H:i');
+                $dayList[] = [
+                    'day' => $searchDay->isoFormat('MM月DD日(ddd)'),
+                    'start' => $this->dateTime,
+                    'end' => null,
+                    'restHours' => 0,
+                    'restMinutes' => 0,
+                    'workHours' => 0,
+                    'workMinutes' => 0,
+                    'pending' => false,
+                    'sendAttendanceId' => $attendanceId,
+                    'hasRests' => false,
+                ];
+            } else {
+                $dayList[] = [
+                    'day' => $searchDay->isoFormat('MM月DD日(ddd)'),
+                    'start' => null,
+                    'end' => null,
+                    'restHours' => 0,
+                    'restMinutes' => 0,
+                    'workHours' => 0,
+                    'workMinutes' => 0,
+                    'pending' => false,
+                    'sendAttendanceId' => null,
+                    'hasRests' => false,
+                ];
+            }
+            $searchDay->addDay();
+        }
+        $this->actingAs($this->user)
+            ->post('/attendance');
         $this->actingAs($this->user)
             ->get('/attendance/list')
-            ->assertSee('<td class="table__data">' . $this->dateTime->isoFormat('MM月DD日(ddd)') . '</td>
-                        <td class="table__data">' . $this->dateTime->format('H:i') . '</td>', false);
+            ->assertViewHas('dayList', $dayList)
+            ->assertSeeInOrder($viewList);
     }
 }

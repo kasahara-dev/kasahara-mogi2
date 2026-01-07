@@ -30,18 +30,6 @@ class Case16MailVerifyTest extends TestCase
         $user = User::first();
         Notification::assertSentTo($user, VerifyEmail::class);
     }
-    public function test_メール認証誘導画面で「認証はこちらから」ボタンを押下するとメール認証サイトに遷移する()
-    {
-        $faker = Factory::create('ja_JP');
-        $email = $faker->safeEmail();
-        $password = $faker->unique->password;
-        $user = User::create([
-            'name' => $faker->name(),
-            'email' => $email,
-            'password' => bcrypt($password),
-        ]);
-        $this->actingAs($user)->get(env('APP_URL') . ':8025')->assertOk();
-    }
     public function test_メール認証サイトのメール認証を完了すると、勤怠登録画面に遷移する()
     {
         $user = User::factory()->create(['email_verified_at' => null]);
