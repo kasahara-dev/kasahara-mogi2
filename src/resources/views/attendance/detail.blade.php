@@ -12,14 +12,14 @@
             <dl class="list">
                 <div class="list-line">
                     <dt class="list-line-title">名前</dt>
-                    <dd class="list-line-data">
+                    <dd dusk="name" class="list-line-data">
                         {{ $name }}
                         <div class="list-line-errors-area"></div>
                     </dd>
                 </div>
                 <div class="list-line">
                     <dt class="list-line-title">日付</dt>
-                    <dd class="list-line-data">
+                    <dd dusk="date" class="list-line-data">
                         {{ \Carbon\Carbon::parse($start)->format('Y年m月d日') }}
                         <div class="list-line-errors-area"></div>
                     </dd>

@@ -30,14 +30,7 @@ class Case06GoToWorkTest extends TestCase
     public function test_出勤ボタンが正しく機能する()
     {
         $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertDontSee('出勤中')
-            ->assertSee('出勤');
-        $this->actingAs($this->user)
             ->post('/attendance');
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertSee('出勤中');
         $this->assertDatabaseHas('attendances', [
             'user_id' => $this->user->id,
             'date' => $this->date,

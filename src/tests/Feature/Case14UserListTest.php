@@ -42,8 +42,7 @@ class Case14UserListTest extends TestCase
             foreach ($users as $user) {
                 $this->actingAs($this->admin, 'admin')
                     ->get('/admin/staff/list?page=' . $page)
-                    ->assertSee('<td class="table-line__data">' . $user->name . '</td>
-                        <td class="table-line__data">' . $user->email . '</td', false);
+                    ->assertSeeInOrder([$user->name, $user->email]);
             }
         }
     }

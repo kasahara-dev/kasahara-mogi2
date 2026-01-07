@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="status">
+    <div dusk="status" class="status">
         @if($workingStatus == 0)
             勤務外
         @elseif($workingStatus == 1)

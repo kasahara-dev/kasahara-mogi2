@@ -57,11 +57,8 @@ class Case08LeaveWorkTest extends TestCase
     public function test_退勤時刻が勤怠一覧画面で確認できる()
     {
         $diffInMinutes = $this->afterDateTime->copy()->second(0)->diffInMinutes($this->dateTime->copy()->second(0));
-        // $dispHours = sprintf('%02d', floor($diffInMinutes / 60));
-        // $dispMinutes = sprintf('%02d', floor($diffInMinutes % 60));
         $dispHours = floor($diffInMinutes / 60);
         $dispMinutes = floor($diffInMinutes % 60);
-
         $this->actingAs($this->user)
             ->post('/attendance');
         Carbon::setTestNow($this->afterDateTime);
@@ -101,7 +98,6 @@ class Case08LeaveWorkTest extends TestCase
             }
             $searchDay->addDay();
         }
-
         $this->actingAs($this->user)
             ->get('/attendance/list')
             ->assertViewHas('dayList', $dayList)

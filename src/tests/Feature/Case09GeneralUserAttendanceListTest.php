@@ -66,6 +66,7 @@ class Case09GeneralUserAttendanceListTest extends TestCase
     {
         $this->actingAs($this->user)
             ->get('/attendance/list')
+            ->assertViewHasAll(['year' => $this->dateTime->year, 'month' => $this->dateTime->month])
             ->assertSee($this->dateTime->isoFormat('YYYY/MM'));
     }
     public function test_「前月」を押下した時に表示月の前月の情報が表示される()
@@ -73,18 +74,22 @@ class Case09GeneralUserAttendanceListTest extends TestCase
         $preMonth = $this->dateTime->copy()->subMonth();
         $this->actingAs($this->user)
             ->get('/attendance/list')
-            ->assertDontSee('id="monthPicker" value="' . $preMonth->isoFormat('YYYY/MM') . '"', false);
+            ->assertDontSee($preMonth->isoFormat('YYYY/MM'));
         $this->actingAs($this->user)
-            ->get('/attendance/list/?year=' . $preMonth->year . '&month=' . $preMonth->month);
+            ->get('/attendance/list/?year=' . $preMonth->year . '&month=' . $preMonth->month)
+            ->assertViewHasAll(['year' => $preMonth->year, 'month' => $preMonth->month])
+            ->assertSee($preMonth->isoFormat('YYYY/MM'));
     }
     public function test_「翌月」を押下した時に表示月の翌月の情報が表示される()
     {
         $nextMonth = $this->dateTime->copy()->addMonth();
         $this->actingAs($this->user)
             ->get('/attendance/list')
-            ->assertDontSee('id="monthPicker" value="' . $nextMonth->isoFormat('YYYY/MM') . '"', false);
+            ->assertDontSee($nextMonth->isoFormat('YYYY/MM'));
         $this->actingAs($this->user)
-            ->get('/attendance/list/?year=' . $nextMonth->year . '&month=' . $nextMonth->month);
+            ->get('/attendance/list/?year=' . $nextMonth->year . '&month=' . $nextMonth->month)
+            ->assertViewHasAll(['year' => $nextMonth->year, 'month' => $nextMonth->month])
+            ->assertSee($nextMonth->isoFormat('YYYY/MM'));
     }
     public function test_「詳細」を押下すると、その日の勤怠詳細画面に遷移する()
     {

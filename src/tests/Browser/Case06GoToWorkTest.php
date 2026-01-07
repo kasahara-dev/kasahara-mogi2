@@ -9,6 +9,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
 use App\Models\Attendance;
+use function PHPUnit\Framework\assertEquals;
 
 class Case06GoToWorkTest extends DuskTestCase
 {
@@ -25,6 +26,14 @@ class Case06GoToWorkTest extends DuskTestCase
                 ->loginAs($this->user)
                 ->visit('/attendance')
                 ->assertVisible('@go-to-work');
+            $btnText = $browser->text('@go-to-work');
+            assertEquals('出勤', $btnText);
+            $browser
+                ->loginAs($this->user)
+                ->visit('/attendance')
+                ->click('@go-to-work');
+            $statusText = $browser->text('@status');
+            assertEquals('出勤中', $statusText);
         });
     }
     public function test_出勤は一日一回のみできる()
