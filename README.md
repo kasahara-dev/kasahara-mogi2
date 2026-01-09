@@ -109,7 +109,7 @@ coachtech 勤怠管理アプリ
 | ---------- | --------------- | ----------- | ---------- | -------- | ----------- |
 | id         | unsigned bigint | 〇          |            | 〇       |             |
 | user_id    | unsigned bigint |             | 〇 UK1     | 〇       | users(id)   |
-| date       | date            |             | 〇 UK1     | 〇       | 〇          |
+| date       | date            |             | 〇 UK1     | 〇       |             |
 | start      | datetime        |             |            | 〇       |             |
 | end        | datetime        |             |            |          |             |
 | note       | string          |             |            |          |             |
@@ -152,8 +152,8 @@ coachtech 勤怠管理アプリ
 | カラム名   | 型              | primary key | unique key | not null | foreign key  |
 | ---------- | --------------- | ----------- | ---------- | -------- | ------------ |
 | id         | unsigned bigint | 〇          |            | 〇       |              |
-| request_id | unsigned bigint |             | 〇 UK1     | 〇       | requests(id) |
-| date       | date            |             | 〇 UK1     | 〇       | 〇           |
+| request_id | unsigned bigint |             |            | 〇       | requests(id) |
+| date       | date            |             |            | 〇       |              |
 | start      | datetime        |             |            | 〇       |              |
 | end        | datetime        |             |            | 〇       |              |
 | note       | string          |             |            |          |              |
