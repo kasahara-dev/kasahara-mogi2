@@ -3,15 +3,11 @@
 namespace Tests\Feature;
 
 use Database\Seeders\AttendancesTableSeeder;
-use Database\Seeders\RestsTableSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Attendance;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 class Case09GeneralUserAttendanceListTest extends TestCase
 {

@@ -6,9 +6,7 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
-use Carbon\Carbon;
 use Faker\Factory;
-
 class Case16MailVerifyTest extends DuskTestCase
 {
     use DatabaseMigrations;

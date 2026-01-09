@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use App\Models\RequestedAttendance;
 use Illuminate\Support\Facades\DB;
-
 class RequestedRestsTableSeeder extends Seeder
 {
     /**

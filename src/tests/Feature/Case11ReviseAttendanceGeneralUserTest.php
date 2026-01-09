@@ -3,18 +3,16 @@
 namespace Tests\Feature;
 
 use App\Models\Admin;
+use App\Models\RequestedRest;
 use App\Models\RequestedAttendance;
 use Database\Seeders\AdminsTableSeeder;
 use Database\Seeders\RequestedRestsTableSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Request;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Database\Seeders\AttendancesTableSeeder;
 use Database\Seeders\RestsTableSeeder;
@@ -201,47 +199,48 @@ class Case11ReviseAttendanceGeneralUserTest extends TestCase
             'start' => $timesArray[1]->second(0),
             'end' => $timesArray[2]->second(0),
         ]);
+        $expectedRests = RequestedRest::orderBy('start')->get();
         $paginate = 10;
-        $expectedAttendance = RequestedAttendance::where('request_id', $requestId)
+        $expectedAttendances = RequestedAttendance::where('request_id', $requestId)
             ->join('requests', 'requested_attendances.request_id', '=', 'requests.id')
             ->paginate($paginate);
         $requestDate = Carbon::parse(Request::first()->created_at);
         // 承認画面
         $this->actingAs($admin, 'admin')
-            ->get('/stamp_correction_request/approve/' . $requestId)
-            ->assertSeeInOrder(['<dt class="list-line-title">名前</dt>
-                <dd class="list-line-data">
-                    ' . $this->user->name . '
-                </dd>',
-                '<dt class="list-line-title">日付</dt>
-                <dd class="list-line-data">
-                    ' . $timesArray[0]->format('Y年m月d日') . '
-                </dd>',
-                '<dt class="list-line-title">出勤・退勤</dt>
-                <dd class="list-line-data">
-                                            ' . $timesArray[0]->format('H:i') . '～' . $timesArray[3]->format('H:i') . '
-                                    </dd>',
-                '<dt class="list-line-title">休憩</dt>
-                    <dd class="list-line-data">
-                                                    ' . $timesArray[1]->format('H:i') . '～' . $timesArray[2]->format('H:i') . '
-                                            </dd>',
-                '<dt class="list-line-title">備考</dt>
-                <dd class="list-line-data">
-                    <div class="list-line-selectors-area">
-                        ' . $note . '
-                    </div>',
-            ], false);
+            ->get('/stamp_correction_request/approve/' . $requestedAttendanceId)
+            ->assertViewHasAll([
+                'id' => $requestId,
+                'name' => $this->user->name,
+                'start' => $timesArray[0],
+                'end' => $timesArray[3],
+                'rests' => $expectedRests,
+                'note' => $note,
+            ])
+            ->assertSeeInOrder([
+                $this->user->name,
+                $timesArray[0]->format('Y年m月d日'),
+                $timesArray[0]->format('H:i'),
+                $timesArray[3]->format('H:i'),
+                $timesArray[1]->format('H:i'),
+                $timesArray[2]->format('H:i'),
+                $note
+            ]);
         // 承認一覧画面
+        foreach ($expectedAttendances as $expectedAttendance) {
+            $this->actingAs($admin, 'admin')
+                ->get('/stamp_correction_request/list')
+                ->assertViewHas('requestedAttendances', function ($requestedAttendances) use ($expectedAttendance) {
+                    return $requestedAttendances->contains($expectedAttendance);
+                });
+        }
         $this->actingAs($admin, 'admin')
             ->get('/stamp_correction_request/list')
-            ->assertSee('<td class="table__data">
-                                                    承認待ち
-                                            </td>
-                    <td class="table__data">' . $this->user->name . '</td>
-                    <td class="table__data">' . $timesArray[0]->format('Y/m/d') . '</td>
-                    <td class="table__data">' . $note . '</td>
-                    <td class="table__data">
-                        ' . $requestDate->format('Y/m/d') . '</td>', false);
+            ->assertSeeInOrder([
+            $this->user->name,
+            $timesArray[0]->format('Y/m/d'),
+            $note,
+            $requestDate->format('Y/m/d'),
+        ]);
     }
     public function test_「承認待ち」にログインユーザーが行った申請が全て表示されていること()
     {
@@ -328,6 +327,6 @@ class Case11ReviseAttendanceGeneralUserTest extends TestCase
                                         class="table__data--active">詳細</a>', false);
         $this->actingAs($this->user)
             ->get('/requested_attendance/detail/' . $requestId . '/?pending=true')
-            ->assertViewHas('requestedAttendanceId',$requestId);
+            ->assertViewHas('requestedAttendanceId', $requestId);
     }
 }

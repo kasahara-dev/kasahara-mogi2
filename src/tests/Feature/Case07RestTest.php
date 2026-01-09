@@ -2,9 +2,6 @@
 
 namespace Tests\Feature;
 
-use Date;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
@@ -36,14 +33,7 @@ class Case07RestTest extends TestCase
     public function test_休憩ボタンが正しく機能する()
     {
         $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertDontSee('休憩中')
-            ->assertSee('休憩入');
-        $this->actingAs($this->user)
             ->post('/attendance/rest');
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertSee('休憩中');
         $this->assertDatabaseHas('rests', [
             'attendance_id' => $this->attendance->id,
             'start' => $this->dateTime,
@@ -54,15 +44,9 @@ class Case07RestTest extends TestCase
     {
         $this->actingAs($this->user)
             ->post('/attendance/rest');
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertDontSee('出勤中');
         $restId = Rest::where('attendance_id', $this->attendance->id)->first()->id;
         $this->actingAs($this->user)
             ->patch('/attendance/rest/' . $restId);
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertSee('出勤中');
         $this->assertDatabaseHas('rests', [
             'attendance_id' => $this->attendance->id,
             'start' => $this->dateTime,
@@ -80,9 +64,6 @@ class Case07RestTest extends TestCase
         $dispMinutes = sprintf('%02d', floor($diffInMinutes % 60));
         $this->actingAs($this->user)
             ->post('/attendance/rest');
-        // if ($afterDateTime->copy()->startOfDay()->gt($this->dateTime->copy()->startOfDay())) {
-        //     $afterDateTime->hour(0)->minute(0)->second(0);
-        // }
         $restId = Rest::where('attendance_id', $this->attendance->id)->first()->id;
         Carbon::setTestNow($afterDateTime);
         $this->actingAs($this->user)

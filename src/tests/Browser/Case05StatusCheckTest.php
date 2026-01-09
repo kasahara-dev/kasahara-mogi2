@@ -6,8 +6,6 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
-use Carbon\Carbon;
-use Faker\Factory;
 use App\Models\Attendance;
 use App\Models\Rest;
 use function PHPUnit\Framework\assertEquals;

@@ -110,6 +110,7 @@ class AttendanceController extends Controller
     public function edit($id)
     {
         $attendance = Attendance::find($id);
+        $this->authorize('update', $attendance);
         $name = $attendance->user->name;
         $attendanceId = $attendance->id;
         $start = $attendance->start;
@@ -128,6 +129,7 @@ class AttendanceController extends Controller
         DB::transaction(function () use ($request, $id) {
             // 修正元情報
             $oldAttendance = Attendance::find($id);
+            $this->authorize('update', $oldAttendance);
             $oldDate = Carbon::parse($oldAttendance->start);
             // 日付作成
             $start = new Carbon();
@@ -302,7 +304,7 @@ class AttendanceController extends Controller
             }
             ;
             $dayList[] = [
-                'day' => $searchDay->isoFormat('YYYY/MM/DD(ddd)'),
+                'day' => $searchDay->isoFormat('YYYY/MM/DD'),
                 'start' => $start,
                 'end' => $end,
                 'restTimes' => $restTimes,

@@ -21,12 +21,6 @@
     width: 80%;
     margin: 10px;
 }
-/* .form-area {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-} */
 .form {
     width: 100%;
 }
@@ -108,9 +102,6 @@
     .main__title {
         margin: 0;
     }
-    /* .form-area {
-        width: 95%;
-    } */
     .header {
         height: 44px;
         flex-direction: column;

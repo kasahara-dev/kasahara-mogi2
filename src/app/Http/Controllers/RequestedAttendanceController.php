@@ -19,6 +19,7 @@ class RequestedAttendanceController extends Controller
     {
         $name = Auth::user()->name;
         $requestedAttendance = RequestedAttendance::find($id);
+        $this->authorize('view', $requestedAttendance);
         // 申請中判定
         if ($requestedAttendance->request->status == 1) {
             $pending = true;
@@ -37,6 +38,7 @@ class RequestedAttendanceController extends Controller
     {
         $name = Auth::user()->name;
         $attendance = Attendance::find($id);
+        $this->authorize('approve', $attendance);
         $attendanceId = $attendance->id;
         $start = $attendance->start;
         $end = $attendance->end;
@@ -50,6 +52,7 @@ class RequestedAttendanceController extends Controller
         DB::transaction(function () use ($request, $id) {
             // 修正元情報
             $oldAttendance = Attendance::find($id);
+            $this->authorize('approve', $oldAttendance);
             $oldDate = Carbon::parse($oldAttendance->start);
             // 日付作成
             $start = new Carbon();

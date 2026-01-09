@@ -4,14 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use App\Models\Attendance;
 use App\Models\User;
 use Carbon\Carbon;
 use Faker\Factory;
-
-
-
-
 class AttendancesTableSeeder extends Seeder
 {
     /**

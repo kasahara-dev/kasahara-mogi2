@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
@@ -37,15 +35,9 @@ class Case08LeaveWorkTest extends TestCase
             'date' => $this->date,
             'start' => $this->dateTime,
         ]);
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertDontSee('退勤済');
         Carbon::setTestNow($this->afterDateTime);
         $this->actingAs($this->user)
             ->patch('/attendance/' . $attendance->id);
-        $this->actingAs($this->user)
-            ->get('/attendance')
-            ->assertSee('退勤済');
         $this->assertDatabaseHas('attendances', [
             'id' => $attendance->id,
             'user_id' => $this->user->id,

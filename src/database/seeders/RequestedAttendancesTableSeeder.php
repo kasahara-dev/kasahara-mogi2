@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Attendance;
 use Illuminate\Support\Facades\DB;
 use Faker\Factory;
 use Carbon\Carbon;

@@ -2,14 +2,11 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Attendance;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Database\Seeders\AttendancesTableSeeder;
 use Database\Seeders\RestsTableSeeder;

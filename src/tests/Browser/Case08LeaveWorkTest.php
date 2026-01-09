@@ -7,8 +7,8 @@ use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
 use Carbon\Carbon;
-use Faker\Factory;
 use App\Models\Attendance;
+use function PHPUnit\Framework\assertEquals;
 
 class Case08LeaveWorkTest extends DuskTestCase
 {
@@ -33,8 +33,16 @@ class Case08LeaveWorkTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit('/attendance')
-                ->assertSee('退勤')
                 ->assertVisible('@work-end-btn');
+            $btnText = $browser->text('@work-end-btn');
+            assertEquals('退勤', $btnText);
+            $browser
+                ->loginAs($this->user)
+                ->visit('/attendance')
+                ->click('@work-end-btn')
+                ->waitFor('@status');
+            $statusText = $browser->text('@status');
+            assertEquals('退勤済', $statusText);
         });
     }
 }

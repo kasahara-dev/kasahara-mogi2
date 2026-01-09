@@ -94,10 +94,85 @@ coachtech 勤怠管理アプリ
 | カラム名   | 型              | primary key | unique key | not null | foreign key |
 | ---------- | --------------- | ----------- | ---------- | -------- | ----------- |
 | id         | unsigned bigint | 〇          |            | 〇       |             |
+| name       | string          |             |            | 〇       |             |
 | email      | string          |             | 〇         | 〇       |             |
 | password   | string          |             |            | 〇       |             |
 | created_at | timestamp       |             |            |          |             |
 | updated_at | timestamp       |             |            |          |             |
+
+</details>
+
+<details>
+<summary>attendances テーブル</summary>
+
+| カラム名   | 型              | primary key | unique key | not null | foreign key |
+| ---------- | --------------- | ----------- | ---------- | -------- | ----------- |
+| id         | unsigned bigint | 〇          |            | 〇       |             |
+| user_id    | unsigned bigint |             | 〇 UK1     | 〇       | users(id)   |
+| date       | date            |             | 〇 UK1     | 〇       | 〇          |
+| start      | datetime        |             |            | 〇       |             |
+| end        | datetime        |             |            |          |             |
+| note       | string          |             |            |          |             |
+| created_at | timestamp       |             |            |          |             |
+| updated_at | timestamp       |             |            |          |             |
+
+</details>
+
+<details>
+<summary>rests テーブル</summary>
+
+| カラム名      | 型              | primary key | unique key | not null | foreign key     |
+| ------------- | --------------- | ----------- | ---------- | -------- | --------------- |
+| id            | unsigned bigint | 〇          |            | 〇       |                 |
+| attendance_id | unsigned bigint |             |            | 〇       | attendances(id) |
+| start         | datetime        |             |            | 〇       |                 |
+| end           | datetime        |             |            |          |                 |
+| created_at    | timestamp       |             |            |          |                 |
+| updated_at    | timestamp       |             |            |          |                 |
+
+</details>
+
+<details>
+<summary>requests テーブル</summary>
+
+| カラム名      | 型              | primary key | unique key | not null | foreign key     |
+| ------------- | --------------- | ----------- | ---------- | -------- | --------------- |
+| id            | unsigned bigint | 〇          |            | 〇       |                 |
+| attendance_id | unsigned bigint |             |            | 〇       | attendances(id) |
+| status        | tynyint         |             |            | 〇       |                 |
+| approver      | unsigned bigint |             |            |          | admins(id)      |
+| created_at    | timestamp       |             |            |          |                 |
+| updated_at    | timestamp       |             |            |          |                 |
+
+</details>
+
+<details>
+<summary>requested_attendances テーブル</summary>
+
+| カラム名   | 型              | primary key | unique key | not null | foreign key  |
+| ---------- | --------------- | ----------- | ---------- | -------- | ------------ |
+| id         | unsigned bigint | 〇          |            | 〇       |              |
+| request_id | unsigned bigint |             | 〇 UK1     | 〇       | requests(id) |
+| date       | date            |             | 〇 UK1     | 〇       | 〇           |
+| start      | datetime        |             |            | 〇       |              |
+| end        | datetime        |             |            | 〇       |              |
+| note       | string          |             |            |          |              |
+| created_at | timestamp       |             |            |          |              |
+| updated_at | timestamp       |             |            |          |              |
+
+</details>
+
+<details>
+<summary>requested_rests テーブル</summary>
+
+| カラム名                | 型              | primary key | unique key | not null | foreign key               |
+| ----------------------- | --------------- | ----------- | ---------- | -------- | ------------------------- |
+| id                      | unsigned bigint | 〇          |            | 〇       |                           |
+| requested_attendance_id | unsigned bigint |             |            | 〇       | requested_attendances(id) |
+| start                   | datetime        |             |            | 〇       |                           |
+| end                     | datetime        |             |            | 〇       |                           |
+| created_at              | timestamp       |             |            |          |                           |
+| updated_at              | timestamp       |             |            |          |                           |
 
 </details>
 

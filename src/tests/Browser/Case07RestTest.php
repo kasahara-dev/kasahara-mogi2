@@ -6,9 +6,8 @@ use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use App\Models\User;
-use Carbon\Carbon;
-use Faker\Factory;
 use App\Models\Attendance;
+use function PHPUnit\Framework\assertEquals;
 
 class Case07RestTest extends DuskTestCase
 {
@@ -30,6 +29,8 @@ class Case07RestTest extends DuskTestCase
                 ->loginAs($this->user)
                 ->visit('/attendance')
                 ->assertVisible('@rest-in-btn');
+            $btnText = $browser->text('@rest-in-btn');
+            assertEquals('休憩入', $btnText);
         });
     }
     public function test_休憩は一日に何回でもできる()
@@ -39,10 +40,11 @@ class Case07RestTest extends DuskTestCase
                 ->loginAs($this->user)
                 ->visit('/attendance')
                 ->click('@rest-in-btn')
-                ->assertMissing('@rest-in-btn')
+                ->waitFor('@rest-end-btn')
                 ->click('@rest-end-btn')
-                ->assertSee('休憩入')
-                ->assertVisible('@rest-in-btn');
+                ->waitFor('@rest-in-btn');
+            $btnText = $browser->text('@rest-in-btn');
+            assertEquals('休憩入', $btnText);
         });
     }
     public function test_休憩戻ボタンが正しく機能する()
@@ -51,12 +53,12 @@ class Case07RestTest extends DuskTestCase
             $browser
                 ->loginAs($this->user)
                 ->visit('/attendance')
-                ->assertMissing('@rest-end-btn')
+                ->waitFor('@rest-in-btn')
                 ->click('@rest-in-btn')
-                ->assertSee('休憩戻')
-                ->assertVisible('@rest-end-btn')
-                ->click('@rest-end-btn')
-                ->assertSee('出勤中');
+                ->waitFor('@rest-end-btn')
+                ->click('@rest-end-btn');
+            $statusText = $browser->text('@status');
+            assertEquals('出勤中', $statusText);
         });
     }
     public function test_休憩戻は一日に何回でもできる()
@@ -66,10 +68,13 @@ class Case07RestTest extends DuskTestCase
                 ->loginAs($this->user)
                 ->visit('/attendance')
                 ->click('@rest-in-btn')
+                ->waitFor('@rest-end-btn')
                 ->click('@rest-end-btn')
+                ->waitFor('@rest-in-btn')
                 ->click('@rest-in-btn')
-                ->assertSee('休憩戻')
-                ->assertVisible('@rest-end-btn');
+                ->waitFor('@rest-end-btn');
+            $btnText = $browser->text('@rest-end-btn');
+            assertEquals('休憩戻',$btnText) ;
         });
     }
 }

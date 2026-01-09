@@ -2,18 +2,13 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\AttendancesTableSeeder;
-use Database\Seeders\RestsTableSeeder;
 use Database\Seeders\UsersTableSeeder;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Attendance;
-use Illuminate\Database\Seeder;
 use Carbon\Carbon;
 use Database\Seeders\AdminsTableSeeder;
 
@@ -44,7 +39,7 @@ class Case12AttendanceListAdminTest extends TestCase
         $line = 1;
         $expectArray = [];
         foreach ($users as $user) {
-            $expectArray[] = '<td class="table-line__data">' . $user->name . '</td>';
+            $expectArray[] = $user->name;
             $randNum = rand(0, 1);
             $startDateTime = null;
             $endDateTime = null;
@@ -54,15 +49,11 @@ class Case12AttendanceListAdminTest extends TestCase
                 $startDateTime = Carbon::parse($this->faker->dateTimeBetween($this->dateTime->copy()->startOfDay(), now()));
                 $setStartDateTime = $startDateTime->format('H:i');
                 $calcEndDateTime = Carbon::parse($this->faker->dateTimeBetween($startDateTime, $this->dateTime->copy()->endOfDay()));
-                $expectArray[] = '<td class="table-line__data">
-                                                            ' . $setStartDateTime . '
-                                                    </td>';
-                if ($calcEndDateTime->gt(now())) {
-                    $expectArray[] = '<td class="table-line__data"></td>';
-                } else {
+                $expectArray[] = $setStartDateTime;
+                if ($calcEndDateTime->lte(now())) {
                     $endDateTime = $calcEndDateTime;
                     $setEndDateTime = $endDateTime->format('H:i');
-                    $expectArray[] = '<td class="table-line__data">' . $setEndDateTime . '</td>';
+                    $expectArray[] = $setEndDateTime;
                 }
                 $attendance = Attendance::create([
                     'user_id' => $user->id,
@@ -70,10 +61,6 @@ class Case12AttendanceListAdminTest extends TestCase
                     'start' => $startDateTime,
                     'end' => $endDateTime,
                 ]);
-            } else {
-                $expectArray[] = '<td class="table-line__data">
-                                                    </td>';
-                $expectArray[] = '<td class="table-line__data"></td>';
             }
             $line++;
             if ($line > 10) {

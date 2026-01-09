@@ -5,13 +5,8 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\ItemController;
-use App\Http\Controllers\PurchaseController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\LoginController as AdminLoginController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\Admin\AttendanceController as AdminAttendanceController;
 use App\Http\Controllers\Admin\StaffController as AdminStaffController;
 use App\Http\Controllers\RestController;
@@ -64,12 +59,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminLoginController::class, 'store']);
     Route::middleware('auth:admin')->name('admin.')->group(function () {
         Route::get('/attendance/list', [AdminAttendanceController::class, 'index']);
-        Route::get('/attendance/staff/{id}/export', [AdminAttendanceController::class, 'export']);
-        Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'show']);
         Route::get('/attendance/{id}', [AdminAttendanceController::class, 'edit']);
         Route::put('/attendance/{id}', [AdminAttendanceController::class, 'update']);
         Route::get('/requested_attendance/{id}', action: [AdminRequestedAttendanceController::class, 'show']);
         Route::get('/staff/list', [AdminStaffController::class, 'index']);
+        Route::get('/attendance/staff/{id}', [AdminAttendanceController::class, 'show']);
+        Route::get('/attendance/staff/{id}/export', [AdminAttendanceController::class, 'export']);
         Route::post('/logout', [AdminLoginController::class, 'destroy']);
     });
 });
