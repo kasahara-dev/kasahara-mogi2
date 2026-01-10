@@ -4,12 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Request as RequestModel;
 use App\Models\Rest;
+use App\Models\Attendance;
 use App\Models\RequestedRest;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
-
 Paginator::useBootstrap();
 class RequestController extends Controller
 {
@@ -36,6 +35,9 @@ class RequestController extends Controller
     {
         DB::transaction(function () use ($id) {
             $requestModel = RequestModel::find($id);
+            Attendance::find($requestModel->attendance_id)->sharedLock();
+            RequestModel::find($id)->sharedLock();
+            $this->authorize('update', $requestModel);
             // requestsテーブルのステータス変更
             $requestModel->update([
                 'status' => 2,

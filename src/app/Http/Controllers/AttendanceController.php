@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Attendance;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
 class AttendanceController extends Controller
 {
     public function show(Request $request)

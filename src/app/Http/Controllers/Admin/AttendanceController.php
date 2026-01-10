@@ -110,7 +110,6 @@ class AttendanceController extends Controller
     public function edit($id)
     {
         $attendance = Attendance::find($id);
-        $this->authorize('update', $attendance);
         $name = $attendance->user->name;
         $attendanceId = $attendance->id;
         $start = $attendance->start;
@@ -118,6 +117,7 @@ class AttendanceController extends Controller
         $rests = $attendance->rests()->orderBy('start')->get();
         $restsCount = $attendance->rests()->count();
         $note = $attendance->note;
+        $this->authorize('update', $attendance);
         // リダイレクト時以外は遷移元画面(=遷移先画面となる)を取得
         if (url()->previous() <> url()->current()) {
             session(['from' => url()->previous()]);
@@ -129,13 +129,13 @@ class AttendanceController extends Controller
         DB::transaction(function () use ($request, $id) {
             // 修正元情報
             $oldAttendance = Attendance::find($id);
-            $this->authorize('update', $oldAttendance);
             $oldDate = Carbon::parse($oldAttendance->start);
             // 日付作成
             $start = new Carbon();
             $end = new Carbon();
             $start->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay()->hour($request->attendance_start_hour)->minute($request->attendance_start_minute);
             $end->year($oldDate->year)->month($oldDate->month)->day($oldDate->day)->startOfDay();
+            $this->authorize('update', $oldAttendance);
             // 24時終了の場合は翌日0時を終了日時とする
             if ($request->attendance_end_hour == '24') {
                 $end->addDay();

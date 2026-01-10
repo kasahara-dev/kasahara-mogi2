@@ -2,12 +2,12 @@
 
 namespace App\Policies;
 
-use App\Models\Attendance;
+use App\Models\Request;
 use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AttendancePolicy
+class RequestPolicy
 {
     use HandlesAuthorization;
 
@@ -26,12 +26,12 @@ class AttendancePolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Attendance  $attendance
+     * @param  \App\Models\Request  $request
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Attendance $attendance)
+    public function view(User $user, Request $request)
     {
-        return $user->id === $attendance->user->id;
+        //
     }
 
     /**
@@ -49,22 +49,22 @@ class AttendancePolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Attendance  $attendance
+     * @param  \App\Models\Request  $request
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(Admin $admin, Attendance $attendance)
+    public function update(Admin $admin, Request $request)
     {
-        return $attendance->requests()->where('status', 1)->doesntExist();
+        return $request->status == 1;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Attendance  $attendance
+     * @param  \App\Models\Request  $request
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Attendance $attendance)
+    public function delete(User $user, Request $request)
     {
         //
     }
@@ -73,10 +73,10 @@ class AttendancePolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Attendance  $attendance
+     * @param  \App\Models\Request  $request
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Attendance $attendance)
+    public function restore(User $user, Request $request)
     {
         //
     }
@@ -85,16 +85,11 @@ class AttendancePolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Attendance  $attendance
+     * @param  \App\Models\Request  $request
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Attendance $attendance)
+    public function forceDelete(User $user, Request $request)
     {
         //
-    }
-
-    public function request(User $user, Attendance $attendance)
-    {
-        return ($user->id === $attendance->user->id) && ($attendance->requests()->where('status', 1)->doesntExist());
     }
 }
