@@ -1,0 +1,59 @@
+.status {
+    margin: 5em auto 2em;
+    background: #c8c8c8;
+    color: #696969;
+    padding: 0.5em 1.5em;
+    border-radius: 1.5em;
+}
+.date {
+    font-size: x-large;
+    margin: 0 auto;
+    height: 1.5em;
+}
+.time {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 0 auto;
+    height: 2em;
+}
+.attendance-btn {
+    color: white;
+    background: black;
+    font-weight: bold;
+    padding: 1em 3em;
+    border-radius: 1em;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+}
+.working-btns-area {
+    display: flex;
+    gap: 3em;
+}
+.rest-btn {
+    color: black;
+    background: white;
+    font-weight: bold;
+    padding: 1em 2.5em;
+    border-radius: 1em;
+    font-size: large;
+    border: none;
+    cursor: pointer;
+}
+.main {
+    width: 100%;
+    background: #f0eff2;
+    min-height: calc(100svh - 60px);
+    padding-bottom: 3em;
+}
+.attendance-msg {
+    font-weight: bold;
+}
+@media screen and (max-width: 768px) {
+    .working-btns-area {
+        gap: 1em;
+    }
+    .main {
+        min-height: calc(100svh - 44px);
+    }
+}

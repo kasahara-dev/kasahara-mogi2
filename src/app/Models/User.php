@@ -41,4 +41,28 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function attendances()
+    {
+        return $this->hasMany('App\Models\Attendance');
+    }
+    public function workingStatus()
+    {
+        // 0:出勤前、1:出勤中、2:退勤後
+        if ($this->attendances()->where('end', null)->exists()) {
+            $workingStatus = 1;
+        } elseif ($this->attendances()->whereDate('end', today())->exists()) {
+            $workingStatus = 2;
+        } else {
+            $workingStatus = 0;
+        }
+        return $workingStatus;
+    }
+    public function resting()
+    {
+        $resting = false;
+        if ($this->workingStatus() == 1) {
+            $resting = $this->attendances()->where('end', null)->first()->rests()->where('end', null)->exists();
+        }
+        return $resting;
+    }
 }

@@ -17,11 +17,11 @@ class CreateAttendancesTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->date('date');
-            $table->dateTime('start')->nullable();
+            $table->dateTime('start');
             $table->dateTime('end')->nullable();
             $table->string('note', 255)->nullable();
-            $table->tinyInteger('status')->default(0)->nullable()->comment('0:通常、1:承認待ち、2:承認済み');
             $table->timestamps();
+            $table->unique(['user_id', 'date']);
         });
     }
 

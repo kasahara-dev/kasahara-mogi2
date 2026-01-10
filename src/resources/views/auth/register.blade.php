@@ -14,30 +14,28 @@
 <body>
     <div class="wrapper">
         <header class="header">
-            <div class="header-logo-area">
-                <a href="/" class="header-logo"><img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ"
-                        class="header-img" /></a>
+            <div class="app-logo">
+                <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="app-logo__img" />
             </div>
         </header>
         <main class="main">
-            <div class="form-area">
                 <h1 class="form-title">会員登録</h1>
                 <form class="form" action="/register" method="post" novalidate autocomplete="off">
                     @csrf
                     <dl>
-                        <dt class="form-name">ユーザー名</dt>
-                        <dd class="form-content"><input type="text" name="name" class="form-input"
+                        <dt class="form__name">ユーザー名</dt>
+                        <dd class="form__content"><input type="text" name="name" class="form__input"
                                 value="{{ old('name') }}" autocomplete="off" /></dd>
-                        <dd class="form-error">@error('name'){{ $message }}@enderror</dd>
-                        <dt class="form-name">メールアドレス</dt>
-                        <dd class="form-content"><input type="email" name="email" class="form-input"
+                        <dd class="form__error">@error('name'){{ $message }}@enderror</dd>
+                        <dt class="form__name">メールアドレス</dt>
+                        <dd class="form__content"><input type="email" name="email" class="form__input"
                                 value="{{ old('email') }}" />
                         </dd>
-                        <dd class="form-error">@error('email'){{ $message }}@enderror</dd>
-                        <dt class="form-name">パスワード</dt>
-                        <dd class="form-content"><input type="password" name="password" class="form-input"
+                        <dd class="form__error">@error('email'){{ $message }}@enderror</dd>
+                        <dt class="form__name">パスワード</dt>
+                        <dd class="form__content"><input type="password" name="password" class="form__input"
                                 value="{{ old('password') }}" autocomplete="off" /></dd>
-                        <dd class="form-error">
+                        <dd class="form__error">
                             @error('password')
                                 @foreach ($errors->get('password') as $message)
                                     @if(Str::contains($message, config('word.match')))
@@ -48,10 +46,10 @@
                                 @endforeach
                             @enderror
                         </dd>
-                        <dt class="form-name">確認用パスワード</dt>
-                        <dd class="form-content"><input type="password" name="password_confirmation" class="form-input"
+                        <dt class="form__name">確認用パスワード</dt>
+                        <dd class="form__content"><input type="password" name="password_confirmation" class="form__input"
                                 value="{{ old('password_confirmation') }}" autocomplete="off" /></dd>
-                        <dd class="form-error">
+                        <dd class="form__error">
                             @error('password')
                                 @foreach ($errors->get('password') as $message)
                                     @if(Str::contains($message, config('word.match')))
@@ -63,8 +61,7 @@
                     </dl>
                     <button type="submit" class="submit-btn register-btn" name="send">登録する</button>
                 </form>
-                <a href="/login" class="link">ログインはこちら </a>
-            </div>
+                <a href="/login" class="link">ログインはこちら</a>
         </main>
     </div>
 </body>

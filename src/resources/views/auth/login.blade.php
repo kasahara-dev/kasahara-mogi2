@@ -14,31 +14,27 @@
 <body>
     <div class="wrapper">
         <header class="header">
-            <div class="header-logo-area">
-                <a href="/" class="header-logo"><img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ"
-                        class="header-img" /></a>
+            <div class="app-logo"><img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="app-logo__img" />
             </div>
         </header>
         <main class="main">
-            <div class="form-area">
-                <h1 class="form-title">ログイン</h1>
-                <form class="form" action="/login" method="post" novalidate>
-                    @csrf
-                    <dl>
-                        <dt class="form-name">メールアドレス</dt>
-                        <dd class="form-content"><input type="email" class="form-input" name="email"
-                                value="{{ old('email') }}" />
-                        </dd>
-                        <dd class="form-error">@error('email'){{ $message }}@enderror</dd>
-                        <dt class="form-name">パスワード</dt>
-                        <dd class="form-content"><input type="password" class="form-input" name="password"
-                                value="{{ old('password') }}" /></dd>
-                        <dd class="form-error">@error('password'){{ $message }}@enderror</dd>
-                    </dl>
-                    <button type="submit" class="submit-btn login-btn" name="send">ログインする</button>
-                </form>
-                <a href="/register" class="link">会員登録はこちら</a>
-            </div>
+            <h1 class="main__title">ログイン</h1>
+            <form class="form" action="/login" method="post" novalidate>
+                @csrf
+                <dl>
+                    <dt class="form__name">メールアドレス</dt>
+                    <dd class="form__content"><input type="email" class="form__input" name="email"
+                            value="{{ old('email') }}" />
+                    </dd>
+                    <dd class="form__error">@error('email'){{ $message }}@enderror</dd>
+                    <dt class="form__name">パスワード</dt>
+                    <dd class="form__content"><input type="password" class="form__input" name="password"
+                            value="{{ old('password') }}" /></dd>
+                    <dd class="form__error">@error('password'){{ $message }}@enderror</dd>
+                </dl>
+                <button type="submit" class="submit-btn login-btn" name="send">ログインする</button>
+            </form>
+            <a href="/register" class="link">会員登録はこちら</a>
         </main>
     </div>
 </body>

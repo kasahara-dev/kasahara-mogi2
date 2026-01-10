@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>coachtechフリマ</title>
+    <title>{{ env('APP_NAME') }}</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/common.css') }}">
     @yield('css')
@@ -14,33 +14,37 @@
 <body>
     <div class="wrapper">
         <header class="header" id="header">
-            <div class="header-logo-area">
-                <a href="/" class="header-logo" id="header-logo"><img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ"
-                        class="header-img" /></a>
-                <div id="hamburger" class="hamburger"></div>
+            <div class="app-logo">
+                <a href="/attendance">
+                    <img src="{{ asset('img/logo.svg') }}" alt="コーチテックロゴ" class="app-logo__img" />
+                </a>
+                <div id="hamburger" class="app-logo__hamburger"></div>
             </div>
-            <form action="/" method="get" class="header-form" id="header-form">
-                @csrf
-                <input type="search" name="keyword" @if(isset($keyword)) value="{{ $keyword }}" @endif
-                    placeholder="なにをお探しですか?" class="header-search">
-                <input type="hidden" @if(isset($tab)) value="{{ $tab }}" @endif name="tab" />
-            </form>
-            <ul class="header-btns" id="header-btns">
-                @auth
-                    <li class="header-btn">
-                        <form class="header-form-logout" action="/logout" method="post" class="header-btn">
-                            @csrf
-                            <button type="submit" class="header-logout" name="logout">ログアウト</button>
-                        </form>
+            <ul id="header-btns" class="header-btns">
+                @if(Auth::user()->attendances()->whereDate('start', \Carbon\Carbon::parse(now()))->where('end', '<>', null)->exists())
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/attendance/list'">今月の出勤一覧</button>
                     </li>
-                    <li class="header-btn"><a href="/mypage" class="header-mypage">マイページ</a></li>
-                    <li class="header-btn"><button onclick="location.href='/sell'" class="header-exhibit">出品</button></li>
-                @endauth
-                @guest
-                    <li class="header-btn"><a href="/login" class="header-login">ログイン</a></li>
-                    <li class="header-btn"><a href="/mypage" class="header-mypage">マイページ</a></li>
-                    <li class="header-btn"><button onclick="location.href='/sell'" class="header-exhibit">出品</button></li>
-                @endguest
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/stamp_correction_request/list'">申請一覧</button>
+                    </li>
+                @else
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/attendance'">勤怠</button>
+                    </li>
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/attendance/list'">勤怠一覧</button>
+                    </li>
+                    <li class="header-btns__list">
+                        <button class="header-btn" onclick="location.href='/stamp_correction_request/list'">申請</button>
+                    </li>
+                @endif
+                <li class="header-btns__list">
+                    <form action="/logout" method="post">
+                        @csrf
+                        <button type="submit" class="header-btn" name="logout">ログアウト</button>
+                    </form>
+                </li>
             </ul>
         </header>
         <main class="main" id="main">
