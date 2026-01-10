@@ -13,5 +13,4 @@ init:
 	docker compose exec php php artisan key:generate
 	docker compose exec php php artisan migrate
 	docker compose exec php php artisan db:seed
-	docker compose exec mysql mysql -u root -p
 	docker compose exec mysql bash -c 'mysql -u root -p root CREATE DATABASE demo_test;'
