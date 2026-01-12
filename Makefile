@@ -14,7 +14,7 @@ init:
 	docker compose exec mysql bash -c 'mysql -u root -p root CREATE DATABASE demo_test;'
 	docker compose exec php php artisan migrate
 	docker compose exec php php artisan db:seed
-	echo CREATE DATABASE demo_test;|docker compose exec -T mysql bash -c 'mysql -u root -proot'
+	echo CREATE DATABASE demo_test|docker compose exec -T mysql bash -c 'mysql -u root -proot'
 	cp src/.env.tenting.example src/.env.testing
 	docker compose exec php php artisan key:generate --env=testing
 	cp src/.env.testing src/.env.dusk.local
