@@ -10,8 +10,8 @@ init:
 	docker-compose up -d --build
 	docker compose exec php composer instal
 	cp src/.env.example src/.env
-	docker compose exec php php artisan key:generate
 	docker compose exec php php artisan config:clear
+	docker compose exec php php artisan key:generate
 	docker compose exec php php artisan migrate:fresh
 	docker compose exec php php artisan db:seed
 	echo CREATE DATABASE demo_test$;|docker compose exec -T mysql bash -c 'mysql -u root -proot'
@@ -23,3 +23,4 @@ init:
 	sed -i 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/nginx/g' src/.env.dusk.local
 	docker compose exec php composer require --dev laravel/dusk
 	docker compose exec php php artisan dusk:install
+	rm src/tests/Browser/ExampleTest.php
