@@ -12,13 +12,10 @@ coachtech 勤怠管理アプリ
 
 1.  `git clone git@github.com:kasahara-dev/kasahara-mogi2.git`
 2.  `cd kasahara-mogi2`
+3.  `make init`
 
 > [!IMPORTANT]
 > MySQL は、OS によって起動しない場合があるのでそれぞれの PC に合わせて docker-compose.yml ファイルを編集
-
-### Docker ビルド&Laravel 環境構築&テスト環境構築
-
-`make init`
 
 > [!IMPORTANT]
 > "The stream or file could not be opened"エラーが発生した場合
