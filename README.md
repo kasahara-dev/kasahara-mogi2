@@ -29,8 +29,8 @@ coachtech 勤怠管理アプリ
 
 `make test`
 
-> [!INFORMATION]
-> PHPUnit→duskの順に実行されます
+> [!NOTE]
+> PHPUnit→dusk の順に実行されます
 
 ## 使用技術
 
