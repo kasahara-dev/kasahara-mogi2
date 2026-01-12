@@ -35,8 +35,8 @@ class RequestController extends Controller
     {
         DB::transaction(function () use ($id) {
             $requestModel = RequestModel::find($id);
-            Attendance::find($requestModel->attendance_id)->sharedLock();
-            RequestModel::find($id)->sharedLock();
+            Attendance::find($requestModel->attendance_id)->sharedLock()->get();
+            RequestModel::find($id)->sharedLock()->get();
             $this->authorize('update', $requestModel);
             // requestsテーブルのステータス変更
             $requestModel->update([

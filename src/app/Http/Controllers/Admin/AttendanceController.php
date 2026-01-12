@@ -130,6 +130,7 @@ class AttendanceController extends Controller
             // 修正元情報
             $oldAttendance = Attendance::find($id);
             $oldDate = Carbon::parse($oldAttendance->start);
+            Attendance::find($id)->sharedLock()->get();
             // 日付作成
             $start = new Carbon();
             $end = new Carbon();
