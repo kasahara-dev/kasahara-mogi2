@@ -16,7 +16,7 @@ coachtech 勤怠管理アプリ
 > [!IMPORTANT]
 > MySQL は、OS によって起動しない場合があるのでそれぞれの PC に合わせて docker-compose.yml ファイルを編集
 
-### Docker ビルド&Laravel&テスト環境 構築
+### Docker ビルド&Laravel 環境構築&テスト環境構築
 
 `make init`
 
