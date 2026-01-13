@@ -27,7 +27,7 @@ class RequestsTableSeeder extends Seeder
             sort($daysArray);
             for ($i = 0; $i < rand(0, 3); $i++) {
                 if ($i == 0 && $randNum < 50) {
-                    if ($attendanceStart->gt($today->copy()->subMonth())) {
+                    if ($daysArray[0]->gt($today->copy()->subDays(10))) {
                         $param = [
                             'attendance_id' => $attendance->id,
                             'status' => 1,
@@ -37,14 +37,16 @@ class RequestsTableSeeder extends Seeder
                         DB::table('requests')->insert($param);
                     }
                 } else {
-                    $param = [
-                        'attendance_id' => $attendance->id,
-                        'status' => 2,
-                        'approver' => $adminId,
-                        'created_at' => $daysArray[0],
-                        'updated_at' => $daysArray[1],
-                    ];
-                    DB::table('requests')->insert($param);
+                    if ($daysArray[0]->lte($today->copy()->subDays(10))) {
+                        $param = [
+                            'attendance_id' => $attendance->id,
+                            'status' => 2,
+                            'approver' => $adminId,
+                            'created_at' => $daysArray[0],
+                            'updated_at' => $daysArray[1],
+                        ];
+                        DB::table('requests')->insert($param);
+                    }
                 }
             }
         }
