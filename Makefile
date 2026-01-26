@@ -9,6 +9,7 @@ test:
 init:
 	docker-compose up -d --build
 	docker compose exec php composer instal
+	sleep 10
 	cp src/.env.example src/.env
 	docker compose exec php php artisan key:generate
 	docker compose exec php php artisan migrate:fresh
