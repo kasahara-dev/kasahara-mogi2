@@ -13,7 +13,6 @@ coachtech 勤怠管理アプリ
 1.  `git clone git@github.com:kasahara-dev/kasahara-mogi2.git`
 2.  `cd kasahara-mogi2`
 3.  `make init`
-4.  `make data`
 
 > [!IMPORTANT]
 > MySQL は、OS によって起動しない場合があるのでそれぞれの PC に合わせて docker-compose.yml ファイルを編集してください
