@@ -20,6 +20,3 @@ init:
 	cp src/.env.testing src/.env.dusk.local
 	sed -i 's/APP_ENV=test/APP_ENV=testing/g' src/.env.dusk.local
 	sed -i 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/nginx/g' src/.env.dusk.local
-	docker compose exec php composer require --dev laravel/dusk
-	docker compose exec php php artisan dusk:install
-	rm src/tests/Browser/ExampleTest.php
