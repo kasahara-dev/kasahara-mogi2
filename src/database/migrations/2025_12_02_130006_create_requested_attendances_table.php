@@ -15,7 +15,7 @@ class CreateRequestedAttendancesTable extends Migration
     {
         Schema::create('requested_attendances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('request_id')->constrained('requests');
+            $table->foreignId('request_id')->constrained('requests')->unique();
             $table->date('date');
             $table->dateTime('start');
             $table->dateTime('end');

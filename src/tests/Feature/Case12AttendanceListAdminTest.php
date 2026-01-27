@@ -11,8 +11,6 @@ use App\Models\Admin;
 use App\Models\Attendance;
 use Carbon\Carbon;
 use Database\Seeders\AdminsTableSeeder;
-
-
 class Case12AttendanceListAdminTest extends TestCase
 {
     use DatabaseMigrations;
