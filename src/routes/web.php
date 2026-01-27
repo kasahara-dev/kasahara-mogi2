@@ -15,8 +15,6 @@ use App\Http\Controllers\Admin\RequestController as AdminRequestController;
 use App\Http\Controllers\Admin\RequestedAttendanceController as AdminRequestedAttendanceController;
 use App\Http\Controllers\RequestController;
 
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
