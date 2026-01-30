@@ -18,5 +18,4 @@ init:
 	cp src/.env.testing.example src/.env.testing
 	docker compose exec php php artisan key:generate --env=testing
 	cp src/.env.testing src/.env.dusk.local
-	sed -i 's/APP_ENV=test/APP_ENV=testing/g' src/.env.dusk.local
 	sed -i 's/APP_URL=http:\/\/localhost/APP_URL=http:\/\/nginx/g' src/.env.dusk.local
